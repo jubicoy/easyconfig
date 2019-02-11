@@ -1,0 +1,28 @@
+{
+  "package": {
+    "name": "easyconfig-jooq",
+    "repo": "maven",
+    "subject": "jubicoy"
+  },
+
+  "version": {
+    "name": "${TRAVIS_TAG}",
+    "desc": "Tagged build",
+    "released": "${RELEASED_DATE}",
+    "vcs_tag": "${TRAVIS_TAG}",
+    "attributes": [],
+    "gpgSign": false
+  },
+
+  "files": [
+    {
+      "includePattern": "easyconfig-jooq/target/(easyconfig-jooq-${TRAVIS_TAG}(.*)\.jar)",
+      "uploadPattern": "/fi/jubic/easyconfig-jooq/${TRAVIS_TAG}/$1"
+    },
+    {
+      "includePattern": "easyconfig-jooq/(pom.xml)",
+      "uploadPattern": "/fi/jubic/easyconfig-jooq/${TRAVIS_TAG}/easyconfig-jooq-${TRAVIS_TAG}.pom"
+    }
+  ],
+  "publish": true
+}
