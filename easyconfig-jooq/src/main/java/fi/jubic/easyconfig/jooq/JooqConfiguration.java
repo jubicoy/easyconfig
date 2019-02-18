@@ -1,15 +1,17 @@
 package fi.jubic.easyconfig.jooq;
 
 import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.db.SqlDatabaseConfig;
 import org.jooq.Configuration;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultConnectionProvider;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class JooqConfiguration {
+public class JooqConfiguration implements SqlDatabaseConfig {
     private String url;
     private String user;
     private String password;
@@ -33,7 +35,7 @@ public class JooqConfiguration {
         this.dialect = SQLDialect.valueOf(dialect);
     }
 
-    public Configuration getConnectionProvider() throws SQLException {
+    public Configuration getConfiguration() throws SQLException {
         if (configuration == null) {
             configuration = new DefaultConfiguration()
                     .set(settings)
@@ -45,5 +47,22 @@ public class JooqConfiguration {
                     );
         }
         return configuration;
+    }
+
+    @Override
+    public void withConnection(ConnectionConsumer connectionConsumer) throws SQLException {
+        Configuration config = getConfiguration();
+        Connection connection = config.connectionProvider().acquire();
+        connectionConsumer.accept(connection);
+        config.connectionProvider().release(connection);
+    }
+
+    @Override
+    public <T> T withConnection(ConnectionFunction<T> connectionFunction) throws SQLException {
+        Configuration config = getConfiguration();
+        Connection connection = config.connectionProvider().acquire();
+        T result = connectionFunction.apply(connection);
+        config.connectionProvider().release(connection);
+        return result;
     }
 }

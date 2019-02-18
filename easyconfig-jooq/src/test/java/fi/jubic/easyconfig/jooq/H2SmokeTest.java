@@ -21,28 +21,28 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 public class H2SmokeTest {
-    Configuration configuration;
+    private Configuration configuration;
 
     @Before
     public void setup() throws MappingException, SQLException {
-        configuration = new ConfigMapper(envProvider)
-                .read(JooqConfiguration.class)
-                .getConnectionProvider();
+        JooqConfiguration jooqConfiguration = new ConfigMapper(envProvider)
+                .read(JooqConfiguration.class);
+        configuration = jooqConfiguration.getConfiguration();
 
-        Connection connection = configuration.connectionProvider().acquire();
+        jooqConfiguration.withConnection(
+                connection -> {
+                    try {
+                        connection.createStatement()
+                                .execute("DROP TABLE USER");
+                    } catch (JdbcSQLException ignore) {
+                    }
 
-        try {
-            connection.createStatement()
-                    .execute("DROP TABLE USER");
-        } catch (JdbcSQLException ignore) {
-        }
-        try {
-            connection.createStatement()
-                    .execute("CREATE TABLE USER (ID INT, NAME VARCHAR(50));");
-        } catch (JdbcSQLException ignore) {
-        }
+                    connection.createStatement()
+                            .execute("CREATE TABLE USER (ID INT, NAME VARCHAR(50));");
 
-        configuration.connectionProvider().release(connection);
+                    return null;
+                }
+        );
     }
 
     @Test
