@@ -7,6 +7,26 @@
     <version>0.1.4</version>
     <packaging>pom</packaging>
 
+    <name>easyconfig-parent</name>
+    <description>Read configuration from environment</description>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/jubicoy/easyconfig</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>Vilppu Vuorinen</name>
+            <email>vilppu.vuorinen@jubic.fi</email>
+        </developer>
+    </developers>
+
+
     <repositories>
         <repository>
             <id>jcenter</id>
