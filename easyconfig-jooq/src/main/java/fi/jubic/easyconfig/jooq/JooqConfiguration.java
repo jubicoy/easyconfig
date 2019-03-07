@@ -1,5 +1,6 @@
 package fi.jubic.easyconfig.jooq;
 
+import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.annontations.EasyConfigProperty;
 import fi.jubic.easyconfig.db.SqlDatabaseConfig;
 import org.jooq.Configuration;
@@ -12,14 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JooqConfiguration implements SqlDatabaseConfig {
-    private String url;
-    private String user;
-    private String password;
-
-    private SQLDialect dialect;
-    private JooqSettings settings;
-
-    private Configuration configuration = null;
+    private final Configuration configuration;
 
     public JooqConfiguration(
             @EasyConfigProperty("JOOQ_URL") String url,
@@ -27,25 +21,22 @@ public class JooqConfiguration implements SqlDatabaseConfig {
             @EasyConfigProperty("JOOQ_PASSWORD") String password,
             @EasyConfigProperty("JOOQ_") JooqSettings jooqSettings,
             @EasyConfigProperty("JOOQ_DIALECT") String dialect
-    ) {
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        this.settings = jooqSettings;
-        this.dialect = SQLDialect.valueOf(dialect);
-    }
-
-    public Configuration getConfiguration() throws SQLException {
-        if (configuration == null) {
-            configuration = new DefaultConfiguration()
-                    .set(settings)
-                    .set(dialect)
+    ) throws MappingException {
+        try {
+            this.configuration = new DefaultConfiguration()
+                    .set(jooqSettings)
+                    .set(SQLDialect.valueOf(dialect))
                     .set(
                             new DefaultConnectionProvider(
                                     DriverManager.getConnection(url, user, password)
                             )
                     );
+        } catch (SQLException e) {
+            throw new MappingException(e);
         }
+    }
+
+    public Configuration getConfiguration() {
         return configuration;
     }
 

@@ -11,14 +11,13 @@ import org.jooq.impl.DSL;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class H2SmokeTest {
     private Configuration configuration;
@@ -91,7 +90,7 @@ public class H2SmokeTest {
         );
     }
 
-    EnvProvider envProvider = new EnvProvider() {
+    private EnvProvider envProvider = new EnvProvider() {
         Map<String, String> envMap = new HashMap<String, String>() {{
             put("JOOQ_URL", "jdbc:h2:/tmp/ecjooq-test-db");
             put("JOOQ_USER", "SA");
