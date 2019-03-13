@@ -1,18 +1,19 @@
 package fi.jubic.easyconfig.jooq;
 
+import com.zaxxer.hikari.HikariDataSource;
 import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.annontations.EasyConfigProperty;
 import fi.jubic.easyconfig.db.SqlDatabaseConfig;
 import org.jooq.Configuration;
 import org.jooq.SQLDialect;
+import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
-import org.jooq.impl.DefaultConnectionProvider;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JooqConfiguration implements SqlDatabaseConfig {
+    private final HikariDataSource dataSource;
     private final Configuration configuration;
 
     public JooqConfiguration(
@@ -22,18 +23,15 @@ public class JooqConfiguration implements SqlDatabaseConfig {
             @EasyConfigProperty("JOOQ_") JooqSettings jooqSettings,
             @EasyConfigProperty("JOOQ_DIALECT") String dialect
     ) throws MappingException {
-        try {
-            this.configuration = new DefaultConfiguration()
-                    .set(jooqSettings)
-                    .set(SQLDialect.valueOf(dialect))
-                    .set(
-                            new DefaultConnectionProvider(
-                                    DriverManager.getConnection(url, user, password)
-                            )
-                    );
-        } catch (SQLException e) {
-            throw new MappingException(e);
-        }
+        this.dataSource = new HikariDataSource();
+        this.dataSource.setJdbcUrl(url);
+        this.dataSource.setUsername(user);
+        this.dataSource.setPassword(password);
+
+        this.configuration = new DefaultConfiguration()
+                .set(jooqSettings)
+                .set(SQLDialect.valueOf(dialect))
+                .set(new DataSourceConnectionProvider(this.dataSource));
     }
 
     public Configuration getConfiguration() {
@@ -42,18 +40,16 @@ public class JooqConfiguration implements SqlDatabaseConfig {
 
     @Override
     public void withConnection(ConnectionConsumer connectionConsumer) throws SQLException {
-        Configuration config = getConfiguration();
-        Connection connection = config.connectionProvider().acquire();
+        Connection connection = dataSource.getConnection();
         connectionConsumer.accept(connection);
-        config.connectionProvider().release(connection);
+        connection.close();
     }
 
     @Override
     public <T> T withConnection(ConnectionFunction<T> connectionFunction) throws SQLException {
-        Configuration config = getConfiguration();
-        Connection connection = config.connectionProvider().acquire();
+        Connection connection = dataSource.getConnection();
         T result = connectionFunction.apply(connection);
-        config.connectionProvider().release(connection);
+        connection.close();
         return result;
     }
 }
