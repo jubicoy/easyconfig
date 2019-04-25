@@ -18,6 +18,10 @@
             <artifactId>jsr305</artifactId>
         </dependency>
         <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>fi.jubic</groupId>
             <artifactId>easyvalue</artifactId>
             <version>0.2.0</version>

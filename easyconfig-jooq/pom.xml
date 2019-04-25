@@ -28,6 +28,10 @@
             <version>3.3.1</version>
         </dependency>
         <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>fi.jubic</groupId>
             <artifactId>easyconfig-core</artifactId>
             <version>0.1.7</version>
