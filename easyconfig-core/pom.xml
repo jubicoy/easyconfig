@@ -9,7 +9,7 @@
     <parent>
         <groupId>fi.jubic</groupId>
         <artifactId>easyconfig-parent</artifactId>
-        <version>0.1.7</version>
+        <version>0.1.8</version>
     </parent>
 
     <dependencies>
