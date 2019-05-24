@@ -1,18 +1,25 @@
 package fi.jubic.easyconfig.jooq;
 
 import com.zaxxer.hikari.HikariDataSource;
-import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.annontations.EasyConfigProperty;
 import fi.jubic.easyconfig.db.SqlDatabaseConfig;
 import org.jooq.Configuration;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JooqConfiguration implements SqlDatabaseConfig {
+    private static final Logger logger = LoggerFactory.getLogger(JooqConfiguration.class);
+    private static final Set<ConnectionFingerprint> globalConnections = ConcurrentHashMap.newKeySet();
+
     private final HikariDataSource dataSource;
     private final Configuration configuration;
 
@@ -22,7 +29,21 @@ public class JooqConfiguration implements SqlDatabaseConfig {
             @EasyConfigProperty("JOOQ_PASSWORD") String password,
             @EasyConfigProperty("JOOQ_") JooqSettings jooqSettings,
             @EasyConfigProperty("JOOQ_DIALECT") String dialect
-    ) throws MappingException {
+    ) {
+        ConnectionFingerprint fingerprint = new ConnectionFingerprint(
+                url,
+                user,
+                password
+        );
+        if (globalConnections.contains(fingerprint)) {
+            logger.warn(
+                    "Multiple connection pools initialized with the same connection parameters to {}. " +
+                            "Make sure a singleton configuration is used.",
+                    url
+            );
+        }
+        globalConnections.add(fingerprint);
+
         this.dataSource = new HikariDataSource();
         this.dataSource.setJdbcUrl(url);
         this.dataSource.setUsername(user);
@@ -51,5 +72,32 @@ public class JooqConfiguration implements SqlDatabaseConfig {
         T result = connectionFunction.apply(connection);
         connection.close();
         return result;
+    }
+
+    private static final class ConnectionFingerprint {
+        private final String value;
+
+        ConnectionFingerprint(
+                String url,
+                String user,
+                String password
+        ) {
+            this.value = url + user + password;
+        }
+
+        @Override
+        public int hashCode() {
+            return this.value.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) return false;
+            if (!(obj instanceof ConnectionFingerprint)) return false;
+
+            ConnectionFingerprint castObj = (ConnectionFingerprint) obj;
+
+            return Objects.equals(value, castObj.value);
+        }
     }
 }
