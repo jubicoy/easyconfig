@@ -6,6 +6,7 @@ import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.jooq.db.tables.User;
 import fi.jubic.easyconfig.jooq.db.tables.records.UserRecord;
 import org.h2.jdbc.JdbcSQLException;
+import org.h2.jdbc.JdbcSQLSyntaxErrorException;
 import org.jooq.Configuration;
 import org.jooq.impl.DSL;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class H2SmokeTest {
                     try {
                         connection.createStatement()
                                 .execute("DROP TABLE USER");
-                    } catch (JdbcSQLException ignore) {
+                    } catch (JdbcSQLException | JdbcSQLSyntaxErrorException ignore) {
                     }
 
                     connection.createStatement()
