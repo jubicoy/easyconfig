@@ -1,37 +1,16 @@
 language: java
 jdk:
-- oraclejdk8
-- oraclejdk11
-- openjdk8
-- openjdk11
+  - oraclejdk8
+  - oraclejdk11
+  - openjdk8
+  - openjdk11
 script:
-- mvn clean install
-before_deploy:
-- RELEASED_DATE=$(date +%Y-%m-%d) envsubst < .bintray.json.tmpl > parent-bintray.json
-- RELEASED_DATE=$(date +%Y-%m-%d) envsubst < easyconfig-core/.bintray.json.tmpl > core-bintray.json
-- RELEASED_DATE=$(date +%Y-%m-%d) envsubst < easyconfig-jooq/.bintray.json.tmpl > jooq-bintray.json
-deploy:
-  - provider: bintray
-    file: "parent-bintray.json"
-    user: vilppuvuorinen
-    skip_cleanup: true
-    on:
-      tags: true
-    key:
-      secure: "GAzLOs8b0lP7Y8irI4SiWBP1yKMpiDXFSakLKn5JZrjq6cxJNPW4cwnSUtGLTNYXewOxsU+ntgeMaurKU0vDIo2py/eGBAMFOFojeWkUk651mtBg2FLRpF65aZwPPXDR1OC89kN5y+64lKH5XSflQJXVevuCM0empXQNnrUx1NY62yb8onM4nmZlumMnuFdpyHaX4WQWhaib9u2bKyIpf3SZp4O95vrnTigr0ZkeZ63iE7+b54R9hDMeDl422oZXHFqpahFHMX71dXdbqngDHpCSZr6P0zQbW6NlVVjMjdnqhldgTTo+FYEHr/SZXnrFF4fB4s6GlTTjwrI1x8RpUrkKcaK8gbI3jy3pzypzHp5Zu6WkvuSgYhKilDhoNc67WRDopOvIKnBPzI3elqs18o14sq2ouZ9On529LCMu8o4ZrqZ8iRcy2rRIST8z+m0ApjElMdZxlzxjACRPC/oTCcsv5drk//+9xhE53y369ru5jbmI53Qf1EurGSZv8x5sQD+ZBZnJX9iqmG62E16lBYoIe/ehljwVqP4Vfy9dA2dNvK6+KqHRXBf0qVQPlLFkzkJzeHsyObE8S3X70PatoAdMSc1DuK7u0yyYVp1gDDhhCRXg2gexQEY7zeF9f0gl6S3vsMXwzDOHhi/NIvUP/hCXaWUOu3gNfVjNLcWWBmg="
-  - provider: bintray
-    file: "core-bintray.json"
-    user: vilppuvuorinen
-    skip_cleanup: true
-    on:
-      tags: true
-    key:
-      secure: "GAzLOs8b0lP7Y8irI4SiWBP1yKMpiDXFSakLKn5JZrjq6cxJNPW4cwnSUtGLTNYXewOxsU+ntgeMaurKU0vDIo2py/eGBAMFOFojeWkUk651mtBg2FLRpF65aZwPPXDR1OC89kN5y+64lKH5XSflQJXVevuCM0empXQNnrUx1NY62yb8onM4nmZlumMnuFdpyHaX4WQWhaib9u2bKyIpf3SZp4O95vrnTigr0ZkeZ63iE7+b54R9hDMeDl422oZXHFqpahFHMX71dXdbqngDHpCSZr6P0zQbW6NlVVjMjdnqhldgTTo+FYEHr/SZXnrFF4fB4s6GlTTjwrI1x8RpUrkKcaK8gbI3jy3pzypzHp5Zu6WkvuSgYhKilDhoNc67WRDopOvIKnBPzI3elqs18o14sq2ouZ9On529LCMu8o4ZrqZ8iRcy2rRIST8z+m0ApjElMdZxlzxjACRPC/oTCcsv5drk//+9xhE53y369ru5jbmI53Qf1EurGSZv8x5sQD+ZBZnJX9iqmG62E16lBYoIe/ehljwVqP4Vfy9dA2dNvK6+KqHRXBf0qVQPlLFkzkJzeHsyObE8S3X70PatoAdMSc1DuK7u0yyYVp1gDDhhCRXg2gexQEY7zeF9f0gl6S3vsMXwzDOHhi/NIvUP/hCXaWUOu3gNfVjNLcWWBmg="
-  - provider: bintray
-    file: "jooq-bintray.json"
-    user: vilppuvuorinen
-    skip_cleanup: true
-    on:
-      tags: true
-    key:
-      secure: "GAzLOs8b0lP7Y8irI4SiWBP1yKMpiDXFSakLKn5JZrjq6cxJNPW4cwnSUtGLTNYXewOxsU+ntgeMaurKU0vDIo2py/eGBAMFOFojeWkUk651mtBg2FLRpF65aZwPPXDR1OC89kN5y+64lKH5XSflQJXVevuCM0empXQNnrUx1NY62yb8onM4nmZlumMnuFdpyHaX4WQWhaib9u2bKyIpf3SZp4O95vrnTigr0ZkeZ63iE7+b54R9hDMeDl422oZXHFqpahFHMX71dXdbqngDHpCSZr6P0zQbW6NlVVjMjdnqhldgTTo+FYEHr/SZXnrFF4fB4s6GlTTjwrI1x8RpUrkKcaK8gbI3jy3pzypzHp5Zu6WkvuSgYhKilDhoNc67WRDopOvIKnBPzI3elqs18o14sq2ouZ9On529LCMu8o4ZrqZ8iRcy2rRIST8z+m0ApjElMdZxlzxjACRPC/oTCcsv5drk//+9xhE53y369ru5jbmI53Qf1EurGSZv8x5sQD+ZBZnJX9iqmG62E16lBYoIe/ehljwVqP4Vfy9dA2dNvK6+KqHRXBf0qVQPlLFkzkJzeHsyObE8S3X70PatoAdMSc1DuK7u0yyYVp1gDDhhCRXg2gexQEY7zeF9f0gl6S3vsMXwzDOHhi/NIvUP/hCXaWUOu3gNfVjNLcWWBmg="
+  - mvn clean install
+
+jobs:
+  include:
+    - stage: deploy
+      jdk: openjdk8
+      if: tag IS present
+      script: 'cp .ci-settings.xml $HOME/.m2/settings.xml && mvn clean deploy -DskipTests'
+
