@@ -1,6 +1,6 @@
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.junit.Test;
 
 import java.util.*;

@@ -1,7 +1,7 @@
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annontations.EasyConfig;
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfig;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import fi.jubic.easyvalue.EasyProperty;
 import fi.jubic.easyvalue.EasyValue;
 import org.junit.Test;

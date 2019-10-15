@@ -1,7 +1,7 @@
 package fi.jubic.easyconfig.jooq;
 
-import fi.jubic.easyconfig.annontations.EasyConfig;
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfig;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.jooq.conf.*;
 
 @EasyConfig

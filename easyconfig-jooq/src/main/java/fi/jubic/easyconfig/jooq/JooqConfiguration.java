@@ -1,7 +1,7 @@
 package fi.jubic.easyconfig.jooq;
 
 import com.zaxxer.hikari.HikariDataSource;
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import fi.jubic.easyconfig.db.SqlDatabaseConfig;
 import org.jooq.Configuration;
 import org.jooq.SQLDialect;

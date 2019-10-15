@@ -21,8 +21,8 @@ Define a constructor and annotate parameters using `@EasyConfigProperty`. Defaul
 ```java
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annontations.EasyConfig;
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfig;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 
 @EasyConfig
 public class ServerConfig {
@@ -51,8 +51,8 @@ Parameter injection can also be accomplished using default constructor and annot
 ```java
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annontations.EasyConfig;
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfig;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 
 @EasyConfig
 public class ServerConfig {
@@ -87,8 +87,8 @@ The child configuration is annotated as per usual.
 ```java
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annontations.EasyConfig;
-import fi.jubic.easyconfig.annontations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EasyConfig;
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 
 @EasyConfig
 public class ServerConfig {
