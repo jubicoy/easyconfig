@@ -67,7 +67,7 @@ class ParameterParser {
                                 try {
                                     return Long.parseLong(str, 10);
                                 } catch (NumberFormatException e) {
-                                    throw new MappingException(e);
+                                    throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
                             }
                     )
@@ -85,7 +85,7 @@ class ParameterParser {
                                 try {
                                     return Float.parseFloat(str);
                                 } catch (NumberFormatException e) {
-                                    throw new MappingException(e);
+                                    throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
                             }
 
@@ -104,7 +104,7 @@ class ParameterParser {
                                 try {
                                     return Double.parseDouble(str);
                                 } catch (NumberFormatException e) {
-                                    throw new MappingException(e);
+                                    throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
                             }
 
@@ -132,7 +132,7 @@ class ParameterParser {
                                  try {
                                      return Integer.parseInt(str, 10);
                                  } catch (NumberFormatException e) {
-                                     throw new MappingException(e);
+                                     throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
                                  }
                             }
                     )
