@@ -2,6 +2,7 @@ package fi.jubic.easyconfig;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 class ClassBuilderInitializer<T> implements Initializer<T> {
@@ -20,25 +21,52 @@ class ClassBuilderInitializer<T> implements Initializer<T> {
     }
 
     @Override
-    public T initialize(EnvProvider prefixedProvider) throws MappingException {
+    public T initialize(EnvProvider prefixedProvider) throws InternalMappingException {
+        Object builder;
         try {
-            Object builder = builderKlass.newInstance();
+            builder = builderKlass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new InternalMappingException(
+                    "Could not initialize an instance of class " + builderKlass.getCanonicalName(),
+                    e
+            );
+        }
 
-            for (MappableParameter parameter : parameters) {
-                String stringValue = prefixedProvider
-                        .getVariable(parameter.getConfigProperty().value())
-                        .orElse(parameter.getConfigProperty().defaultValue());
+        List<InternalMappingException> nestedExceptions = new ArrayList<>();
 
+        for (MappableParameter parameter : parameters) {
+            try {
                 builder = parameter.getMethod().invoke(
                         builder,
-                        parameter.getMapper().apply(stringValue)
+                        parameter.readAndParse(prefixedProvider)
                 );
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                nestedExceptions.add(
+                        new InternalMappingException(
+                                "Could not invoke builder method " + parameter.getMethod().getName()
+                                        + " in class " + builderKlass.getCanonicalName(),
+                                e
+                        )
+                );
+            } catch (InternalMappingException e) {
+                nestedExceptions.add(e);
             }
+        }
 
+        if (!nestedExceptions.isEmpty()) throw new InternalMappingException(nestedExceptions);
+
+        try {
             //noinspection unchecked
             return (T) buildMethod.invoke(builder);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new MappingException(e);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new InternalMappingException(
+                    "Could not invoke build method in class " + builderKlass.getCanonicalName(),
+                    e
+            );
         }
+
+//        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+//            throw new MappingException(e);
+//        }
     }
 }

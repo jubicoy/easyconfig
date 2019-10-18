@@ -32,8 +32,16 @@ public class ConfigMapper {
      * @param klass Class for initializing the configuration object
      */
     public <T> T read(String prefix, Class<T> klass) throws MappingException {
+        try {
+            return internalRead(prefix, klass);
+        } catch (InternalMappingException e) {
+            throw MappingException.from(e);
+        }
+    }
+
+    <T> T internalRead(String prefix, Class<T> klass) throws InternalMappingException {
         return new InitializerBuilder(this)
                 .build(klass)
-                .initialize(name -> envProvider.getVariable(prefix + name));
+                .initialize(envProvider.withPrefix(prefix));
     }
 }

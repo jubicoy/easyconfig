@@ -6,10 +6,6 @@ import fi.jubic.easyvalue.EasyProperty;
 import fi.jubic.easyvalue.EasyValue;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -23,20 +19,10 @@ public class BuilderTest {
         assertThat(config.host(), is("127.1.0.1"));
     }
 
-    EnvProvider envProvider = new EnvProvider() {
-        Map<String, String> envMap = new HashMap<String, String>() {{
-            put("ID", "111");
-            put("HOST", "127.1.0.1");
-        }};
-
-        @Override
-        public Optional<String> getVariable(String name) {
-            if (!envMap.containsKey(name)) {
-                return Optional.empty();
-            }
-            return Optional.of(envMap.get(name));
-        }
-    };
+    private static EnvProvider envProvider = new StaticEnvProvider() {{
+        put("ID", "111");
+        put("HOST", "127.1.0.1");
+    }};
 
     @EasyConfig(builder = TestConfig.Builder.class)
     @EasyValue(excludeJson = true)

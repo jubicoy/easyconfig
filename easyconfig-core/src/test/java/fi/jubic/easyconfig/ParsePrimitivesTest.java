@@ -4,54 +4,40 @@ import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ParsePrimitivesTest {
 
     @Test
     public void testDefaultConstructorMapping() throws MappingException {
-        EnvProvider envProvider = new EnvProvider() {
-            Map<String, String> envMap = new HashMap<String, String>() {{
-                put("BOOL_1", "true");
-                put("BOOL_2", "false");
-                put("INTEGER_1", "12");
-                put("INTEGER_2", "13");
-                put("LONG_1", "1001");
-                put("LONG_2", "1002");
-                put("FLOAT_1", "1.23");
-                put("FLOAT_2", "2.34");
-                put("DOUBLE_1", "3.45");
-                put("DOUBLE_2", "4.56");
-                put("STRING", "qwerty");
-            }};
-
-            @Override
-            public Optional<String> getVariable(String name) {
-                if (!envMap.containsKey(name)) {
-                    return Optional.empty();
-                }
-                return Optional.of(envMap.get(name));
-            }
-        };
+        EnvProvider envProvider = new StaticEnvProvider() {{
+            put("BOOL_1", "true");
+            put("BOOL_2", "false");
+            put("INTEGER_1", "12");
+            put("INTEGER_2", "13");
+            put("LONG_1", "1001");
+            put("LONG_2", "1002");
+            put("FLOAT_1", "1.23");
+            put("FLOAT_2", "2.34");
+            put("DOUBLE_1", "3.45");
+            put("DOUBLE_2", "4.56");
+            put("STRING", "qwerty");
+        }};
 
         DefaultConstructorTestConfig config = new ConfigMapper(envProvider).read(DefaultConstructorTestConfig.class);
 
-        assertThat(config.isBool1(), is(true));
-        assertThat(config.getBool2(), is(false));
-        assertThat(config.getInteger1(), is(12));
-        assertThat(config.getInteger2(), is(13));
-        assertThat(config.getLong1(), is(1001L));
-        assertThat(config.getLong2(), is(1002L));
-        assertThat(config.getFloat1(), is(1.23F));
-        assertThat(config.getFloat2(), is(2.34F));
-        assertThat(config.getDouble1(), is(3.45));
-        assertThat(config.getDouble2(), is(4.56));
-        assertThat(config.getString(), is("qwerty"));
+        assertThat(config.bool1, is(true));
+        assertThat(config.bool2, is(false));
+        assertThat(config.integer1, is(12));
+        assertThat(config.integer2, is(13));
+        assertThat(config.long1, is(1001L));
+        assertThat(config.long2, is(1002L));
+        assertThat(config.float1, is(1.23F));
+        assertThat(config.float2, is(2.34F));
+        assertThat(config.double1, is(3.45));
+        assertThat(config.double2, is(4.56));
+        assertThat(config.string, is("qwerty"));
     }
 
     @EasyConfig
@@ -124,50 +110,6 @@ public class ParsePrimitivesTest {
         @EasyConfigProperty(value = "STRING")
         public void setString(String string) {
             this.string = string;
-        }
-
-        boolean isBool1() {
-            return bool1;
-        }
-
-        Boolean getBool2() {
-            return bool2;
-        }
-
-        int getInteger1() {
-            return integer1;
-        }
-
-        Integer getInteger2() {
-            return integer2;
-        }
-
-        long getLong1() {
-            return long1;
-        }
-
-        Long getLong2() {
-            return long2;
-        }
-
-        float getFloat1() {
-            return float1;
-        }
-
-        Float getFloat2() {
-            return float2;
-        }
-
-        double getDouble1() {
-            return double1;
-        }
-
-        Double getDouble2() {
-            return double2;
-        }
-
-        String getString() {
-            return string;
         }
     }
 }

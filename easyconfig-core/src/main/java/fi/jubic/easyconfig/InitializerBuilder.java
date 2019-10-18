@@ -17,7 +17,7 @@ class InitializerBuilder {
         this.mapper = mapper;
     }
 
-    <T> Initializer<T> build(Class<T> klass) throws MappingException {
+    <T> Initializer<T> build(Class<T> klass) throws InternalMappingException {
         Initializer<T> initializer = getParameterizedConstructor(klass)
                 .orElseGet(
                         () -> getBuilderConstructor(klass)
@@ -28,7 +28,7 @@ class InitializerBuilder {
                 );
 
         if (initializer == null) {
-            throw new MappingException("No mappings found for " + klass.getCanonicalName());
+            throw new InternalMappingException("No mappings found for " + klass.getCanonicalName());
         }
 
         return initializer;
@@ -37,6 +37,7 @@ class InitializerBuilder {
     private <T> Optional<Initializer<T>> getDefaultConstructor(Class<T> klass) {
         ParameterParser parameterParser = new ParameterParser(mapper, this);
 
+        //noinspection unchecked
         return Stream.of(klass.getConstructors())
                 .filter(constructor -> constructor.getParameterCount() == 0)
                 .findFirst()
@@ -77,6 +78,7 @@ class InitializerBuilder {
                         return Optional.empty();
                     }
 
+                    //noinspection unchecked
                     return Optional.of(
                             new ParameterizedConstructorInitializer<>(
                                     (java.lang.reflect.Constructor<T>) constructor,
@@ -101,7 +103,7 @@ class InitializerBuilder {
                 .filter(method -> method.getReturnType().equals(klass))
                 .findFirst();
         if (!buildMethod.isPresent()) {
-            new MappingException(
+            new InternalMappingException(
                     "No build method found in "
                             + easyConfig.builder().getCanonicalName()
                             + ". This exception is not thrown. It's no use trying to catch it."
