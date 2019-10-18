@@ -19,7 +19,7 @@ defaults.
 Define a constructor and annotate parameters using `@EasyConfigProperty`. Default values can be defined using the `defaultValue` property. Environment variables `SERVER_HOST` and `SERVER_PORT` are assigned to the corresponding fields when the configuration class is read from the environment.
 
 ```java
-package fi.jubic.easyconfig;
+package example;
 
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
@@ -49,7 +49,7 @@ public class ServerConfig {
 Parameter injection can also be accomplished using default constructor and annotated setters. Environment variables `SERVER_HOST` and `SERVER_PORT` are assigned to the corresponding fields when the configuration class is read from the environment.
 
 ```java
-package fi.jubic.easyconfig;
+package example;
 
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
@@ -97,7 +97,7 @@ try {
 The child configuration is annotated as per usual.
 
 ```java
-package fi.jubic.easyconfig;
+package example;
 
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
@@ -128,7 +128,7 @@ public class ServerConfig {
 }
 ```
 
-Parent config has the child configas a property. Setter or constructor parameter is annotated using `EasyConfigProperty` with an optional prefix. In this case the injected variables are `SERVER_HOST` and `SERVER_PORT`. Without the prefix `HOST` and `PORT` would be injected instead.
+Parent config has the child config as a property. Setter or constructor parameter is annotated using `EasyConfigProperty` with an optional prefix. In this case the injected variables are `SERVER_HOST` and `SERVER_PORT`. Without the prefix `HOST` and `PORT` would be injected instead.
 
 ```java
 @EasyConfig
@@ -187,6 +187,59 @@ public class Configuration {
     }
 }
 ```
+
+### Nested lists
+
+A configuration can contain a list of configurations as a property. Any regular configuration can be used in a list. `FtpConfig` below is a good example of such config class.
+
+```java
+package example;
+
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+
+public class FtpConfig {
+    final String host;
+    final int port;
+
+    public FtpConfig(
+            @EasyConfigProperty("HOST") String host,
+            @EasyConfigProperty("PORT") int port
+    ) {
+        this.host = host;
+        this.port = port;
+    }
+}
+```
+
+Containing config uses `{}` as a placeholder element in the `@EasyConfigProperty` value to tell the `ConfigMapper` that this value is read in as a list.
+
+```java
+package example;
+
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import java.util.List;
+
+public class AppConfig {
+    final List<FtpConfig> ftpConfigs;
+
+    public AppConfig(
+            @EasyConfigProperty("FTP_{}_") List<FtpConfig> ftpConfigs
+    ) {
+        this.ftpConfigs = ftpConfigs;
+    }
+}
+```
+
+Now a list of `FtpConfig` instances can be defined like this:
+
+```
+FTP_0_HOST=localhost
+FTP_0_PORT=21
+FTP_2_HOST=otherhost
+FTP_2_PORT=21
+```
+
+The numbers provided for the placeholder do not have to be sequential as long as there are no duplicates.
 
 ## Dotenv support
 

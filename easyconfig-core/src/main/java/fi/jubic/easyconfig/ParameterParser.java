@@ -6,12 +6,27 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 class ParameterParser {
     private final ConfigMapper mapper;
     private final InitializerBuilder initializerBuilder;
+
+    private static List<Class<?>> supportedClasses = Arrays.asList(
+            boolean.class,
+            Boolean.class,
+            long.class,
+            Long.class,
+            float.class,
+            Float.class,
+            double.class,
+            Double.class,
+            String.class,
+            int.class,
+            Integer.class
+    );
 
     ParameterParser(
             ConfigMapper mapper,
@@ -50,10 +65,11 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            false,
+                            MappableParameter.Kind.Primitive,
                             parameterClass,
                             propertyAnnotation,
-                            Boolean::parseBoolean
+                            Boolean::parseBoolean,
+                            mapper
                     )
             );
         }
@@ -64,7 +80,7 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            false,
+                            MappableParameter.Kind.Primitive,
                             parameterClass,
                             propertyAnnotation,
                             str -> {
@@ -73,7 +89,8 @@ class ParameterParser {
                                 } catch (NumberFormatException e) {
                                     throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
-                            }
+                            },
+                            mapper
                     )
             );
         }
@@ -84,7 +101,7 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            false,
+                            MappableParameter.Kind.Primitive,
                             parameterClass,
                             propertyAnnotation,
                             str -> {
@@ -93,8 +110,8 @@ class ParameterParser {
                                 } catch (NumberFormatException e) {
                                     throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
-                            }
-
+                            },
+                            mapper
                     )
             );
         }
@@ -105,7 +122,7 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            false,
+                            MappableParameter.Kind.Primitive,
                             parameterClass,
                             propertyAnnotation,
                             str -> {
@@ -114,8 +131,8 @@ class ParameterParser {
                                 } catch (NumberFormatException e) {
                                     throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
-                            }
-
+                            },
+                            mapper
                     )
             );
         }
@@ -123,10 +140,11 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            false,
+                            MappableParameter.Kind.Primitive,
                             parameterClass,
                             propertyAnnotation,
-                            str -> str
+                            str -> str,
+                            mapper
                     )
             );
         }
@@ -137,7 +155,7 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            false,
+                            MappableParameter.Kind.Primitive,
                             parameterClass,
                             propertyAnnotation,
                             str -> {
@@ -146,7 +164,8 @@ class ParameterParser {
                                  } catch (NumberFormatException e) {
                                      throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                  }
-                            }
+                            },
+                            mapper
                     )
             );
         }
@@ -161,10 +180,11 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
-                            true,
+                            MappableParameter.Kind.Nested,
                             parameterClass,
                             propertyAnnotation,
-                            str -> mapper.internalRead(propertyAnnotation.value(), parameterClass)
+                            str -> mapper.internalRead(propertyAnnotation.value(), parameterClass),
+                            mapper
                     )
             );
         }
@@ -172,20 +192,48 @@ class ParameterParser {
         if (parameterClass.equals(List.class)) {
             Class<?> klass = (Class<?>) ((ParameterizedType) parameter.getParameterizedType())
                     .getActualTypeArguments()[0];
-            return parseParameter(null, klass, propertyAnnotation, method)
-                    .map(mappable -> new MappableParameter(
-                            method,
-                            false,
-                            klass,
-                            propertyAnnotation,
-                            str -> {
-                                List<Object> list = new ArrayList<>();
-                                for (String substr : str.split(propertyAnnotation.listDelimiter())) {
-                                    list.add(mappable.getMapper().apply(substr));
-                                }
-                                return list;
-                            }
-                    ));
+
+            boolean listNestingApplicable = false;
+            try {
+                initializerBuilder.build(klass);
+                listNestingApplicable = !supportedClasses.contains(klass);
+            } catch (InternalMappingException ignore) {
+            }
+
+            if (listNestingApplicable) {
+                // Check if placeholder is present
+                if (!propertyAnnotation.value().contains("{}")) {
+                    throw new RuntimeException("Missing index placeholder {} in " + propertyAnnotation.value());
+                }
+
+                return Optional.of(
+                        new MappableParameter(
+                                method,
+                                MappableParameter.Kind.NestedList,
+                                klass,
+                                propertyAnnotation,
+                                str -> mapper.internalRead(propertyAnnotation.value(), parameterClass),
+                                mapper
+                        )
+                );
+            }
+            else {
+                return parseParameter(null, klass, propertyAnnotation, method)
+                        .map(mappable -> new MappableParameter(
+                                method,
+                                MappableParameter.Kind.PrimitiveList,
+                                klass,
+                                propertyAnnotation,
+                                str -> {
+                                    List<Object> list = new ArrayList<>();
+                                    for (String substr : str.split(propertyAnnotation.listDelimiter())) {
+                                        list.add(mappable.getMapper().apply(substr));
+                                    }
+                                    return list;
+                                },
+                                mapper
+                        ));
+            }
         }
 
         return Optional.empty();

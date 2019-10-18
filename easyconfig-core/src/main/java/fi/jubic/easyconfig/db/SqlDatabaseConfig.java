@@ -2,7 +2,6 @@ package fi.jubic.easyconfig.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.function.Consumer;
 
 /**
  * Generic interface for a configuration that provides possibly

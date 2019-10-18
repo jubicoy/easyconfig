@@ -37,6 +37,7 @@ class InitializerBuilder {
     private <T> Optional<Initializer<T>> getDefaultConstructor(Class<T> klass) {
         ParameterParser parameterParser = new ParameterParser(mapper, this);
 
+        //noinspection unchecked
         return Stream.of(klass.getConstructors())
                 .filter(constructor -> constructor.getParameterCount() == 0)
                 .findFirst()
@@ -77,6 +78,7 @@ class InitializerBuilder {
                         return Optional.empty();
                     }
 
+                    //noinspection unchecked
                     return Optional.of(
                             new ParameterizedConstructorInitializer<>(
                                     (java.lang.reflect.Constructor<T>) constructor,

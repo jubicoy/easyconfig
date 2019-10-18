@@ -12,8 +12,8 @@ public class DefaultConstructorAndSettersTest {
         TestConfig config = new ConfigMapper(envProvider)
                 .read(TestConfig.class);
 
-        assertThat(config.getId(), is(111L));
-        assertThat(config.getHost(), is("127.1.0.1"));
+        assertThat(config.id, is(111L));
+        assertThat(config.host, is("127.1.0.1"));
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider() {{
@@ -22,8 +22,8 @@ public class DefaultConstructorAndSettersTest {
     }};
 
     static class TestConfig {
-        private Long id;
-        private String host;
+        Long id;
+        String host;
 
         public TestConfig() {
         }
@@ -36,14 +36,6 @@ public class DefaultConstructorAndSettersTest {
         @EasyConfigProperty("HOST")
         public void setHost(String host) {
             this.host = host;
-        }
-
-        Long getId() {
-            return id;
-        }
-
-        String getHost() {
-            return host;
         }
     }
 }

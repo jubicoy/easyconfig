@@ -21,7 +21,6 @@ public class MissingPropertyTest {
             message = e.getMessage();
         }
 
-        System.out.println(message);
         assertThat(message, containsString("VALUE_B [String]"));
         assertThat(message, containsString("VALUE_C [int]"));
         assertThat(message, not(containsString("VALUE_A")));

@@ -20,21 +20,17 @@ public class DotenvTest {
 
         TestConfig config = new ConfigMapper(envProvider).read(TestConfig.class);
 
-        assertThat(config.getDotenvValue(), is("set by dotenv"));
+        assertThat(config.dotenvValue, is("set by dotenv"));
     }
 
     @EasyConfig
     static class TestConfig {
-        private final String dotenvValue;
+        final String dotenvValue;
 
         public TestConfig(
                 @EasyConfigProperty("DOTENV_VALUE") String dotenvValue
         ) {
             this.dotenvValue = dotenvValue;
-        }
-
-        String getDotenvValue() {
-            return dotenvValue;
         }
     }
 }

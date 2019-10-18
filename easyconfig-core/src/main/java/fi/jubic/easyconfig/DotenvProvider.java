@@ -1,8 +1,10 @@
 package fi.jubic.easyconfig;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvEntry;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class DotenvProvider extends EnvProvider {
     private final Dotenv dotenv;
@@ -28,7 +30,7 @@ public class DotenvProvider extends EnvProvider {
         this(dotenv, "");
     }
 
-    DotenvProvider(Dotenv dotenv, String prefix) {
+    private DotenvProvider(Dotenv dotenv, String prefix) {
         super(prefix);
         this.dotenv = dotenv;
     }
@@ -41,5 +43,12 @@ public class DotenvProvider extends EnvProvider {
     @Override
     public Optional<String> getVariable(String name) {
         return Optional.ofNullable(dotenv.get(prefix() + name));
+    }
+
+    @Override
+    protected Stream<String> getNames() {
+        return dotenv.entries()
+                .stream()
+                .map(DotenvEntry::getKey);
     }
 }

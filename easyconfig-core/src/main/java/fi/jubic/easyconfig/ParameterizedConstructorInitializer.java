@@ -23,16 +23,8 @@ class ParameterizedConstructorInitializer<T> implements Initializer<T> {
         List<InternalMappingException> nestedExceptions = new ArrayList<>();
 
         for (MappableParameter parameter : parameters) {
-            String stringValue;
             try {
-                stringValue = parameter.getStringValue(prefixedProvider);
-            } catch (InternalMappingException e) {
-                nestedExceptions.add(e);
-                continue;
-            }
-
-            try {
-                parameterObjects.add(parameter.getMapper().apply(stringValue));
+                parameterObjects.add(parameter.readAndParse(prefixedProvider));
             } catch (InternalMappingException e) {
                 nestedExceptions.add(e);
             }

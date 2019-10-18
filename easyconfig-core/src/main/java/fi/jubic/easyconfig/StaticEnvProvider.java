@@ -3,6 +3,7 @@ package fi.jubic.easyconfig;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class StaticEnvProvider extends EnvProvider {
     private final Map<String, String> varMap;
@@ -11,7 +12,7 @@ public class StaticEnvProvider extends EnvProvider {
         this("");
     }
 
-    public StaticEnvProvider(String prefix) {
+    private StaticEnvProvider(String prefix) {
         super(prefix);
         this.varMap = new HashMap<>();
     }
@@ -36,5 +37,10 @@ public class StaticEnvProvider extends EnvProvider {
             return Optional.empty();
         }
         return Optional.of(varMap.get(prefix() + name));
+    }
+
+    @Override
+    protected Stream<String> getNames() {
+        return varMap.keySet().stream();
     }
 }

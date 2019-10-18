@@ -35,18 +35,10 @@ class ClassBuilderInitializer<T> implements Initializer<T> {
         List<InternalMappingException> nestedExceptions = new ArrayList<>();
 
         for (MappableParameter parameter : parameters) {
-            String stringValue;
-            try {
-                stringValue = parameter.getStringValue(prefixedProvider);
-            } catch (InternalMappingException e) {
-                nestedExceptions.add(e);
-                continue;
-            }
-
             try {
                 builder = parameter.getMethod().invoke(
                         builder,
-                        parameter.getMapper().apply(stringValue)
+                        parameter.readAndParse(prefixedProvider)
                 );
             } catch (IllegalAccessException | InvocationTargetException e) {
                 nestedExceptions.add(

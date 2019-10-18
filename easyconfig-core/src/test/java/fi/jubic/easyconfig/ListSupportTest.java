@@ -14,8 +14,8 @@ public class ListSupportTest {
         TestConfig config = new ConfigMapper(envProvider)
                 .read(TestConfig.class);
 
-        assertThat(config.getId(), is(111L));
-        assertThat(config.getHosts(), is(Arrays.asList("127.1.0.1", "127.1.0.2")));
+        assertThat(config.id, is(111L));
+        assertThat(config.hosts, is(Arrays.asList("127.1.0.1", "127.1.0.2")));
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider() {{
@@ -24,8 +24,8 @@ public class ListSupportTest {
     }};
 
     static class TestConfig {
-        private final Long id;
-        private final List<String> hosts;
+        final Long id;
+        final List<String> hosts;
 
         public TestConfig(
                 @EasyConfigProperty("ID") Long id,
@@ -33,14 +33,6 @@ public class ListSupportTest {
         ) {
             this.id = id;
             this.hosts = hosts;
-        }
-
-        Long getId() {
-            return id;
-        }
-
-        List<String> getHosts() {
-            return hosts;
         }
     }
 }

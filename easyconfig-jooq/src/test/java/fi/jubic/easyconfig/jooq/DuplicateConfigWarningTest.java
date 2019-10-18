@@ -64,7 +64,7 @@ public class DuplicateConfigWarningTest {
         put("JOOQ_DIALECT", "H2");
     }};
 
-    public static class TestAppender extends AppenderBase<ILoggingEvent> {
+    static class TestAppender extends AppenderBase<ILoggingEvent> {
         static List<ILoggingEvent> events = new ArrayList<>();
 
         @Override
