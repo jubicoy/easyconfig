@@ -80,6 +80,18 @@ public class ServerConfig {
 }
 ```
 
+### Injection
+
+Once an annotated class has been defined properties can be injected as shown below. A custom `EnvProvider` can be passed to `ConfigMapper` for testing purposes. However, the configuration object can usually be initialized through the default constructor without much effort.
+
+```java
+try {
+    ServerConfig serverConfig = new ConfigMapper().read(ServerConfig.class);
+} catch (MappingException e) {
+    e.printStackTrace();
+}
+```
+
 ### Nested configuration
 
 The child configuration is annotated as per usual.
@@ -134,15 +146,45 @@ public class AppConfig {
 }
 ```
 
-### Injection
+### Primitive lists
 
-Once an annotated class has been defined properties can be injected as shown below. A custom `EnvProvider` can be passed to `ConfigMapper` for testing purposes. However, the configuration object can usually be initialized through the default constructor without much effort.
+Lists of primitive values (strings, integers, etc.) can be injected as a semicolon separated list. A custom list separator can also be defined.
 
 ```java
-try {
-    ServerConfig serverConfig = new ConfigMapper().read(ServerConfig.class);
-} catch (MappingException e) {
-    e.printStackTrace();
+package example;
+
+
+import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import java.util.List;
+
+public class Configuration {
+    private List<Integer> intList;
+    private List<String> stringList;
+    private List<Integer> anotherIntList;
+
+    // "1;2;3;4"
+    @EasyConfigProperty("INT_LIST")
+    public void setIntList(List<Integer> intList) {
+        this.intList = intList;
+    }
+
+    // Default used if env variable is missing
+    @EasyConfigProperty(
+            value = "STRING_LIST_WITH_DEFAULT",
+            defaultValue = "a;b;c;d"
+    )
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
+    }
+
+    // Custom delimiter, "1,2,3,4"
+    @EasyConfigProperty(
+            value = "ANOTHER_INT_LIST",
+            listDelimiter = ","
+    )
+    public void setAnotherIntList(List<Integer> anotherIntList) {
+        this.anotherIntList = anotherIntList;
+    }
 }
 ```
 
