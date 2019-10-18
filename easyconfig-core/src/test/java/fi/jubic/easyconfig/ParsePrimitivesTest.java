@@ -4,40 +4,26 @@ import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ParsePrimitivesTest {
 
     @Test
     public void testDefaultConstructorMapping() throws MappingException {
-        EnvProvider envProvider = new EnvProvider() {
-            Map<String, String> envMap = new HashMap<String, String>() {{
-                put("BOOL_1", "true");
-                put("BOOL_2", "false");
-                put("INTEGER_1", "12");
-                put("INTEGER_2", "13");
-                put("LONG_1", "1001");
-                put("LONG_2", "1002");
-                put("FLOAT_1", "1.23");
-                put("FLOAT_2", "2.34");
-                put("DOUBLE_1", "3.45");
-                put("DOUBLE_2", "4.56");
-                put("STRING", "qwerty");
-            }};
-
-            @Override
-            public Optional<String> getVariable(String name) {
-                if (!envMap.containsKey(name)) {
-                    return Optional.empty();
-                }
-                return Optional.of(envMap.get(name));
-            }
-        };
+        EnvProvider envProvider = new StaticEnvProvider() {{
+            put("BOOL_1", "true");
+            put("BOOL_2", "false");
+            put("INTEGER_1", "12");
+            put("INTEGER_2", "13");
+            put("LONG_1", "1001");
+            put("LONG_2", "1002");
+            put("FLOAT_1", "1.23");
+            put("FLOAT_2", "2.34");
+            put("DOUBLE_1", "3.45");
+            put("DOUBLE_2", "4.56");
+            put("STRING", "qwerty");
+        }};
 
         DefaultConstructorTestConfig config = new ConfigMapper(envProvider).read(DefaultConstructorTestConfig.class);
 

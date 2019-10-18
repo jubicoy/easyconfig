@@ -18,20 +18,10 @@ public class ListSupportTest {
         assertThat(config.getHosts(), is(Arrays.asList("127.1.0.1", "127.1.0.2")));
     }
 
-    static EnvProvider envProvider = new EnvProvider() {
-        Map<String, String> envMap = new HashMap<String, String>() {{
-            put("ID", "111");
-            put("HOSTS", "127.1.0.1;127.1.0.2");
-        }};
-
-        @Override
-        public Optional<String> getVariable(String name) {
-            if (!envMap.containsKey(name)) {
-                return Optional.empty();
-            }
-            return Optional.of(envMap.get(name));
-        }
-    };
+    private static EnvProvider envProvider = new StaticEnvProvider() {{
+        put("ID", "111");
+        put("HOSTS", "127.1.0.1;127.1.0.2");
+    }};
 
     static class TestConfig {
         private final Long id;

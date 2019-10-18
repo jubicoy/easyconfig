@@ -3,8 +3,6 @@ package fi.jubic.easyconfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.junit.Test;
 
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -18,7 +16,7 @@ public class DefaultValueTest {
         assertThat(config.getHost(), is("127.1.0.1"));
     }
 
-    static EnvProvider envProvider = name -> Optional.empty();
+    private static EnvProvider envProvider = new StaticEnvProvider();
 
     static class TestConfig {
         private final Long id;

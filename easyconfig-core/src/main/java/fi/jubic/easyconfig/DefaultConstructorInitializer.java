@@ -2,6 +2,7 @@ package fi.jubic.easyconfig;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 class DefaultConstructorInitializer<T> implements Initializer<T> {
@@ -17,24 +18,47 @@ class DefaultConstructorInitializer<T> implements Initializer<T> {
     }
 
     @Override
-    public T initialize(EnvProvider prefixedProvider) throws MappingException {
+    public T initialize(EnvProvider prefixedProvider) throws InternalMappingException {
+        T config;
         try {
-            T config = constructor.newInstance();
+            config = constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new InternalMappingException(
+                    "Could not initialize an instance of class using " + constructor.getName(),
+                    e
+            );
+        }
 
-            for (MappableParameter parameter : parameters) {
-                String stringValue = prefixedProvider
-                        .getVariable(parameter.getConfigProperty().value())
-                        .orElse(parameter.getConfigProperty().defaultValue());
+        List<InternalMappingException> nestedExceptions = new ArrayList<>();
 
+        for (MappableParameter parameter : parameters) {
+            String stringValue;
+            try {
+                stringValue = parameter.getStringValue(prefixedProvider);
+            } catch (InternalMappingException e) {
+                nestedExceptions.add(e);
+                continue;
+            }
+
+            try {
                 parameter.getMethod().invoke(
                         config,
                         parameter.getMapper().apply(stringValue)
                 );
+            } catch (InternalMappingException e) {
+                nestedExceptions.add(e);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                nestedExceptions.add(
+                        new InternalMappingException(
+                                "Could not invoke setter method " + parameter.getMethod().getName(),
+                                e
+                        )
+                );
             }
-
-            return config;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new MappingException(e);
         }
+
+        if (!nestedExceptions.isEmpty()) throw new InternalMappingException(nestedExceptions);
+
+        return config;
     }
 }

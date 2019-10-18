@@ -3,10 +3,6 @@ package fi.jubic.easyconfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -20,20 +16,10 @@ public class PrefixedNestingTest {
         assertThat(parent.getChild().getId(), is(112L));
     }
 
-    static EnvProvider envProvider = new EnvProvider() {
-        Map<String, String> envMap = new HashMap<String, String>() {{
-            put("ID", "111");
-            put("CHILD_ID", "112");
-        }};
-
-        @Override
-        public Optional<String> getVariable(String name) {
-            if (!envMap.containsKey(name)) {
-                return Optional.empty();
-            }
-            return Optional.of(envMap.get(name));
-        }
-    };
+    private static EnvProvider envProvider = new StaticEnvProvider() {{
+        put("ID", "111");
+        put("CHILD_ID", "112");
+    }};
 
     static class ParentConfig {
         private final Long id;

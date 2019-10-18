@@ -3,6 +3,7 @@ package fi.jubic.easyconfig.jooq;
 import fi.jubic.easyconfig.ConfigMapper;
 import fi.jubic.easyconfig.EnvProvider;
 import fi.jubic.easyconfig.MappingException;
+import fi.jubic.easyconfig.StaticEnvProvider;
 import fi.jubic.easyconfig.jooq.db.tables.User;
 import fi.jubic.easyconfig.jooq.db.tables.records.UserRecord;
 import org.h2.jdbc.JdbcSQLException;
@@ -13,9 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -91,20 +89,10 @@ public class H2SmokeTest {
         );
     }
 
-    private EnvProvider envProvider = new EnvProvider() {
-        Map<String, String> envMap = new HashMap<String, String>() {{
-            put("JOOQ_URL", "jdbc:h2:/tmp/ecjooq-test-db");
-            put("JOOQ_USER", "SA");
-            put("JOOQ_PASSWORD", "");
-            put("JOOQ_DIALECT", "H2");
-        }};
-
-        @Override
-        public Optional<String> getVariable(String name) {
-            if (!envMap.containsKey(name)) {
-                return Optional.empty();
-            }
-            return Optional.of(envMap.get(name));
-        }
-    };
+    private static EnvProvider envProvider = new StaticEnvProvider() {{
+        put("JOOQ_URL", "jdbc:h2:/tmp/ecjooq-test-db");
+        put("JOOQ_USER", "SA");
+        put("JOOQ_PASSWORD", "");
+        put("JOOQ_DIALECT", "H2");
+    }};
 }

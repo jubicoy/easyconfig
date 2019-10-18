@@ -50,6 +50,8 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            false,
+                            parameterClass,
                             propertyAnnotation,
                             Boolean::parseBoolean
                     )
@@ -62,12 +64,14 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            false,
+                            parameterClass,
                             propertyAnnotation,
                             str -> {
                                 try {
                                     return Long.parseLong(str, 10);
                                 } catch (NumberFormatException e) {
-                                    throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
+                                    throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
                             }
                     )
@@ -80,12 +84,14 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            false,
+                            parameterClass,
                             propertyAnnotation,
                             str -> {
                                 try {
                                     return Float.parseFloat(str);
                                 } catch (NumberFormatException e) {
-                                    throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
+                                    throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
                             }
 
@@ -99,12 +105,14 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            false,
+                            parameterClass,
                             propertyAnnotation,
                             str -> {
                                 try {
                                     return Double.parseDouble(str);
                                 } catch (NumberFormatException e) {
-                                    throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
+                                    throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                 }
                             }
 
@@ -115,6 +123,8 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            false,
+                            parameterClass,
                             propertyAnnotation,
                             str -> str
                     )
@@ -127,12 +137,14 @@ class ParameterParser {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            false,
+                            parameterClass,
                             propertyAnnotation,
                             str -> {
                                  try {
                                      return Integer.parseInt(str, 10);
                                  } catch (NumberFormatException e) {
-                                     throw new MappingException("Could not parse " + propertyAnnotation.value(), e);
+                                     throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
                                  }
                             }
                     )
@@ -143,14 +155,16 @@ class ParameterParser {
         try {
             initializerBuilder.build(parameterClass);
             nestingApplicable = true;
-        } catch (MappingException ignore) {
+        } catch (InternalMappingException ignore) {
         }
         if (nestingApplicable) {
             return Optional.of(
                     new MappableParameter(
                             method,
+                            true,
+                            parameterClass,
                             propertyAnnotation,
-                            str -> mapper.read(propertyAnnotation.value(), parameterClass)
+                            str -> mapper.internalRead(propertyAnnotation.value(), parameterClass)
                     )
             );
         }
@@ -161,6 +175,8 @@ class ParameterParser {
             return parseParameter(null, klass, propertyAnnotation, method)
                     .map(mappable -> new MappableParameter(
                             method,
+                            false,
+                            klass,
                             propertyAnnotation,
                             str -> {
                                 List<Object> list = new ArrayList<>();
