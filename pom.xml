@@ -4,7 +4,7 @@
 
     <groupId>fi.jubic</groupId>
     <artifactId>easyconfig-parent</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
     <packaging>pom</packaging>
 
     <name>easyconfig-parent</name>
