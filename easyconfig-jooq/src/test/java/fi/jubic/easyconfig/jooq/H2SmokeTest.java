@@ -90,7 +90,7 @@ public class H2SmokeTest {
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider() {{
-        put("JOOQ_URL", "jdbc:h2:/tmp/ecjooq-test-db");
+        put("JOOQ_URL", "jdbc:h2:./target/tmp/ecjooq-test-db");
         put("JOOQ_USER", "SA");
         put("JOOQ_PASSWORD", "");
         put("JOOQ_DIALECT", "H2");
