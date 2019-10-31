@@ -183,7 +183,6 @@ class ParameterParser {
                             MappableParameter.Kind.Nested,
                             parameterClass,
                             propertyAnnotation,
-                            str -> mapper.internalRead(propertyAnnotation.value(), parameterClass),
                             mapper
                     )
             );
@@ -212,7 +211,6 @@ class ParameterParser {
                                 MappableParameter.Kind.NestedList,
                                 klass,
                                 propertyAnnotation,
-                                str -> mapper.internalRead(propertyAnnotation.value(), parameterClass),
                                 mapper
                         )
                 );

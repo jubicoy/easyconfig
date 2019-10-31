@@ -14,11 +14,13 @@ public class PrefixedNestingTest {
 
         assertThat(parent.id, is(111L));
         assertThat(parent.child.id, is(112L));
+        assertThat(parent.child.grandChild.val, is("TEST VAL"));
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider() {{
         put("ID", "111");
         put("CHILD_ID", "112");
+        put("CHILD_GRAND_CHILD_VAL", "TEST VAL");
     }};
 
     static class ParentConfig {
@@ -36,11 +38,24 @@ public class PrefixedNestingTest {
 
     static class ChildConfig {
         final Long id;
+        final GrandChildConfig grandChild;
 
         public ChildConfig(
-                @EasyConfigProperty("ID") Long id
+                @EasyConfigProperty("ID") Long id,
+                @EasyConfigProperty("GRAND_CHILD_") GrandChildConfig grandChild
         ) {
             this.id = id;
+            this.grandChild = grandChild;
+        }
+    }
+
+    static class GrandChildConfig {
+        final String val;
+
+        public GrandChildConfig(
+                @EasyConfigProperty("VAL") String val
+        ) {
+            this.val = val;
         }
     }
 }

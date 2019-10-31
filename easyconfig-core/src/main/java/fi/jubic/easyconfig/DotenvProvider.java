@@ -37,7 +37,7 @@ public class DotenvProvider extends EnvProvider {
 
     @Override
     public EnvProvider withPrefix(String prefix) {
-        return new DotenvProvider(this.dotenv, prefix + this.prefix());
+        return new DotenvProvider(this.dotenv, this.prefix() + prefix);
     }
 
     @Override

@@ -33,6 +33,40 @@ public class NestedListTest {
         assertThat(parent.testConfigs.get(2).enabled, is(true));
     }
 
+    @Test
+    public void testNestedListNestedInParentObject() throws MappingException {
+        EnvProvider envProvider = new StaticEnvProvider() {{
+            put("PARENT_CHILD_0_ID", "1");
+            put("PARENT_CHILD_0_ENABLED", "true");
+            put("PARENT_CHILD_1_ID", "2");
+            put("PARENT_CHILD_1_ENABLED", "false");
+            put("PARENT_CHILD_3_ID", "3");
+            put("PARENT_CHILD_3_ENABLED", "true");
+            put("EXTRA_PARAM_4", "extra");
+        }};
+
+        NestingParentTestConfig nestingParent = new ConfigMapper(envProvider).read(NestingParentTestConfig.class);
+
+        assertThat(nestingParent.parent.testConfigs.size(), is(3));
+
+        assertThat(nestingParent.parent.testConfigs.get(0).id, is(1L));
+        assertThat(nestingParent.parent.testConfigs.get(0).enabled, is(true));
+        assertThat(nestingParent.parent.testConfigs.get(1).id, is(2L));
+        assertThat(nestingParent.parent.testConfigs.get(1).enabled, is(false));
+        assertThat(nestingParent.parent.testConfigs.get(2).id, is(3L));
+        assertThat(nestingParent.parent.testConfigs.get(2).enabled, is(true));
+    }
+
+    static class NestingParentTestConfig {
+        final ParentTestConfig parent;
+
+        public NestingParentTestConfig(
+                @EasyConfigProperty("PARENT_") ParentTestConfig parent
+        ) {
+            this.parent = parent;
+        }
+    }
+
     static class ParentTestConfig {
         final List<TestConfig> testConfigs;
 

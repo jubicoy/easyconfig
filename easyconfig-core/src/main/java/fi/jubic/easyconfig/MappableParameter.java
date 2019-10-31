@@ -25,6 +25,23 @@ class MappableParameter {
             Kind kind,
             Class<?> parameterKlass,
             EasyConfigProperty configProperty,
+            ConfigMapper configMapper
+    ) {
+        this(
+                method,
+                kind,
+                parameterKlass,
+                configProperty,
+                str -> "",
+                configMapper
+        );
+    }
+
+    MappableParameter(
+            Method method,
+            Kind kind,
+            Class<?> parameterKlass,
+            EasyConfigProperty configProperty,
             MappingFunction<String, Object> mapper,
             ConfigMapper configMapper
     ) {
@@ -45,12 +62,16 @@ class MappableParameter {
     }
 
     Object readAndParse(EnvProvider provider) throws InternalMappingException {
+        if (kind.equals(Kind.Nested)) {
+            return new ConfigMapper(provider).internalRead(configProperty.value(), parameterKlass);
+        }
         if (kind.equals(Kind.NestedList)) {
             try {
+                ConfigMapper prefixedMapper = new ConfigMapper(provider);
                 return provider.getKeysMatching(configProperty.value())
                         .map(listKey -> {
                             try {
-                                return configMapper.internalRead(
+                                return prefixedMapper.internalRead(
                                         configProperty.value().replace("{}", listKey),
                                         parameterKlass
                                 );
@@ -75,7 +96,7 @@ class MappableParameter {
             return stringValue;
         }
 
-        if (!kind.equals(Kind.Nested)) {
+        if (kind.equals(Kind.Primitive) || kind.equals(Kind.PrimitiveList)) {
             throw new InternalMappingException(
                     String.format(
                             "Missing parameter %s%s [%s]",

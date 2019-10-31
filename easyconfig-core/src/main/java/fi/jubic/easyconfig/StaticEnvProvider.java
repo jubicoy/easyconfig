@@ -28,7 +28,7 @@ public class StaticEnvProvider extends EnvProvider {
 
     @Override
     public EnvProvider withPrefix(String prefix) {
-        return new StaticEnvProvider(prefix, varMap);
+        return new StaticEnvProvider(this.prefix() + prefix, varMap);
     }
 
     @Override
