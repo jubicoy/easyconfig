@@ -3,12 +3,6 @@ package fi.jubic.easyconfig.jooq;
 import com.zaxxer.hikari.HikariDataSource;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import fi.jubic.easyconfig.db.SqlDatabaseConfig;
-import org.jooq.Configuration;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DataSourceConnectionProvider;
-import org.jooq.impl.DefaultConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,9 +10,17 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jooq.Configuration;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DataSourceConnectionProvider;
+import org.jooq.impl.DefaultConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JooqConfiguration implements SqlDatabaseConfig {
     private static final Logger logger = LoggerFactory.getLogger(JooqConfiguration.class);
-    private static final Set<ConnectionFingerprint> globalConnections = ConcurrentHashMap.newKeySet();
+    private static final Set<ConnectionFingerprint> globalConnections =
+            ConcurrentHashMap.newKeySet();
 
     private final HikariDataSource dataSource;
     private final Configuration configuration;
@@ -38,8 +40,9 @@ public class JooqConfiguration implements SqlDatabaseConfig {
         );
         if (globalConnections.contains(fingerprint)) {
             logger.warn(
-                    "Multiple connection pools initialized with the same connection parameters to {}. " +
-                            "Make sure a singleton configuration is used.",
+                    "Multiple connection pools initialized with the same connection "
+                            + "parameters to {}. Make sure a singleton configuration "
+                            + "is used.",
                     url
             );
         }

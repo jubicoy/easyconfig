@@ -26,9 +26,10 @@ public class BuilderTest {
 
     @EasyConfig(builder = TestConfig.Builder.class)
     @EasyValue(excludeJson = true)
-    static abstract class TestConfig {
+    abstract static class TestConfig {
         @EasyProperty
         abstract Long id();
+
         @EasyProperty
         abstract String host();
 
@@ -43,6 +44,7 @@ public class BuilderTest {
             public Builder setId(Long id) {
                 return super.setId(id);
             }
+
             @EasyConfigProperty("HOST")
             @Override
             public Builder setHost(String host) {

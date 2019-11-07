@@ -21,7 +21,10 @@ class InternalMappingException extends Exception {
         this.nestedExceptions = Collections.emptyList();
     }
 
-    public InternalMappingException(String message, List<InternalMappingException> nestedExceptions) {
+    public InternalMappingException(
+            String message,
+            List<InternalMappingException> nestedExceptions
+    ) {
         super(message);
         this.nestedExceptions = nestedExceptions;
     }
@@ -31,7 +34,11 @@ class InternalMappingException extends Exception {
         this.nestedExceptions = Collections.emptyList();
     }
 
-    public InternalMappingException(String message, Throwable cause, List<InternalMappingException> nestedExceptions) {
+    public InternalMappingException(
+            String message,
+            Throwable cause,
+            List<InternalMappingException> nestedExceptions
+    ) {
         super(message, cause);
         this.nestedExceptions = nestedExceptions;
     }
@@ -41,17 +48,31 @@ class InternalMappingException extends Exception {
         this.nestedExceptions = Collections.emptyList();
     }
 
-    public InternalMappingException(Throwable cause, List<InternalMappingException> nestedExceptions) {
+    public InternalMappingException(
+            Throwable cause,
+            List<InternalMappingException> nestedExceptions
+    ) {
         super(cause);
         this.nestedExceptions = nestedExceptions;
     }
 
-    protected InternalMappingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected InternalMappingException(
+            String message,
+            Throwable cause,
+            boolean enableSuppression,
+            boolean writableStackTrace
+    ) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.nestedExceptions = Collections.emptyList();
     }
 
-    protected InternalMappingException(String message, Throwable cause, List<InternalMappingException> nestedExceptions, boolean enableSuppression, boolean writableStackTrace) {
+    protected InternalMappingException(
+            String message,
+            Throwable cause,
+            List<InternalMappingException> nestedExceptions,
+            boolean enableSuppression,
+            boolean writableStackTrace
+    ) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.nestedExceptions = nestedExceptions;
     }

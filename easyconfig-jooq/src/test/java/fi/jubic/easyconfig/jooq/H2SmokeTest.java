@@ -6,14 +6,15 @@ import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.StaticEnvProvider;
 import fi.jubic.easyconfig.jooq.db.tables.User;
 import fi.jubic.easyconfig.jooq.db.tables.records.UserRecord;
+
+import java.sql.SQLException;
+
 import org.h2.jdbc.JdbcSQLException;
 import org.h2.jdbc.JdbcSQLSyntaxErrorException;
 import org.jooq.Configuration;
 import org.jooq.impl.DSL;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.sql.SQLException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,7 +33,8 @@ public class H2SmokeTest {
                     try {
                         connection.createStatement()
                                 .execute("DROP TABLE USER");
-                    } catch (JdbcSQLException | JdbcSQLSyntaxErrorException ignore) {
+                    }
+                    catch (JdbcSQLException | JdbcSQLSyntaxErrorException ignored) {
                     }
 
                     connection.createStatement()

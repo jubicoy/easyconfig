@@ -25,7 +25,8 @@ class ParameterizedConstructorInitializer<T> implements Initializer<T> {
         for (MappableParameter parameter : parameters) {
             try {
                 parameterObjects.add(parameter.readAndParse(prefixedProvider));
-            } catch (InternalMappingException e) {
+            }
+            catch (InternalMappingException e) {
                 nestedExceptions.add(e);
             }
         }
@@ -34,8 +35,12 @@ class ParameterizedConstructorInitializer<T> implements Initializer<T> {
 
         try {
             return constructor.newInstance(parameterObjects.toArray());
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new InternalMappingException("Could not initialize an instance using " + constructor.getName(), e);
+        }
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new InternalMappingException(
+                    "Could not initialize an instance using " + constructor.getName(),
+                    e
+            );
         }
     }
 }

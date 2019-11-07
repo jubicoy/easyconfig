@@ -1,9 +1,9 @@
 package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.junit.Test;
 
 import java.util.List;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -45,7 +45,8 @@ public class NestedListTest {
             put("EXTRA_PARAM_4", "extra");
         }};
 
-        NestingParentTestConfig nestingParent = new ConfigMapper(envProvider).read(NestingParentTestConfig.class);
+        NestingParentTestConfig nestingParent = new ConfigMapper(envProvider)
+                .read(NestingParentTestConfig.class);
 
         assertThat(nestingParent.parent.testConfigs.size(), is(3));
 

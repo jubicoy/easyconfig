@@ -40,7 +40,8 @@ class ParameterParser {
             Parameter parameter,
             Method method
     ) {
-        EasyConfigProperty property = Optional.ofNullable(parameter.getAnnotation(EasyConfigProperty.class))
+        EasyConfigProperty property = Optional
+                .ofNullable(parameter.getAnnotation(EasyConfigProperty.class))
                 .orElseGet(() -> method.getAnnotation(EasyConfigProperty.class));
         assert (property != null);
 
@@ -86,8 +87,12 @@ class ParameterParser {
                             str -> {
                                 try {
                                     return Long.parseLong(str, 10);
-                                } catch (NumberFormatException e) {
-                                    throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
+                                }
+                                catch (NumberFormatException e) {
+                                    throw new InternalMappingException(
+                                            "Could not parse " + propertyAnnotation.value(),
+                                            e
+                                    );
                                 }
                             },
                             mapper
@@ -107,8 +112,12 @@ class ParameterParser {
                             str -> {
                                 try {
                                     return Float.parseFloat(str);
-                                } catch (NumberFormatException e) {
-                                    throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
+                                }
+                                catch (NumberFormatException e) {
+                                    throw new InternalMappingException(
+                                            "Could not parse " + propertyAnnotation.value(),
+                                            e
+                                    );
                                 }
                             },
                             mapper
@@ -128,8 +137,12 @@ class ParameterParser {
                             str -> {
                                 try {
                                     return Double.parseDouble(str);
-                                } catch (NumberFormatException e) {
-                                    throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
+                                }
+                                catch (NumberFormatException e) {
+                                    throw new InternalMappingException(
+                                            "Could not parse " + propertyAnnotation.value(),
+                                            e
+                                    );
                                 }
                             },
                             mapper
@@ -159,11 +172,15 @@ class ParameterParser {
                             parameterClass,
                             propertyAnnotation,
                             str -> {
-                                 try {
-                                     return Integer.parseInt(str, 10);
-                                 } catch (NumberFormatException e) {
-                                     throw new InternalMappingException("Could not parse " + propertyAnnotation.value(), e);
-                                 }
+                                try {
+                                    return Integer.parseInt(str, 10);
+                                }
+                                catch (NumberFormatException e) {
+                                    throw new InternalMappingException(
+                                            "Could not parse " + propertyAnnotation.value(),
+                                            e
+                                    );
+                                }
                             },
                             mapper
                     )
@@ -174,7 +191,8 @@ class ParameterParser {
         try {
             initializerBuilder.build(parameterClass);
             nestingApplicable = true;
-        } catch (InternalMappingException ignore) {
+        }
+        catch (InternalMappingException ignored) {
         }
         if (nestingApplicable) {
             return Optional.of(
@@ -196,13 +214,16 @@ class ParameterParser {
             try {
                 initializerBuilder.build(klass);
                 listNestingApplicable = !supportedClasses.contains(klass);
-            } catch (InternalMappingException ignore) {
+            }
+            catch (InternalMappingException ignored) {
             }
 
             if (listNestingApplicable) {
                 // Check if placeholder is present
                 if (!propertyAnnotation.value().contains("{}")) {
-                    throw new RuntimeException("Missing index placeholder {} in " + propertyAnnotation.value());
+                    throw new RuntimeException(
+                            "Missing index placeholder {} in " + propertyAnnotation.value()
+                    );
                 }
 
                 return Optional.of(
@@ -224,8 +245,11 @@ class ParameterParser {
                                 propertyAnnotation,
                                 str -> {
                                     List<Object> list = new ArrayList<>();
-                                    for (String substr : str.split(propertyAnnotation.listDelimiter())) {
-                                        list.add(mappable.getMapper().apply(substr));
+                                    String[] subStrings = str.split(
+                                            propertyAnnotation.listDelimiter()
+                                    );
+                                    for (String subString : subStrings) {
+                                        list.add(mappable.getMapper().apply(subString));
                                     }
                                     return list;
                                 },

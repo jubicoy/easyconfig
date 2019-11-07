@@ -34,7 +34,8 @@ public class ConfigMapper {
     public <T> T read(String prefix, Class<T> klass) throws MappingException {
         try {
             return internalRead(prefix, klass);
-        } catch (InternalMappingException e) {
+        }
+        catch (InternalMappingException e) {
             throw MappingException.from(e);
         }
     }

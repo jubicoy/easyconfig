@@ -4,15 +4,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Generic interface for a configuration that provides possibly
- * releasable instances of {@link java.sql.Connection}.
+ * <p>
+ *     Generic interface for a configuration that provides possibly
+ *     releasable instances of {@link java.sql.Connection}.
+ * </p>
  *
- * This interface facilitates utility services that require access
- * to the database without the data access interface - for example,
- * running database migrations.
+ * <p>
+ *     This interface facilitates utility services that require access
+ *     to the database without the data access interface - for example,
+ *     running database migrations.
+ * </p>
  */
 public interface SqlDatabaseConfig {
     void withConnection(ConnectionConsumer connectionConsumer) throws SQLException;
+
     <T> T withConnection(ConnectionFunction<T> connectionFunction) throws SQLException;
 
     interface ConnectionConsumer {

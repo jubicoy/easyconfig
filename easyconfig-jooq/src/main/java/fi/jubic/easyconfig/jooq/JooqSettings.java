@@ -2,7 +2,18 @@ package fi.jubic.easyconfig.jooq;
 
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.jooq.conf.*;
+import org.jooq.conf.BackslashEscaping;
+import org.jooq.conf.ExecuteWithoutWhere;
+import org.jooq.conf.ParamCastMode;
+import org.jooq.conf.ParamType;
+import org.jooq.conf.ParseUnknownFunctions;
+import org.jooq.conf.ParseUnsupportedSyntax;
+import org.jooq.conf.ParseWithMetaLookups;
+import org.jooq.conf.RenderKeywordStyle;
+import org.jooq.conf.RenderNameStyle;
+import org.jooq.conf.Settings;
+import org.jooq.conf.StatementType;
+import org.jooq.conf.ThrowExceptions;
 
 @EasyConfig
 public class JooqSettings extends Settings {

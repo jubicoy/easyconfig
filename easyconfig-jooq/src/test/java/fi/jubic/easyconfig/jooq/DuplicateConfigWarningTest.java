@@ -6,11 +6,12 @@ import fi.jubic.easyconfig.ConfigMapper;
 import fi.jubic.easyconfig.EnvProvider;
 import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.StaticEnvProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
-
-import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -18,7 +19,9 @@ import static org.junit.Assert.assertThat;
 public class DuplicateConfigWarningTest {
     @Test
     public void warnAboutDuplicateConfigs() throws MappingException {
-        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(JooqConfiguration.class);
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory
+                .getLogger(JooqConfiguration.class);
+
         TestAppender appender = new TestAppender();
         appender.setContext(logger.getLoggerContext());
         appender.start();

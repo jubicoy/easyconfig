@@ -44,7 +44,11 @@ class InitializerBuilder {
                 .map(constructor -> new DefaultConstructorInitializer<>(
                         (java.lang.reflect.Constructor<T>)constructor,
                         Stream.of(klass.getMethods())
-                                .filter(method -> method.getAnnotation(EasyConfigProperty.class) != null)
+                                .filter(
+                                        method -> method.getAnnotation(
+                                                EasyConfigProperty.class
+                                        ) != null
+                                )
                                 .filter(method -> method.getReturnType() != null)
                                 .filter(method -> method.getParameterCount() == 1)
                                 .map(method -> parameterParser.parseParameter(
@@ -58,17 +62,20 @@ class InitializerBuilder {
     }
 
     private <T> Optional<Initializer<T>> getParameterizedConstructor(Class<T> klass) {
-        ParameterParser parameterParser = new ParameterParser(mapper, this);
-
         return Stream.of(klass.getConstructors())
                 .filter(construct -> construct.getParameterCount() > 0)
                 .filter(construct -> Stream.of(construct.getParameters())
-                        .allMatch(parameter -> parameter.getAnnotation(EasyConfigProperty.class) != null)
+                        .allMatch(
+                                parameter -> parameter.getAnnotation(
+                                        EasyConfigProperty.class
+                                ) != null
+                        )
                 )
                 .max(Comparator.comparing(java.lang.reflect.Constructor::getParameterCount))
                 .flatMap(constructor -> {
-                    List<Optional<MappableParameter>> parameters = Stream.of(constructor.getParameters())
-                            .map(parameter -> parameterParser.parseParameter(
+                    List<Optional<MappableParameter>> parameters = Stream
+                            .of(constructor.getParameters())
+                            .map(parameter -> new ParameterParser(mapper, this).parseParameter(
                                     parameter,
                                     null
                             ))
@@ -92,8 +99,6 @@ class InitializerBuilder {
     }
 
     private <T> Optional<Initializer<T>> getBuilderConstructor(Class<T> klass) {
-        ParameterParser parameterParser = new ParameterParser(mapper, this);
-
         EasyConfig easyConfig = klass.getAnnotation(EasyConfig.class);
         if (easyConfig == null) return Optional.empty();
         if (easyConfig.builder().equals(Void.class)) return Optional.empty();
@@ -112,12 +117,17 @@ class InitializerBuilder {
             return Optional.empty();
         }
 
+        ParameterParser parameterParser = new ParameterParser(mapper, this);
         return Optional.of(
                 new ClassBuilderInitializer<>(
                         easyConfig.builder(),
                         buildMethod.get(),
                         Stream.of(easyConfig.builder().getMethods())
-                                .filter(method -> method.getAnnotation(EasyConfigProperty.class) != null)
+                                .filter(
+                                        method -> method.getAnnotation(
+                                                EasyConfigProperty.class
+                                        ) != null
+                                )
                                 .filter(method -> method.getReturnType() == easyConfig.builder())
                                 .filter(method -> method.getParameterCount() == 1)
                                 .map(method -> parameterParser.parseParameter(

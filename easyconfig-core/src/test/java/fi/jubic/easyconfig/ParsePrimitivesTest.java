@@ -25,7 +25,8 @@ public class ParsePrimitivesTest {
             put("STRING", "qwerty");
         }};
 
-        DefaultConstructorTestConfig config = new ConfigMapper(envProvider).read(DefaultConstructorTestConfig.class);
+        DefaultConstructorTestConfig config = new ConfigMapper(envProvider)
+                .read(DefaultConstructorTestConfig.class);
 
         assertThat(config.bool1, is(true));
         assertThat(config.bool2, is(false));

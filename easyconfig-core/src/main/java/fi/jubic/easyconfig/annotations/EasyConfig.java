@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EasyConfig {
     String prefix() default "";
+    
     Class<?> builder() default Void.class;
 }

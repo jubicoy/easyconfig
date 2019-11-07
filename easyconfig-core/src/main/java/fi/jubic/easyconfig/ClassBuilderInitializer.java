@@ -25,7 +25,8 @@ class ClassBuilderInitializer<T> implements Initializer<T> {
         Object builder;
         try {
             builder = builderKlass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+        }
+        catch (InstantiationException | IllegalAccessException e) {
             throw new InternalMappingException(
                     "Could not initialize an instance of class " + builderKlass.getCanonicalName(),
                     e
@@ -40,7 +41,8 @@ class ClassBuilderInitializer<T> implements Initializer<T> {
                         builder,
                         parameter.readAndParse(prefixedProvider)
                 );
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            }
+            catch (IllegalAccessException | InvocationTargetException e) {
                 nestedExceptions.add(
                         new InternalMappingException(
                                 "Could not invoke builder method " + parameter.getMethod().getName()
@@ -48,7 +50,8 @@ class ClassBuilderInitializer<T> implements Initializer<T> {
                                 e
                         )
                 );
-            } catch (InternalMappingException e) {
+            }
+            catch (InternalMappingException e) {
                 nestedExceptions.add(e);
             }
         }
@@ -58,15 +61,12 @@ class ClassBuilderInitializer<T> implements Initializer<T> {
         try {
             //noinspection unchecked
             return (T) buildMethod.invoke(builder);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        }
+        catch (IllegalAccessException | InvocationTargetException e) {
             throw new InternalMappingException(
                     "Could not invoke build method in class " + builderKlass.getCanonicalName(),
                     e
             );
         }
-
-//        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-//            throw new MappingException(e);
-//        }
     }
 }

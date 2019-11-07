@@ -20,7 +20,12 @@ public class MappingException extends Exception {
         super(cause);
     }
 
-    public MappingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public MappingException(
+            String message,
+            Throwable cause,
+            boolean enableSuppression,
+            boolean writableStackTrace
+    ) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -34,7 +39,9 @@ public class MappingException extends Exception {
         );
     }
 
-    private static Stream<InternalMappingException> flattenNestedExceptions(InternalMappingException exception) {
+    private static Stream<InternalMappingException> flattenNestedExceptions(
+            InternalMappingException exception
+    ) {
         if (exception.getNestedExceptions().isEmpty()) {
             return Stream.of(exception);
         }

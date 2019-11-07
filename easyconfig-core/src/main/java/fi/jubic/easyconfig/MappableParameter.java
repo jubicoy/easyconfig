@@ -63,7 +63,11 @@ class MappableParameter {
 
     Object readAndParse(EnvProvider provider) throws InternalMappingException {
         if (kind.equals(Kind.Nested)) {
-            return new ConfigMapper(provider).internalRead(configProperty.value(), parameterKlass);
+            return new ConfigMapper(provider)
+                    .internalRead(
+                            configProperty.value(),
+                            parameterKlass
+                    );
         }
         if (kind.equals(Kind.NestedList)) {
             try {
@@ -75,12 +79,14 @@ class MappableParameter {
                                         configProperty.value().replace("{}", listKey),
                                         parameterKlass
                                 );
-                            } catch (InternalMappingException e) {
+                            }
+                            catch (InternalMappingException e) {
                                 throw new RuntimeException(e);
                             }
                         })
                         .collect(Collectors.toList());
-            } catch (RuntimeException e) {
+            }
+            catch (RuntimeException e) {
                 throw (InternalMappingException) e.getCause();
             }
         }
