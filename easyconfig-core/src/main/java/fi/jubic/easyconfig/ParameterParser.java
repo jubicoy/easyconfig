@@ -7,6 +7,7 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -244,6 +245,9 @@ class ParameterParser {
                                 klass,
                                 propertyAnnotation,
                                 str -> {
+                                    if (str.length() == 0) {
+                                        return Collections.emptyList();
+                                    }
                                     List<Object> list = new ArrayList<>();
                                     String[] subStrings = str.split(
                                             propertyAnnotation.listDelimiter()
