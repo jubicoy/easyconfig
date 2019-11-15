@@ -4,19 +4,18 @@ import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import fi.jubic.easyvalue.EasyProperty;
 import fi.jubic.easyvalue.EasyValue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BuilderTest {
+class BuilderTest {
     @Test
-    public void testConstructorParametersMapping() throws MappingException {
+    void testConstructorParametersMapping() throws MappingException {
         TestConfig config = new ConfigMapper(envProvider)
                 .read(TestConfig.class);
 
-        assertThat(config.id(), is(111L));
-        assertThat(config.host(), is("127.1.0.1"));
+        assertEquals(111L, config.id());
+        assertEquals("127.1.0.1", config.host());
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider() {{

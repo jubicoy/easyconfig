@@ -2,15 +2,15 @@ package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ParsePrimitivesTest {
-
+class ParsePrimitivesTest {
     @Test
-    public void testDefaultConstructorMapping() throws MappingException {
+    void testDefaultConstructorMapping() throws MappingException {
         EnvProvider envProvider = new StaticEnvProvider() {{
             put("BOOL_1", "true");
             put("BOOL_2", "false");
@@ -28,17 +28,17 @@ public class ParsePrimitivesTest {
         DefaultConstructorTestConfig config = new ConfigMapper(envProvider)
                 .read(DefaultConstructorTestConfig.class);
 
-        assertThat(config.bool1, is(true));
-        assertThat(config.bool2, is(false));
-        assertThat(config.integer1, is(12));
-        assertThat(config.integer2, is(13));
-        assertThat(config.long1, is(1001L));
-        assertThat(config.long2, is(1002L));
-        assertThat(config.float1, is(1.23F));
-        assertThat(config.float2, is(2.34F));
-        assertThat(config.double1, is(3.45));
-        assertThat(config.double2, is(4.56));
-        assertThat(config.string, is("qwerty"));
+        assertTrue(config.bool1);
+        assertFalse(config.bool2);
+        assertEquals(12, config.integer1);
+        assertEquals(13, config.integer2);
+        assertEquals(1001L, config.long1);
+        assertEquals(1002L, config.long2);
+        assertEquals(1.23F, config.float1);
+        assertEquals(2.34F, config.float2);
+        assertEquals(3.45, config.double1);
+        assertEquals(4.56, config.double2);
+        assertEquals("qwerty", config.string);
     }
 
     @EasyConfig

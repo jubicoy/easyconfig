@@ -1,16 +1,17 @@
 package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class NestedListTest {
+class NestedListTest {
     @Test
-    public void testNestedList() throws MappingException {
+    void testNestedList() throws MappingException {
         EnvProvider envProvider = new StaticEnvProvider() {{
             put("CHILD_0_ID", "1");
             put("CHILD_0_ENABLED", "true");
@@ -23,18 +24,18 @@ public class NestedListTest {
 
         ParentTestConfig parent = new ConfigMapper(envProvider).read(ParentTestConfig.class);
 
-        assertThat(parent.testConfigs.size(), is(3));
+        assertEquals(3, parent.testConfigs.size());
 
-        assertThat(parent.testConfigs.get(0).id, is(1L));
-        assertThat(parent.testConfigs.get(0).enabled, is(true));
-        assertThat(parent.testConfigs.get(1).id, is(2L));
-        assertThat(parent.testConfigs.get(1).enabled, is(false));
-        assertThat(parent.testConfigs.get(2).id, is(3L));
-        assertThat(parent.testConfigs.get(2).enabled, is(true));
+        assertEquals(1L, parent.testConfigs.get(0).id);
+        assertTrue(parent.testConfigs.get(0).enabled);
+        assertEquals(2L, parent.testConfigs.get(1).id);
+        assertFalse(parent.testConfigs.get(1).enabled);
+        assertEquals(3L, parent.testConfigs.get(2).id);
+        assertTrue(parent.testConfigs.get(2).enabled);
     }
 
     @Test
-    public void testNestedListNestedInParentObject() throws MappingException {
+    void testNestedListNestedInParentObject() throws MappingException {
         EnvProvider envProvider = new StaticEnvProvider() {{
             put("PARENT_CHILD_0_ID", "1");
             put("PARENT_CHILD_0_ENABLED", "true");
@@ -48,14 +49,14 @@ public class NestedListTest {
         NestingParentTestConfig nestingParent = new ConfigMapper(envProvider)
                 .read(NestingParentTestConfig.class);
 
-        assertThat(nestingParent.parent.testConfigs.size(), is(3));
+        assertEquals(3, nestingParent.parent.testConfigs.size());
 
-        assertThat(nestingParent.parent.testConfigs.get(0).id, is(1L));
-        assertThat(nestingParent.parent.testConfigs.get(0).enabled, is(true));
-        assertThat(nestingParent.parent.testConfigs.get(1).id, is(2L));
-        assertThat(nestingParent.parent.testConfigs.get(1).enabled, is(false));
-        assertThat(nestingParent.parent.testConfigs.get(2).id, is(3L));
-        assertThat(nestingParent.parent.testConfigs.get(2).enabled, is(true));
+        assertEquals(1L, nestingParent.parent.testConfigs.get(0).id);
+        assertTrue(nestingParent.parent.testConfigs.get(0).enabled);
+        assertEquals(2L, nestingParent.parent.testConfigs.get(1).id);
+        assertFalse(nestingParent.parent.testConfigs.get(1).enabled);
+        assertEquals(3L, nestingParent.parent.testConfigs.get(2).id);
+        assertTrue(nestingParent.parent.testConfigs.get(2).enabled);
     }
 
     static class NestingParentTestConfig {

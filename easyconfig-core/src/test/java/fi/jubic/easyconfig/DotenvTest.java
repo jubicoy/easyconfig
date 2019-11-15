@@ -3,14 +3,13 @@ package fi.jubic.easyconfig;
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DotenvTest {
+class DotenvTest {
     @Test
-    public void testDotenvSupport() throws MappingException {
+    void testDotenvSupport() throws MappingException {
         EnvProvider envProvider = new DotenvProvider(
                 Dotenv.configure()
                         .ignoreIfMissing()
@@ -20,7 +19,7 @@ public class DotenvTest {
 
         TestConfig config = new ConfigMapper(envProvider).read(TestConfig.class);
 
-        assertThat(config.dotenvValue, is("set by dotenv"));
+        assertEquals("set by dotenv", config.dotenvValue);
     }
 
     @EasyConfig

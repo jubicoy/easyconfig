@@ -1,15 +1,14 @@
 package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MissingPropertyTest {
+class MissingPropertyTest {
     @Test
-    public void testExceptionMessageContainsEnvVariableName() {
+    void testExceptionMessageContainsEnvVariableName() {
         EnvProvider envProvider = new StaticEnvProvider() {{
             put("VALUE_A", "value");
         }};
@@ -21,10 +20,10 @@ public class MissingPropertyTest {
             message = e.getMessage();
         }
 
-        assertThat(message, containsString("VALUE_B [String]"));
-        assertThat(message, containsString("VALUE_C [int]"));
-        assertThat(message, not(containsString("VALUE_A")));
-        assertThat(message, not(containsString("VALUE_D")));
+        assertTrue(message.contains("VALUE_B [String]"));
+        assertTrue(message.contains("VALUE_C [int]"));
+        assertFalse(message.contains("VALUE_A"));
+        assertFalse(message.contains("VALUE_D"));
     }
 
     static class ParentTestConfig {

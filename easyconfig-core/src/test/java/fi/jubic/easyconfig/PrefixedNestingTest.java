@@ -1,20 +1,19 @@
 package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PrefixedNestingTest {
+class PrefixedNestingTest {
     @Test
-    public void testPrefixedNesting() throws MappingException {
+    void testPrefixedNesting() throws MappingException {
         ParentConfig parent = new ConfigMapper(envProvider)
                 .read(ParentConfig.class);
 
-        assertThat(parent.id, is(111L));
-        assertThat(parent.child.id, is(112L));
-        assertThat(parent.child.grandChild.val, is("TEST VAL"));
+        assertEquals(111L, parent.id);
+        assertEquals(112L, parent.child.id);
+        assertEquals("TEST VAL", parent.child.grandChild.val);
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider() {{

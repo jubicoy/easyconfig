@@ -9,16 +9,16 @@ import fi.jubic.easyconfig.StaticEnvProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DuplicateConfigWarningTest {
+class DuplicateConfigWarningTest {
     @Test
-    public void warnAboutDuplicateConfigs() throws MappingException {
+    void warnAboutDuplicateConfigs() throws MappingException {
         ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory
                 .getLogger(JooqConfiguration.class);
 
@@ -34,21 +34,21 @@ public class DuplicateConfigWarningTest {
         new ConfigMapper(envProvider2)
                 .read(JooqConfiguration.class);
 
-        assertThat(
-                TestAppender.events.size(),
-                is(0)
+        assertEquals(
+                0,
+                TestAppender.events.size()
         );
 
         new ConfigMapper(envProvider1)
                 .read(JooqConfiguration.class);
 
-        assertThat(
-                TestAppender.events.size(),
-                is(1)
+        assertEquals(
+                1,
+                TestAppender.events.size()
         );
-        assertThat(
-                TestAppender.events.get(0).getLevel().toString(),
-                is(Level.WARN.toString())
+        assertEquals(
+                Level.WARN.toString(),
+                TestAppender.events.get(0).getLevel().toString()
         );
     }
 

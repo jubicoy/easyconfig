@@ -13,17 +13,16 @@ import org.h2.jdbc.JdbcSQLException;
 import org.h2.jdbc.JdbcSQLSyntaxErrorException;
 import org.jooq.Configuration;
 import org.jooq.impl.DSL;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class H2SmokeTest {
+class H2SmokeTest {
     private Configuration configuration;
 
-    @Before
-    public void setup() throws MappingException, SQLException {
+    @BeforeEach
+    void setup() throws MappingException, SQLException {
         JooqConfiguration jooqConfiguration = new ConfigMapper(envProvider)
                 .read(JooqConfiguration.class);
         configuration = jooqConfiguration.getConfiguration();
@@ -47,14 +46,15 @@ public class H2SmokeTest {
 
     @Test
     public void h2SanityCheck() {
-        assertThat(
+        assertEquals(
+                0,
                 DSL.using(configuration)
                         .selectCount()
                         .from(User.USER)
-                        .fetchOne(0, int.class),
-                is(0)
+                        .fetchOne(0, int.class)
         );
-        assertThat(
+        assertEquals(
+                1,
                 DSL.using(configuration)
                         .insertInto(
                                 User.USER,
@@ -65,29 +65,28 @@ public class H2SmokeTest {
                                 1,
                                 "Hessu"
                         )
-                        .execute(),
-                is(1)
+                        .execute()
         );
-        assertThat(
+        assertEquals(
+                1,
                 DSL.using(configuration)
                         .selectCount()
                         .from(User.USER)
-                        .fetchOne(0, int.class),
-                is(1)
+                        .fetchOne(0, int.class)
         );
 
         UserRecord user = DSL.using(configuration)
                 .selectFrom(User.USER)
                 .fetchOne();
-        assertThat(user.getId(), is(1));
-        assertThat(user.getName(), is("Hessu"));
+        assertEquals(1, user.getId());
+        assertEquals("Hessu", user.getName());
 
-        assertThat(
+        assertEquals(
+                1,
                 DSL.using(configuration)
                         .deleteFrom(User.USER)
                         .where(User.USER.ID.eq(1))
-                        .execute(),
-                is(1)
+                        .execute()
         );
     }
 
