@@ -25,6 +25,9 @@ public class JooqConfiguration implements SqlDatabaseConfig {
     private final HikariDataSource dataSource;
     private final Configuration configuration;
 
+    /**
+     * Constructor used for injection.
+     */
     public JooqConfiguration(
             @EasyConfigProperty("JOOQ_URL") String url,
             @EasyConfigProperty("JOOQ_USER") String user,

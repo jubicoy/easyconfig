@@ -1,9 +1,8 @@
 package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -12,15 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class NestedListTest {
     @Test
     void testNestedList() throws MappingException {
-        EnvProvider envProvider = new StaticEnvProvider() {{
-            put("CHILD_0_ID", "1");
-            put("CHILD_0_ENABLED", "true");
-            put("CHILD_1_ID", "2");
-            put("CHILD_1_ENABLED", "false");
-            put("CHILD_3_ID", "3");
-            put("CHILD_3_ENABLED", "true");
-            put("EXTRA_PARAM_4", "extra");
-        }};
+        EnvProvider envProvider = new StaticEnvProvider()
+                .with("CHILD_0_ID", "1")
+                .with("CHILD_0_ENABLED", "true")
+                .with("CHILD_1_ID", "2")
+                .with("CHILD_1_ENABLED", "false")
+                .with("CHILD_3_ID", "3")
+                .with("CHILD_3_ENABLED", "true")
+                .with("EXTRA_PARAM_4", "extra");
 
         ParentTestConfig parent = new ConfigMapper(envProvider).read(ParentTestConfig.class);
 
@@ -36,15 +34,14 @@ class NestedListTest {
 
     @Test
     void testNestedListNestedInParentObject() throws MappingException {
-        EnvProvider envProvider = new StaticEnvProvider() {{
-            put("PARENT_CHILD_0_ID", "1");
-            put("PARENT_CHILD_0_ENABLED", "true");
-            put("PARENT_CHILD_1_ID", "2");
-            put("PARENT_CHILD_1_ENABLED", "false");
-            put("PARENT_CHILD_3_ID", "3");
-            put("PARENT_CHILD_3_ENABLED", "true");
-            put("EXTRA_PARAM_4", "extra");
-        }};
+        EnvProvider envProvider = new StaticEnvProvider()
+                .with("PARENT_CHILD_0_ID", "1")
+                .with("PARENT_CHILD_0_ENABLED", "true")
+                .with("PARENT_CHILD_1_ID", "2")
+                .with("PARENT_CHILD_1_ENABLED", "false")
+                .with("PARENT_CHILD_3_ID", "3")
+                .with("PARENT_CHILD_3_ENABLED", "true")
+                .with("EXTRA_PARAM_4", "extra");
 
         NestingParentTestConfig nestingParent = new ConfigMapper(envProvider)
                 .read(NestingParentTestConfig.class);

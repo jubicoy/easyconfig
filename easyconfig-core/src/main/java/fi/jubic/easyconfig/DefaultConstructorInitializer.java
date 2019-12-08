@@ -22,7 +22,8 @@ class DefaultConstructorInitializer<T> implements Initializer<T> {
         T config;
         try {
             config = constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        }
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new InternalMappingException(
                     "Could not initialize an instance of class using " + constructor.getName(),
                     e
@@ -37,9 +38,11 @@ class DefaultConstructorInitializer<T> implements Initializer<T> {
                         config,
                         parameter.readAndParse(prefixedProvider)
                 );
-            } catch (InternalMappingException e) {
+            }
+            catch (InternalMappingException e) {
                 nestedExceptions.add(e);
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            }
+            catch (IllegalAccessException | InvocationTargetException e) {
                 nestedExceptions.add(
                         new InternalMappingException(
                                 "Could not invoke setter method " + parameter.getMethod().getName(),

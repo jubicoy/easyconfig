@@ -11,19 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ParsePrimitivesTest {
     @Test
     void testDefaultConstructorMapping() throws MappingException {
-        EnvProvider envProvider = new StaticEnvProvider() {{
-            put("BOOL_1", "true");
-            put("BOOL_2", "false");
-            put("INTEGER_1", "12");
-            put("INTEGER_2", "13");
-            put("LONG_1", "1001");
-            put("LONG_2", "1002");
-            put("FLOAT_1", "1.23");
-            put("FLOAT_2", "2.34");
-            put("DOUBLE_1", "3.45");
-            put("DOUBLE_2", "4.56");
-            put("STRING", "qwerty");
-        }};
+        EnvProvider envProvider = new StaticEnvProvider()
+                .with("BOOL_1", "true")
+                .with("BOOL_2", "false")
+                .with("INTEGER_1", "12")
+                .with("INTEGER_2", "13")
+                .with("LONG_1", "1001")
+                .with("LONG_2", "1002")
+                .with("FLOAT_1", "1.23")
+                .with("FLOAT_2", "2.34")
+                .with("DOUBLE_1", "3.45")
+                .with("DOUBLE_2", "4.56")
+                .with("STRING", "qwerty");
 
         DefaultConstructorTestConfig config = new ConfigMapper(envProvider)
                 .read(DefaultConstructorTestConfig.class);

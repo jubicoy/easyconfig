@@ -9,6 +9,9 @@ public class SnoozyServerConfiguration implements ServerConfiguration {
     private final int port;
     private final SnoozyMultipartConfig multipartConfig;
 
+    /**
+     * Constructor used for injection.
+     */
     public SnoozyServerConfiguration(
             @EasyConfigProperty(value = "HOST", defaultValue = "localhost") String hostname,
             @EasyConfigProperty(value = "PORT", defaultValue = "8080") int port,

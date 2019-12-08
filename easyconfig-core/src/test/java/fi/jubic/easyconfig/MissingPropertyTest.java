@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MissingPropertyTest {
     @Test
     void testExceptionMessageContainsEnvVariableName() {
-        EnvProvider envProvider = new StaticEnvProvider() {{
-            put("VALUE_A", "value");
-        }};
+        EnvProvider envProvider = new StaticEnvProvider()
+                .with("VALUE_A", "value");
 
         String message = "";
         try {
             new ConfigMapper(envProvider).read(ParentTestConfig.class);
-        } catch (MappingException e) {
+        }
+        catch (MappingException e) {
             message = e.getMessage();
         }
 

@@ -52,20 +52,18 @@ class DuplicateConfigWarningTest {
         );
     }
 
-    private static EnvProvider envProvider1 = new StaticEnvProvider() {{
-        put("JOOQ_URL", "jdbc:h2:/tmp/dup-test-1");
-        put("JOOQ_USER", "SA");
-        put("JOOQ_PASSWORD", "");
-        put("JOOQ_DIALECT", "H2");
-    }};
+    private static EnvProvider envProvider1 = new StaticEnvProvider()
+            .with("JOOQ_URL", "jdbc:h2:/tmp/dup-test-1")
+            .with("JOOQ_USER", "SA")
+            .with("JOOQ_PASSWORD", "")
+            .with("JOOQ_DIALECT", "H2");
 
     // Slightly different url
-    private EnvProvider envProvider2 = new StaticEnvProvider() {{
-        put("JOOQ_URL", "jdbc:h2:/tmp/dup-test-2");
-        put("JOOQ_USER", "SA");
-        put("JOOQ_PASSWORD", "");
-        put("JOOQ_DIALECT", "H2");
-    }};
+    private EnvProvider envProvider2 = new StaticEnvProvider()
+            .with("JOOQ_URL", "jdbc:h2:/tmp/dup-test-2")
+            .with("JOOQ_USER", "SA")
+            .with("JOOQ_PASSWORD", "")
+            .with("JOOQ_DIALECT", "H2");
 
     static class TestAppender extends AppenderBase<ILoggingEvent> {
         static List<ILoggingEvent> events = new ArrayList<>();

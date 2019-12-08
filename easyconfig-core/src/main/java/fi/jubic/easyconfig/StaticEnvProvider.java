@@ -26,6 +26,11 @@ public class StaticEnvProvider extends EnvProvider {
         varMap.put(varName, value);
     }
 
+    public StaticEnvProvider with(String varName, String value) {
+        put(varName, value);
+        return this;
+    }
+
     @Override
     public EnvProvider withPrefix(String prefix) {
         return new StaticEnvProvider(this.prefix() + prefix, varMap);

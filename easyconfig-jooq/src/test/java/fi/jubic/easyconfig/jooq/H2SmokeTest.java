@@ -45,7 +45,7 @@ class H2SmokeTest {
     }
 
     @Test
-    public void h2SanityCheck() {
+    void h2SanityCheck() {
         assertEquals(
                 0,
                 DSL.using(configuration)
@@ -90,10 +90,9 @@ class H2SmokeTest {
         );
     }
 
-    private static EnvProvider envProvider = new StaticEnvProvider() {{
-        put("JOOQ_URL", "jdbc:h2:./target/tmp/ecjooq-test-db");
-        put("JOOQ_USER", "SA");
-        put("JOOQ_PASSWORD", "");
-        put("JOOQ_DIALECT", "H2");
-    }};
+    private static EnvProvider envProvider = new StaticEnvProvider()
+            .with("JOOQ_URL", "jdbc:h2:./target/tmp/ecjooq-test-db")
+            .with("JOOQ_USER", "SA")
+            .with("JOOQ_PASSWORD", "")
+            .with("JOOQ_DIALECT", "H2");
 }

@@ -18,10 +18,9 @@ class BuilderTest {
         assertEquals("127.1.0.1", config.host());
     }
 
-    private static EnvProvider envProvider = new StaticEnvProvider() {{
-        put("ID", "111");
-        put("HOST", "127.1.0.1");
-    }};
+    private static EnvProvider envProvider = new StaticEnvProvider()
+            .with("ID", "111")
+            .with("HOST", "127.1.0.1");
 
     @EasyConfig(builder = TestConfig.Builder.class)
     @EasyValue(excludeJson = true)

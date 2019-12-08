@@ -1,10 +1,11 @@
 package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,10 +15,9 @@ class ListSupportTest {
     @Test
     void listParametersMapping() throws MappingException {
         TestConfig config = new ConfigMapper(
-                new StaticEnvProvider() {{
-                    put("ID", "111");
-                    put("HOSTS", "127.1.0.1;127.1.0.2");
-                }}
+                new StaticEnvProvider()
+                        .with("ID", "111")
+                        .with("HOSTS", "127.1.0.1;127.1.0.2")
         ).read(TestConfig.class);
 
         assertEquals(111L, config.id);
@@ -29,9 +29,8 @@ class ListSupportTest {
         assertThrows(
                 MappingException.class,
                 () -> new ConfigMapper(
-                        new StaticEnvProvider() {{
-                            put("ID", "111");
-                        }}
+                        new StaticEnvProvider()
+                                .with("ID", "111")
                 ).read(TestConfig.class)
         );
     }
@@ -39,9 +38,8 @@ class ListSupportTest {
     @Test
     void emptyDefaultMappedToEmptyList() throws MappingException {
         DefaultTestConfig config = new ConfigMapper(
-                new StaticEnvProvider() {{
-                    put("ID", "111");
-                }}
+                new StaticEnvProvider()
+                        .with("ID", "111")
         ).read(DefaultTestConfig.class);
 
         assertEquals(111L, config.id);

@@ -16,11 +16,10 @@ class PrefixedNestingTest {
         assertEquals("TEST VAL", parent.child.grandChild.val);
     }
 
-    private static EnvProvider envProvider = new StaticEnvProvider() {{
-        put("ID", "111");
-        put("CHILD_ID", "112");
-        put("CHILD_GRAND_CHILD_VAL", "TEST VAL");
-    }};
+    private static EnvProvider envProvider = new StaticEnvProvider()
+            .with("ID", "111")
+            .with("CHILD_ID", "112")
+            .with("CHILD_GRAND_CHILD_VAL", "TEST VAL");
 
     static class ParentConfig {
         final Long id;
