@@ -105,7 +105,8 @@
                 <artifactId>dependency-check-maven</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <failBuildOnCVSS>8</failBuildOnCVSS>
+                    <failBuildOnCVSS>1</failBuildOnCVSS>
+                    <cveValidForHours>168</cveValidForHours>
                 </configuration>
             </plugin>
             <plugin>
