@@ -2,8 +2,6 @@ package fi.jubic.easyconfig;
 
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
-import fi.jubic.easyvalue.EasyProperty;
-import fi.jubic.easyvalue.EasyValue;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,8 +12,8 @@ class BuilderTest {
         TestConfig config = new ConfigMapper(envProvider)
                 .read(TestConfig.class);
 
-        assertEquals(111L, config.id());
-        assertEquals("127.1.0.1", config.host());
+        assertEquals(111L, config.getId());
+        assertEquals("127.1.0.1", config.getHost());
     }
 
     private static EnvProvider envProvider = new StaticEnvProvider()
@@ -23,30 +21,55 @@ class BuilderTest {
             .with("HOST", "127.1.0.1");
 
     @EasyConfig(builder = TestConfig.Builder.class)
-    @EasyValue(excludeJson = true)
-    abstract static class TestConfig {
-        @EasyProperty
-        abstract Long id();
+    static class TestConfig {
+        private final Long id;
+        private final String host;
 
-        @EasyProperty
-        abstract String host();
-
-        static Builder builder() {
-            return new Builder();
+        private TestConfig(
+                Long id,
+                String host
+        ) {
+            this.id = id;
+            this.host = host;
         }
 
+        Long getId() {
+            return id;
+        }
 
-        static class Builder extends EasyValue_BuilderTest_TestConfig.Builder {
+        String getHost() {
+            return host;
+        }
+
+        static class Builder {
+            private final Long id;
+            private final String host;
+
+            public Builder() {
+                this.id = null;
+                this.host = null;
+            }
+
+            private Builder(
+                    Long id,
+                    String host
+            ) {
+                this.id = id;
+                this.host = host;
+            }
+
             @EasyConfigProperty("ID")
-            @Override
             public Builder setId(Long id) {
-                return super.setId(id);
+                return new Builder(id, this.host);
             }
 
             @EasyConfigProperty("HOST")
-            @Override
             public Builder setHost(String host) {
-                return super.setHost(host);
+                return new Builder(this.id, host);
+            }
+
+            public TestConfig build() {
+                return new TestConfig(id, host);
             }
         }
     }
