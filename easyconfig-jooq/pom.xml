@@ -75,56 +75,42 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>jooq-class-generation</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-codegen-maven</artifactId>
-                        <version>3.11.11</version>
-
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-
-                        <configuration>
-                            <jdbc>
-                                <driver>org.h2.Driver</driver>
-                                <url>jdbc:h2:/tmp/ecjooq-test-db</url>
-                                <user>SA</user>
-                                <password />
-                            </jdbc>
-                            <generator>
-                                <generate>
-                                    <daos>true</daos>
-                                </generate>
-                                <database>
-                                    <name>org.jooq.meta.h2.H2Database</name>
-                                    <includes>USER</includes>
-                                    <inputSchema>PUBLIC</inputSchema>
-                                </database>
-                                <target>
-                                    <packageName>fi.jubic.easyconfig.jooq.db</packageName>
-                                    <directory>src/test/java</directory>
-                                </target>
-                            </generator>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.199</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>3.11.11</version>
+                <configuration>
+                    <jdbc>
+                        <driver>org.h2.Driver</driver>
+                        <url>jdbc:h2:./target/tmp/ecjooq-test-db</url>
+                        <user>SA</user>
+                        <password />
+                    </jdbc>
+                    <generator>
+                        <generate>
+                            <daos>true</daos>
+                        </generate>
+                        <database>
+                            <name>org.jooq.meta.h2.H2Database</name>
+                            <includes>USER</includes>
+                            <inputSchema>PUBLIC</inputSchema>
+                        </database>
+                        <target>
+                            <packageName>fi.jubic.easyconfig.jooq.db</packageName>
+                            <directory>src/test/java</directory>
+                        </target>
+                    </generator>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.4.199</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
