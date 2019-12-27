@@ -3,19 +3,18 @@ package fi.jubic.easyconfig.jooq;
 import com.zaxxer.hikari.HikariDataSource;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import fi.jubic.easyconfig.db.SqlDatabaseConfig;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.jooq.Configuration;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JooqConfiguration implements SqlDatabaseConfig {
     private static final Logger logger = LoggerFactory.getLogger(JooqConfiguration.class);

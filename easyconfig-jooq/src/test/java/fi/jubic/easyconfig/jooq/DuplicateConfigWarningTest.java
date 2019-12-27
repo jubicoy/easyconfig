@@ -6,13 +6,12 @@ import fi.jubic.easyconfig.ConfigMapper;
 import fi.jubic.easyconfig.EnvProvider;
 import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.StaticEnvProvider;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

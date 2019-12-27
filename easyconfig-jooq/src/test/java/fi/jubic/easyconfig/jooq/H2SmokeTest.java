@@ -6,15 +6,14 @@ import fi.jubic.easyconfig.MappingException;
 import fi.jubic.easyconfig.StaticEnvProvider;
 import fi.jubic.easyconfig.jooq.db.tables.User;
 import fi.jubic.easyconfig.jooq.db.tables.records.UserRecord;
-
-import java.sql.SQLException;
-
 import org.h2.jdbc.JdbcSQLException;
 import org.h2.jdbc.JdbcSQLSyntaxErrorException;
 import org.jooq.Configuration;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
