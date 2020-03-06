@@ -33,7 +33,14 @@ public class JooqConfiguration implements SqlDatabaseConfig {
             @EasyConfigProperty("JOOQ_PASSWORD") String password,
             @EasyConfigProperty("JOOQ_") JooqSettings jooqSettings,
             @EasyConfigProperty("JOOQ_DIALECT") String dialect,
-            @EasyConfigProperty(value = "JOOQ_POOL_SIZE", defaultValue = "-1") int poolSize
+            @EasyConfigProperty(
+                    value = "JOOQ_DRIVER_CLASS_NAME",
+                    defaultValue = ""
+            ) String driverClassName,
+            @EasyConfigProperty(
+                    value = "JOOQ_POOL_SIZE",
+                    defaultValue = "-1"
+            ) int poolSize
     ) {
         ConnectionFingerprint fingerprint = new ConnectionFingerprint(
                 url,
@@ -54,6 +61,10 @@ public class JooqConfiguration implements SqlDatabaseConfig {
         this.dataSource.setJdbcUrl(url);
         this.dataSource.setUsername(user);
         this.dataSource.setPassword(password);
+
+        if (!driverClassName.isEmpty()) {
+            this.dataSource.setDriverClassName(driverClassName);
+        }
 
         if (poolSize > 0) {
             this.dataSource.setMaximumPoolSize(poolSize);
