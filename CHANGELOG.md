@@ -9,6 +9,7 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 - `ConfigProperty` annotation to replace `EasyConfigProperty`.
 - `EnvProviderProperty` annotation for injecting current `EnvProvider` to configuration.
 - `EnvProvider::getVariables` for reading the currently declared environment variables.
+- `LogbackConfig` for extending the default logback configuration.
 
 ### Deprecated
 - Deprecated `EasyConfigProperty` annotation.

@@ -1,0 +1,28 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %-5level %d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="custom" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %-5level %d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- A dummy logger to retain the logger reference -->
+    <logger name="dummy" level="OFF">
+        <appender-ref ref="custom" />
+    </logger>
+
+    <logger name="logger-a" level="WARN" />
+    <logger name="logger-b" level="${EXTERNAL_LEVEL:-INFO}" />
+</configuration>
