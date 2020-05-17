@@ -5,15 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * An annotation for marking and configuring properties.
- *
- * @deprecated Use {@link ConfigProperty} instead.
- */
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Deprecated
-public @interface EasyConfigProperty {
+public @interface ConfigProperty {
     /**
      * Name of primitive value of prefix of an Object value.
      */

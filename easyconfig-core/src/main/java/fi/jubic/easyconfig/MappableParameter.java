@@ -1,6 +1,6 @@
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 
 import java.lang.reflect.Method;
 import java.util.stream.Collectors;
@@ -10,21 +10,21 @@ class MappableParameter {
         Primitive,
         PrimitiveList,
         Nested,
-        NestedList
+        NestedList,
+        Provider
     }
 
     private final Method method;
     private final Kind kind;
     private final Class<?> parameterKlass;
-    private final EasyConfigProperty configProperty;
+    private final ConfigPropertyDef configProperty;
     private final MappingFunction<String, Object> mapper;
-    private final ConfigMapper configMapper;
 
     MappableParameter(
             Method method,
             Kind kind,
             Class<?> parameterKlass,
-            EasyConfigProperty configProperty,
+            ConfigPropertyDef configProperty,
             ConfigMapper configMapper
     ) {
         this(
@@ -41,7 +41,7 @@ class MappableParameter {
             Method method,
             Kind kind,
             Class<?> parameterKlass,
-            EasyConfigProperty configProperty,
+            ConfigPropertyDef configProperty,
             MappingFunction<String, Object> mapper,
             ConfigMapper configMapper
     ) {
@@ -50,7 +50,6 @@ class MappableParameter {
         this.parameterKlass = parameterKlass;
         this.configProperty = configProperty;
         this.mapper = mapper;
-        this.configMapper = configMapper;
     }
 
     Method getMethod() {
@@ -62,43 +61,49 @@ class MappableParameter {
     }
 
     Object readAndParse(EnvProvider provider) throws InternalMappingException {
-        if (kind.equals(Kind.Nested)) {
-            return new ConfigMapper(provider)
-                    .internalRead(
-                            configProperty.value(),
-                            parameterKlass
-                    );
+        switch (kind) {
+            case Provider:
+                return provider;
+
+            case Nested:
+                return new ConfigMapper(provider)
+                        .internalRead(
+                                configProperty.getValue(),
+                                parameterKlass
+                        );
+
+            case NestedList:
+                try {
+                    ConfigMapper prefixedMapper = new ConfigMapper(provider);
+                    return provider.getKeysMatching(configProperty.getValue())
+                            .map(listKey -> {
+                                try {
+                                    return prefixedMapper.internalRead(
+                                            configProperty.getValue().replace("{}", listKey),
+                                            parameterKlass
+                                    );
+                                }
+                                catch (InternalMappingException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            })
+                            .collect(Collectors.toList());
+                }
+                catch (RuntimeException e) {
+                    throw (InternalMappingException) e.getCause();
+                }
+
+            default:
+                return mapper.apply(getStringValue(provider));
         }
-        if (kind.equals(Kind.NestedList)) {
-            try {
-                ConfigMapper prefixedMapper = new ConfigMapper(provider);
-                return provider.getKeysMatching(configProperty.value())
-                        .map(listKey -> {
-                            try {
-                                return prefixedMapper.internalRead(
-                                        configProperty.value().replace("{}", listKey),
-                                        parameterKlass
-                                );
-                            }
-                            catch (InternalMappingException e) {
-                                throw new RuntimeException(e);
-                            }
-                        })
-                        .collect(Collectors.toList());
-            }
-            catch (RuntimeException e) {
-                throw (InternalMappingException) e.getCause();
-            }
-        }
-        return mapper.apply(getStringValue(provider));
     }
 
     private String getStringValue(EnvProvider provider) throws InternalMappingException {
         String stringValue = provider
-                .getVariable(configProperty.value())
-                .orElse(configProperty.defaultValue());
+                .getVariable(configProperty.getValue())
+                .orElse(configProperty.getDefaultValue());
 
-        if (!stringValue.equals(EasyConfigProperty.UNDEFINED_DEFAULT)) {
+        if (!stringValue.equals(ConfigProperty.UNDEFINED_DEFAULT)) {
             return stringValue;
         }
 
@@ -107,7 +112,7 @@ class MappableParameter {
                     String.format(
                             "Missing parameter %s%s [%s]",
                             provider.prefix(),
-                            configProperty.value(),
+                            configProperty.getValue(),
                             parameterKlass.getSimpleName()
                     )
             );

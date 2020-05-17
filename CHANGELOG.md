@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres poorly to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `ConfigProperty` annotation to replace `EasyConfigProperty`.
+- `EnvProviderProperty` annotation for injecting current `EnvProvider` to configuration.
+- `EnvProvider::getVariables` for reading the currently declared environment variables.
+
+### Deprecated
+- Deprecated `EasyConfigProperty` annotation.
 
 ## [0.5.0] - 2020-03-06
 ### Added

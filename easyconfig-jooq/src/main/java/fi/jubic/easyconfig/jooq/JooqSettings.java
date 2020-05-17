@@ -1,6 +1,5 @@
 package fi.jubic.easyconfig.jooq;
 
-import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.jooq.conf.BackslashEscaping;
 import org.jooq.conf.ExecuteWithoutWhere;
@@ -15,7 +14,6 @@ import org.jooq.conf.Settings;
 import org.jooq.conf.StatementType;
 import org.jooq.conf.ThrowExceptions;
 
-@EasyConfig
 public class JooqSettings extends Settings {
     @Override
     @EasyConfigProperty(
