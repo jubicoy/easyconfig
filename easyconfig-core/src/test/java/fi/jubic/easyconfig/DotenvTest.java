@@ -1,6 +1,5 @@
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,6 @@ class DotenvTest {
         assertEquals("set by dotenv", config.dotenvValue);
     }
 
-    @EasyConfig
     static class TestConfig {
         final String dotenvValue;
 

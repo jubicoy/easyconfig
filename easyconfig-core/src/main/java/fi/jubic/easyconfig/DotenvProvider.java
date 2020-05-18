@@ -3,7 +3,9 @@ package fi.jubic.easyconfig;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvEntry;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DotenvProvider extends EnvProvider {
@@ -50,5 +52,15 @@ public class DotenvProvider extends EnvProvider {
         return dotenv.entries()
                 .stream()
                 .map(DotenvEntry::getKey);
+    }
+
+    @Override
+    public Map<String, String> getVariables() {
+        return dotenv.entries()
+                .stream()
+                .collect(Collectors.toMap(
+                        DotenvEntry::getKey,
+                        DotenvEntry::getValue
+                ));
     }
 }

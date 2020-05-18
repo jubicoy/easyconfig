@@ -1,6 +1,8 @@
 package fi.jubic.easyconfig;
 
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EnvProviderProperty;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -9,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 class ParameterParser {
     private final ConfigMapper mapper;
@@ -41,10 +45,47 @@ class ParameterParser {
             Parameter parameter,
             Method method
     ) {
-        EasyConfigProperty property = Optional
-                .ofNullable(parameter.getAnnotation(EasyConfigProperty.class))
-                .orElseGet(() -> method.getAnnotation(EasyConfigProperty.class));
-        assert (property != null);
+        if (
+                Stream.of(method, parameter)
+                        .filter(Objects::nonNull)
+                        .map(elem -> elem.getAnnotation(EnvProviderProperty.class))
+                        .anyMatch(Objects::nonNull)
+        ) {
+            if (!EnvProvider.class.isAssignableFrom(parameter.getType())) {
+                throw new IllegalArgumentException(
+                        String.format(
+                                "Invalid parameter to EnvProviderProperty %s",
+                                parameter.getType().getCanonicalName().toString()
+                        )
+                );
+            }
+            return Optional.of(
+                    new MappableParameter(
+                            method,
+                            MappableParameter.Kind.Provider,
+                            EnvProvider.class,
+                            null,
+                            null
+                    )
+            );
+        }
+
+        ConfigPropertyDef property = Stream
+                .of(parameter, method)
+                .filter(Objects::nonNull)
+                .map(elem -> elem.getAnnotation(EasyConfigProperty.class))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .map(ConfigPropertyDef::new)
+                .orElseGet(() -> Stream
+                        .of(parameter, method)
+                        .filter(Objects::nonNull)
+                        .map(elem -> elem.getAnnotation(ConfigProperty.class))
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .map(ConfigPropertyDef::new)
+                        .orElse(null)
+                );
 
         return parseParameter(
                 parameter,
@@ -57,7 +98,7 @@ class ParameterParser {
     private Optional<MappableParameter> parseParameter(
             Parameter parameter,
             Class<?> parameterClass,
-            EasyConfigProperty propertyAnnotation,
+            ConfigPropertyDef propertyDef,
             Method method
     ) {
         if (
@@ -69,7 +110,7 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Primitive,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             Boolean::parseBoolean,
                             mapper
                     )
@@ -84,14 +125,14 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Primitive,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             str -> {
                                 try {
                                     return Long.parseLong(str, 10);
                                 }
                                 catch (NumberFormatException e) {
                                     throw new InternalMappingException(
-                                            "Could not parse " + propertyAnnotation.value(),
+                                            "Could not parse " + propertyDef.getValue(),
                                             e
                                     );
                                 }
@@ -109,14 +150,14 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Primitive,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             str -> {
                                 try {
                                     return Float.parseFloat(str);
                                 }
                                 catch (NumberFormatException e) {
                                     throw new InternalMappingException(
-                                            "Could not parse " + propertyAnnotation.value(),
+                                            "Could not parse " + propertyDef.getValue(),
                                             e
                                     );
                                 }
@@ -134,14 +175,14 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Primitive,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             str -> {
                                 try {
                                     return Double.parseDouble(str);
                                 }
                                 catch (NumberFormatException e) {
                                     throw new InternalMappingException(
-                                            "Could not parse " + propertyAnnotation.value(),
+                                            "Could not parse " + propertyDef.getValue(),
                                             e
                                     );
                                 }
@@ -156,7 +197,7 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Primitive,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             str -> str,
                             mapper
                     )
@@ -171,14 +212,14 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Primitive,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             str -> {
                                 try {
                                     return Integer.parseInt(str, 10);
                                 }
                                 catch (NumberFormatException e) {
                                     throw new InternalMappingException(
-                                            "Could not parse " + propertyAnnotation.value(),
+                                            "Could not parse " + propertyDef.getValue(),
                                             e
                                     );
                                 }
@@ -201,7 +242,7 @@ class ParameterParser {
                             method,
                             MappableParameter.Kind.Nested,
                             parameterClass,
-                            propertyAnnotation,
+                            propertyDef,
                             mapper
                     )
             );
@@ -221,9 +262,9 @@ class ParameterParser {
 
             if (listNestingApplicable) {
                 // Check if placeholder is present
-                if (!propertyAnnotation.value().contains("{}")) {
-                    throw new RuntimeException(
-                            "Missing index placeholder {} in " + propertyAnnotation.value()
+                if (!propertyDef.getValue().contains("{}")) {
+                    throw new IllegalArgumentException(
+                            "Missing index placeholder {} in " + propertyDef.getValue()
                     );
                 }
 
@@ -232,25 +273,25 @@ class ParameterParser {
                                 method,
                                 MappableParameter.Kind.NestedList,
                                 klass,
-                                propertyAnnotation,
+                                propertyDef,
                                 mapper
                         )
                 );
             }
             else {
-                return parseParameter(null, klass, propertyAnnotation, method)
+                return parseParameter(null, klass, propertyDef, method)
                         .map(mappable -> new MappableParameter(
                                 method,
                                 MappableParameter.Kind.PrimitiveList,
                                 klass,
-                                propertyAnnotation,
+                                propertyDef,
                                 str -> {
                                     if (str.length() == 0) {
                                         return Collections.emptyList();
                                     }
                                     List<Object> list = new ArrayList<>();
                                     String[] subStrings = str.split(
-                                            propertyAnnotation.listDelimiter()
+                                            propertyDef.getListDelimiter()
                                     );
                                     for (String subString : subStrings) {
                                         list.add(mappable.getMapper().apply(subString));

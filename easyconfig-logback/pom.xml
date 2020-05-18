@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>easyconfig-core</artifactId>
+    <artifactId>easyconfig-logback</artifactId>
 
     <parent>
         <groupId>fi.jubic</groupId>
@@ -16,24 +16,28 @@
         <repository>
             <id>bintray-jubicoy-maven</id>
             <name>jubicoy-maven</name>
-            <url>https://api.bintray.com/maven/jubicoy/maven/easyconfig-core/;publish=1</url>
+            <url>https://api.bintray.com/maven/jubicoy/maven/easyconfig-logback/;publish=1</url>
         </repository>
     </distributionManagement>
 
     <dependencies>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
+            <groupId>fi.jubic</groupId>
+            <artifactId>easyconfig-core</artifactId>
+            <version>0.5.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>java-dotenv</artifactId>
-            <version>5.2.1</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.28</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -44,5 +48,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 </project>

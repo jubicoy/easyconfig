@@ -1,6 +1,5 @@
 package fi.jubic.easyconfig;
 
-import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +39,6 @@ class ParsePrimitivesTest {
         assertEquals("qwerty", config.string);
     }
 
-    @EasyConfig
     static class DefaultConstructorTestConfig {
         private boolean bool1;
         private Boolean bool2;

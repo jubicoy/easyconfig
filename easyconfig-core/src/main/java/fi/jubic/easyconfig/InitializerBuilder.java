@@ -1,11 +1,14 @@
 package fi.jubic.easyconfig;
 
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 import fi.jubic.easyconfig.annotations.EasyConfig;
 import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.EnvProviderProperty;
 
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -45,9 +48,14 @@ class InitializerBuilder {
                         (java.lang.reflect.Constructor<T>)constructor,
                         Stream.of(klass.getMethods())
                                 .filter(
-                                        method -> method.getAnnotation(
-                                                EasyConfigProperty.class
-                                        ) != null
+                                        method -> Stream
+                                                .of(
+                                                        ConfigProperty.class,
+                                                        EasyConfigProperty.class,
+                                                        EnvProviderProperty.class
+                                                )
+                                                .map(method::getAnnotation)
+                                                .anyMatch(Objects::nonNull)
                                 )
                                 .filter(method -> method.getReturnType() != null)
                                 .filter(method -> method.getParameterCount() == 1)
@@ -66,9 +74,14 @@ class InitializerBuilder {
                 .filter(construct -> construct.getParameterCount() > 0)
                 .filter(construct -> Stream.of(construct.getParameters())
                         .allMatch(
-                                parameter -> parameter.getAnnotation(
-                                        EasyConfigProperty.class
-                                ) != null
+                                parameter -> Stream
+                                        .of(
+                                                ConfigProperty.class,
+                                                EasyConfigProperty.class,
+                                                EnvProviderProperty.class
+                                        )
+                                        .map(parameter::getAnnotation)
+                                        .anyMatch(Objects::nonNull)
                         )
                 )
                 .max(Comparator.comparing(java.lang.reflect.Constructor::getParameterCount))
@@ -124,9 +137,14 @@ class InitializerBuilder {
                         buildMethod.get(),
                         Stream.of(easyConfig.builder().getMethods())
                                 .filter(
-                                        method -> method.getAnnotation(
-                                                EasyConfigProperty.class
-                                        ) != null
+                                        method -> Stream
+                                                .of(
+                                                        ConfigProperty.class,
+                                                        EasyConfigProperty.class,
+                                                        EnvProviderProperty.class
+                                                )
+                                                .map(method::getAnnotation)
+                                                .anyMatch(Objects::nonNull)
                                 )
                                 .filter(method -> method.getReturnType() == easyConfig.builder())
                                 .filter(method -> method.getParameterCount() == 1)

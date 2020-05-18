@@ -203,6 +203,7 @@
     <modules>
         <module>easyconfig-core</module>
         <module>easyconfig-jooq</module>
+        <module>easyconfig-logback</module>
         <module>easyconfig-snoozy</module>
     </modules>
 </project>

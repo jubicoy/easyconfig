@@ -1,10 +1,14 @@
 package fi.jubic.easyconfig;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * A {@link Map}-backed provider for testing purposes.
+ */
 public class StaticEnvProvider extends EnvProvider {
     private final Map<String, String> varMap;
 
@@ -47,5 +51,10 @@ public class StaticEnvProvider extends EnvProvider {
     @Override
     protected Stream<String> getNames() {
         return varMap.keySet().stream();
+    }
+
+    @Override
+    public Map<String, String> getVariables() {
+        return Collections.unmodifiableMap(varMap);
     }
 }
