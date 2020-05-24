@@ -1,8 +1,11 @@
 package fi.jubic.easyconfig;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+/**
+ * Exception describing mapping errors.
+ *
+ * @deprecated Replaced by {@link IllegalArgumentException}
+ */
+@Deprecated
 public class MappingException extends Exception {
     public MappingException() {
         super();
@@ -29,26 +32,4 @@ public class MappingException extends Exception {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    static MappingException from(InternalMappingException exception) {
-        return new MappingException(
-                flattenNestedExceptions(exception)
-                        .map(InternalMappingException::getMessage)
-                        .collect(Collectors.joining("\n"))
-                        + "\n",
-                exception
-        );
-    }
-
-    private static Stream<InternalMappingException> flattenNestedExceptions(
-            InternalMappingException exception
-    ) {
-        if (exception.getNestedExceptions().isEmpty()) {
-            return Stream.of(exception);
-        }
-        return exception.getNestedExceptions()
-                .stream()
-                .flatMap(
-                        MappingException::flattenNestedExceptions
-                );
-    }
 }

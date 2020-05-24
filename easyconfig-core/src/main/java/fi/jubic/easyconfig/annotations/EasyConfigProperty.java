@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
  *
  * @deprecated Use {@link ConfigProperty} instead.
  */
+@SuppressWarnings("DeprecatedIsStillUsed")
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Deprecated

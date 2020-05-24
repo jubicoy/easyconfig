@@ -1,11 +1,11 @@
 package fi.jubic.easyconfig.jooq;
 
 import fi.jubic.easyconfig.ConfigMapper;
-import fi.jubic.easyconfig.EnvProvider;
-import fi.jubic.easyconfig.MappingException;
-import fi.jubic.easyconfig.StaticEnvProvider;
+import fi.jubic.easyconfig.jdbc.JdbcConfiguration;
 import fi.jubic.easyconfig.jooq.db.tables.User;
 import fi.jubic.easyconfig.jooq.db.tables.records.UserRecord;
+import fi.jubic.easyconfig.providers.EnvProvider;
+import fi.jubic.easyconfig.providers.StaticEnvProvider;
 import org.h2.jdbc.JdbcSQLException;
 import org.h2.jdbc.JdbcSQLSyntaxErrorException;
 import org.jooq.Configuration;
@@ -21,13 +21,13 @@ class H2SmokeTest {
     private Configuration configuration;
 
     @BeforeEach
-    void setup() throws MappingException, SQLException {
+    void setup() throws SQLException {
         JooqConfiguration jooqConfiguration = new ConfigMapper(envProvider)
                 .read(JooqConfiguration.class);
         configuration = jooqConfiguration.getConfiguration();
 
         jooqConfiguration.withConnection(
-                connection -> {
+                (JdbcConfiguration.ConnectionConsumer)connection -> {
                     try {
                         connection.createStatement()
                                 .execute("DROP TABLE USER");
@@ -37,8 +37,6 @@ class H2SmokeTest {
 
                     connection.createStatement()
                             .execute("CREATE TABLE USER (ID INT, NAME VARCHAR(50));");
-
-                    return null;
                 }
         );
     }
