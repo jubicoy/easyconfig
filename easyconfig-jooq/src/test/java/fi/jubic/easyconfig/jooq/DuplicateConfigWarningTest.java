@@ -3,9 +3,9 @@ package fi.jubic.easyconfig.jooq;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import fi.jubic.easyconfig.ConfigMapper;
-import fi.jubic.easyconfig.EnvProvider;
-import fi.jubic.easyconfig.MappingException;
-import fi.jubic.easyconfig.StaticEnvProvider;
+import fi.jubic.easyconfig.jdbc.PooledJdbcConfiguration;
+import fi.jubic.easyconfig.providers.EnvProvider;
+import fi.jubic.easyconfig.providers.StaticEnvProvider;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DuplicateConfigWarningTest {
     @Test
-    void warnAboutDuplicateConfigs() throws MappingException {
+    void warnAboutDuplicateConfigs() {
         ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory
-                .getLogger(JooqConfiguration.class);
+                .getLogger(PooledJdbcConfiguration.class);
 
         TestAppender appender = new TestAppender();
         appender.setContext(logger.getLoggerContext());

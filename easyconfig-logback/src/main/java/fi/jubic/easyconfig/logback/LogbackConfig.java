@@ -7,9 +7,9 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.util.ContextInitializer;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.joran.spi.JoranException;
-import fi.jubic.easyconfig.EnvProvider;
 import fi.jubic.easyconfig.annotations.ConfigProperty;
 import fi.jubic.easyconfig.annotations.EnvProviderProperty;
+import fi.jubic.easyconfig.providers.EnvProvider;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
@@ -25,10 +25,13 @@ import java.util.stream.StreamSupport;
 public class LogbackConfig {
     public LogbackConfig(
             @EnvProviderProperty EnvProvider envProvider,
-            @ConfigProperty(value = "LOGBACK_ROOT_", defaultValue = "")
-                    LoggerDefinition root,
-            @ConfigProperty(value = "LOGBACK_LOGGER_{}_", defaultValue = "")
-                    List<NamedLoggerDefinition> loggers
+            @ConfigProperty(
+                    value = "LOGBACK_ROOT_"
+            ) LoggerDefinition root,
+            @ConfigProperty(
+                    value = "LOGBACK_LOGGER_{}_",
+                    defaultValue = ""
+            ) List<NamedLoggerDefinition> loggers
     ) {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
@@ -73,7 +76,7 @@ public class LogbackConfig {
             Map<String, Appender<ILoggingEvent>> appenderMap
     ) {
         loggerDefinition.getLevel().ifPresent(logger::setLevel);
-        logger.setAdditive(loggerDefinition.isAdditive());
+        loggerDefinition.isAdditive().ifPresent(logger::setAdditive);
 
         Set<String> attachedAppenderNames = getAppenderNames(logger);
         appenderMap.forEach((name, appender) -> {

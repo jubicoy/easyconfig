@@ -8,32 +8,38 @@ import java.util.Optional;
 
 public class LoggerDefinition {
     private final Level level;
-    private final boolean additive;
+    private final Boolean additive;
     private final List<String> appenderRefs;
 
     public LoggerDefinition(
-            @ConfigProperty(value = "LEVEL", defaultValue = "") String level,
-            @ConfigProperty(value = "ADDITIVE", defaultValue = "true")
-                    boolean additive,
+            @ConfigProperty(
+                    value = "LEVEL",
+                    nullable = true
+            ) String levelStr,
+            @ConfigProperty(
+                    value = "ADDITIVE",
+                    nullable = true
+            ) Boolean additive,
             @ConfigProperty(
                     value = "APPENDER_REFS",
                     defaultValue = ""
             ) List<String> appenderRefs
     ) {
-        if (level.length() == 0) {
-            this.level = null;
-        }
-        else {
-            this.level = Level.valueOf(level);
-            if (!this.level.levelStr.equals(level)) {
-                throw new IllegalArgumentException(
-                        String.format(
-                                "Invalid log level %s",
-                                level
-                        )
-                );
-            }
-        }
+        this.level = Optional.ofNullable(levelStr)
+                .filter(level -> level.length() > 0)
+                .map(level -> {
+                    Level parsedLevel = Level.valueOf(level);
+                    if (!level.equals(parsedLevel.toString())) {
+                        throw new IllegalArgumentException(
+                                String.format(
+                                        "Invalid log level %s",
+                                        level
+                                )
+                        );
+                    }
+                    return parsedLevel;
+                })
+                .orElse(null);
 
         this.additive = additive;
         this.appenderRefs = appenderRefs;
@@ -43,8 +49,8 @@ public class LoggerDefinition {
         return Optional.ofNullable(level);
     }
 
-    public boolean isAdditive() {
-        return additive;
+    public Optional<Boolean> isAdditive() {
+        return Optional.ofNullable(additive);
     }
 
     public List<String> getAppenderRefs() {

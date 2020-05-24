@@ -1,9 +1,8 @@
 package fi.jubic.easyconfig.snoozy;
 
 import fi.jubic.easyconfig.ConfigMapper;
-import fi.jubic.easyconfig.EnvProvider;
-import fi.jubic.easyconfig.MappingException;
-import fi.jubic.easyconfig.StaticEnvProvider;
+import fi.jubic.easyconfig.providers.EnvProvider;
+import fi.jubic.easyconfig.providers.StaticEnvProvider;
 import fi.jubic.snoozy.MultipartConfig;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MultipartDefaultsTest {
     @Test
-    void testProvidedValuesPreferred() throws MappingException {
+    void testProvidedValuesPreferred() {
         EnvProvider envProvider = new StaticEnvProvider()
                 .with("CACHE_LOCATION", "/tmp/snoozy")
                 .with("MAX_FILE_SIZE", "1024")
@@ -28,7 +27,7 @@ class MultipartDefaultsTest {
     }
 
     @Test
-    void testFallbackToDefaults() throws MappingException {
+    void testFallbackToDefaults() {
         EnvProvider envProvider = new StaticEnvProvider();
 
         MultipartConfig multipartConfig = new ConfigMapper(envProvider)

@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres poorly to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Annotation-based `ConfigExtension` concept.
+- `LiquibaseExtension` for running migrations after configuration.
+- `DbUnitExtension` for loading dev datasets.
+- `nullable` property for marking config properties as nullable. Can be used only with object representations of primitive values (`Boolean`, `Integer`, `Long`, `Float`, `Double`) and `String`.
+
+### Changed
+- Improved error reporting. The reporting is now clearly split into distinct initializer parsing and initialization phases to allow more fine grained-error reporting.
+- Throw `IllegalArgumentException`s instead of dedicated `MappingException`s.
+- Split the core JDBC configuration into a separate module.
+
+### Deprecated
+- `MappingException` is not thrown by any method anymore.
+- `SqlDatabaseConfig` should not be used anymore. `JdbcConfiguration` extends the deprecated implementation for now.
 
 ## [0.6.0] - 2020-05-18
 ### Added
@@ -66,7 +80,7 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [0.1.10] - 2019-06-03
 ### Security
-- Update depedencies.
+- Update dependencies.
 
 ## [0.1.9] - 2019-05-24
 ### Added

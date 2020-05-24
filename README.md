@@ -21,10 +21,8 @@ Define a constructor and annotate parameters using `@EasyConfigProperty`. Defaul
 ```java
 package example;
 
-import fi.jubic.easyconfig.annotations.EasyConfig;
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 
-@EasyConfig
 public class ServerConfig {
     private final String host;
     private final int port;
@@ -34,7 +32,7 @@ public class ServerConfig {
                     value = "SERVER_PORT",
                     defaultValue = "0.0.0.0"
             ) String host,
-            @EasyConfigProperty("SERVER_PORT") int port
+            @ConfigProperty("SERVER_PORT") int port
     ) {
         this.host = host;
         this.port = port;
@@ -51,10 +49,8 @@ Parameter injection can also be accomplished using default constructor and annot
 ```java
 package example;
 
-import fi.jubic.easyconfig.annotations.EasyConfig;
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 
-@EasyConfig
 public class ServerConfig {
     private String host;
     private int port;
@@ -63,7 +59,7 @@ public class ServerConfig {
 
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "SERVER_HOST",
             defaultValue = "0.0.0.0"
     )
@@ -71,7 +67,7 @@ public class ServerConfig {
         this.host = host;
     }
 
-    @EasyConfigProperty(value = "SERVER_PORT", defaultValue = "8080")
+    @ConfigProperty(value = "SERVER_PORT", defaultValue = "8080")
     public void setPort(int port) {
         this.port = port;
     }
@@ -85,11 +81,7 @@ public class ServerConfig {
 Once an annotated class has been defined properties can be injected as shown below. A custom `EnvProvider` can be passed to `ConfigMapper` for testing purposes. However, the configuration object can usually be initialized through the default constructor without much effort.
 
 ```java
-try {
-    ServerConfig serverConfig = new ConfigMapper().read(ServerConfig.class);
-} catch (MappingException e) {
-    e.printStackTrace();
-}
+ServerConfig serverConfig = new ConfigMapper().read(ServerConfig.class);
 ```
 
 ### Nested configuration
@@ -99,10 +91,8 @@ The child configuration is annotated as per usual.
 ```java
 package example;
 
-import fi.jubic.easyconfig.annotations.EasyConfig;
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 
-@EasyConfig
 public class ServerConfig {
     private String host;
     private int port;
@@ -111,7 +101,7 @@ public class ServerConfig {
 
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "HOST",
             defaultValue = "0.0.0.0"
     )
@@ -119,7 +109,10 @@ public class ServerConfig {
         this.host = host;
     }
 
-    @EasyConfigProperty(value = "PORT", defaultValue = "8080")
+    @ConfigProperty(
+            value = "PORT",
+            defaultValue = "8080"
+    )
     public void setPort(int port) {
         this.port = port;
     }
@@ -128,10 +121,13 @@ public class ServerConfig {
 }
 ```
 
-Parent config has the child config as a property. Setter or constructor parameter is annotated using `EasyConfigProperty` with an optional prefix. In this case the injected variables are `SERVER_HOST` and `SERVER_PORT`. Without the prefix `HOST` and `PORT` would be injected instead.
+Parent config has the child config as a property. Setter or constructor parameter is annotated using `ConfigProperty` with an optional prefix. In this case the injected variables are `SERVER_HOST` and `SERVER_PORT`. Without the prefix `HOST` and `PORT` would be injected instead.
 
 ```java
-@EasyConfig
+package example;
+
+import fi.jubic.easyconfig.annotations.ConfigProperty;
+
 public class AppConfig {
     private ServerConfig serverConfig;
 
@@ -139,7 +135,7 @@ public class AppConfig {
 
     }
 
-    @EasyConfigProperty("SERVER_")
+    @ConfigProperty("SERVER_")
     public void setServerConfig(ServerConfig serverConfig) {
         this.serverConfig = serverConfig;
     }
@@ -154,7 +150,7 @@ Lists of primitive values (strings, integers, etc.) can be injected as a semicol
 package example;
 
 
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 import java.util.List;
 
 public class Configuration {
@@ -163,13 +159,13 @@ public class Configuration {
     private List<Integer> anotherIntList;
 
     // "1;2;3;4"
-    @EasyConfigProperty("INT_LIST")
+    @ConfigProperty("INT_LIST")
     public void setIntList(List<Integer> intList) {
         this.intList = intList;
     }
 
     // Default used if env variable is missing
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "STRING_LIST_WITH_DEFAULT",
             defaultValue = "a;b;c;d"
     )
@@ -178,7 +174,7 @@ public class Configuration {
     }
 
     // Custom delimiter, "1,2,3,4"
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "ANOTHER_INT_LIST",
             listDelimiter = ","
     )
@@ -195,15 +191,15 @@ A configuration can contain a list of configurations as a property. Any regular 
 ```java
 package example;
 
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 
 public class FtpConfig {
     final String host;
     final int port;
 
     public FtpConfig(
-            @EasyConfigProperty("HOST") String host,
-            @EasyConfigProperty("PORT") int port
+            @ConfigProperty("HOST") String host,
+            @ConfigProperty("PORT") int port
     ) {
         this.host = host;
         this.port = port;
@@ -211,19 +207,19 @@ public class FtpConfig {
 }
 ```
 
-Containing config uses `{}` as a placeholder element in the `@EasyConfigProperty` value to tell the `ConfigMapper` that this value is read in as a list.
+Containing config uses `{}` as a placeholder element in the `@ConfigProperty` value to tell the `ConfigMapper` that this value is read in as a list.
 
 ```java
 package example;
 
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 import java.util.List;
 
 public class AppConfig {
     final List<FtpConfig> ftpConfigs;
 
     public AppConfig(
-            @EasyConfigProperty("FTP_{}_") List<FtpConfig> ftpConfigs
+            @ConfigProperty("FTP_{}_") List<FtpConfig> ftpConfigs
     ) {
         this.ftpConfigs = ftpConfigs;
     }
@@ -232,7 +228,7 @@ public class AppConfig {
 
 Now a list of `FtpConfig` instances can be defined like this:
 
-```
+```bash
 FTP_0_HOST=localhost
 FTP_0_PORT=21
 FTP_2_HOST=otherhost
@@ -240,6 +236,89 @@ FTP_2_PORT=21
 ```
 
 The numbers provided for the placeholder do not have to be sequential as long as there are no duplicates.
+
+## Configuration Extensions
+
+Any configuration object can be extended using `ConfigExtension` annotations. For example, the below configuration uses `LiquibaseExtension` to run migrations on the database connection provided by the `PooledJdbcConfiguration`.
+
+```java
+package example;
+
+import fi.jubic.easyconfig.annotations.ConfigProperty;
+import fi.jubic.easyconfig.extensions.LiquibaseExtension;
+
+public class AppConfig {
+    private final JdbcConfiguration jdbcConfig;
+
+    public AppConfig(
+            @LiquibaseExtension("migrations.xml")
+            @ConfigProperty("") PooledJdbcConfiguration jdbcConfig
+    ) {
+        this.jdbcConfig = jdbcConfig;
+    }
+}
+```
+
+The extension are defined as a `ConfigExtension` annotated extension annotation and a `ConfigExtensionProvider` class.
+
+```java
+package example;
+
+import fi.jubic.easyconfig.extensions.ConfigExtension;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+/**
+ * The annotation used to extend config properties. The provider that should be
+ * used to provide this extension is defined using the ConfigExtension annotation.
+ * 
+ */
+@ConfigExtension(CustomExtensionProvider.class)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CustomExtension {
+    /**
+     * Non-configurable parameters used by the extension.
+     */
+    String customParam();
+}
+```
+
+The provider will perform the actual extension operation.
+
+```java
+package example;
+
+import fi.jubic.easyconfig.annotations.ConfigProperty;
+import fi.jubic.easyconfig.extensions.ConfigExtensionProvider;
+import fi.jubic.easyconfig.extensions.CustomExtension;
+import fi.jubic.easyconfig.jdbc.JdbcConfiguration;
+
+import java.sql.SQLException;
+import java.util.Optional;
+
+public class CustomExtensionProvider
+        implements ConfigExtensionProvider<CustomExtension, JdbcConfiguration> {
+    private final boolean configurableProperty;
+
+    public CustomExtensionProvider(
+            @ConfigProperty(value = "CONFIG_PROP") boolean configurableProperty
+    ) {
+        this.configurableProperty = configurableProperty;
+    }
+
+    @Override
+    public JdbcConfiguration extend(
+            CustomExtension extensionParams,
+            JdbcConfiguration configuration
+    ) {
+        // The extension provider can perform actions on the extended
+        // or wrap it into, for example, a wrapper that logs interactions
+        // against the config.
+    }
+}
+```
+
 
 ## Dotenv support
 

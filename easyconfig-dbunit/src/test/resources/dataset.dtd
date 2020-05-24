@@ -1,0 +1,17 @@
+<!ELEMENT dataset (
+        user*,
+        message*
+        )>
+
+<!ELEMENT user EMPTY>
+<!ATTLIST user
+        id CDATA #REQUIRED
+        name CDATA #REQUIRED
+        >
+
+<!ELEMENT message EMPTY>
+<!ATTLIST message
+        id CDATA #REQUIRED
+        user_id CDATA #REQUIRED
+        text CDATA #REQUIRED
+        >

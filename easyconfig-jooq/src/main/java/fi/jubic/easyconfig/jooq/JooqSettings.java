@@ -1,6 +1,6 @@
 package fi.jubic.easyconfig.jooq;
 
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
 import org.jooq.conf.BackslashEscaping;
 import org.jooq.conf.ExecuteWithoutWhere;
 import org.jooq.conf.ParamCastMode;
@@ -16,7 +16,7 @@ import org.jooq.conf.ThrowExceptions;
 
 public class JooqSettings extends Settings {
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_CATALOG",
             defaultValue = "true"
     )
@@ -25,7 +25,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_SCHEMA",
             defaultValue = "true"
     )
@@ -35,7 +35,7 @@ public class JooqSettings extends Settings {
 
     // setRenderMapping
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_NAME_STYLE",
             defaultValue = "QUOTED"
     )
@@ -43,7 +43,7 @@ public class JooqSettings extends Settings {
         super.setRenderNameStyle(RenderNameStyle.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_KEYWORD_STYLE",
             defaultValue = "AS_IS"
     )
@@ -52,7 +52,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_FORMATTED",
             defaultValue = "false"
     )
@@ -63,7 +63,7 @@ public class JooqSettings extends Settings {
     // setRenderFormatting
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_SCALAR_SUBQUERIES_FOR_STORED_FUNCTIONS",
             defaultValue = "false"
     )
@@ -72,7 +72,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RENDER_ORDER_BY_ROWNUMBER_FOR_EMULATED_PAGINATION",
             defaultValue = "true"
     )
@@ -80,7 +80,7 @@ public class JooqSettings extends Settings {
         super.setRenderOrderByRownumberForEmulatedPagination(value);
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "BACKSLASH_ESCAPING",
             defaultValue = "DEFAULT"
     )
@@ -88,7 +88,7 @@ public class JooqSettings extends Settings {
         super.setBackslashEscaping(BackslashEscaping.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "PARAM_TYPE",
             defaultValue = "INDEXED"
     )
@@ -96,7 +96,7 @@ public class JooqSettings extends Settings {
         super.setParamType(ParamType.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "PARAM_CAST_MODE",
             defaultValue = "DEFAULT"
     )
@@ -104,7 +104,7 @@ public class JooqSettings extends Settings {
         super.setParamCastMode(ParamCastMode.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "STATEMENT_TYPE",
             defaultValue = "PREPARED_STATEMENT"
     )
@@ -113,7 +113,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "EXECUTE_LOGGING",
             defaultValue = "true"
     )
@@ -122,7 +122,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "EXECUTE_WITH_OPTIMISTIC_LOCKING",
             defaultValue = "false"
     )
@@ -131,7 +131,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "EXECUTE_WITH_OPTIMISTIC_LOCKING_EXCLUDE_UNVERSIONED",
             defaultValue = "false"
     )
@@ -140,7 +140,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "ATTACH_RECORDS",
             defaultValue = "true"
     )
@@ -149,7 +149,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "UPDATABLE_PRIMARY_KEYS",
             defaultValue = "false"
     )
@@ -158,7 +158,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "REFLECTION_CACHING",
             defaultValue = "true"
     )
@@ -167,7 +167,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "CACHE_RECORD_MAPPERS",
             defaultValue = "true"
     )
@@ -175,7 +175,7 @@ public class JooqSettings extends Settings {
         super.setCacheRecordMappers(value);
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "THROW_EXCEPTIONS",
             defaultValue = "THROW_ALL"
     )
@@ -184,7 +184,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "FETCH_WARNINGS",
             defaultValue = "true"
     )
@@ -193,7 +193,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "FETCH_SERVER_OUTPUT_SIZE",
             defaultValue = "0"
     )
@@ -202,7 +202,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RETURN_ALL_ON_UPDATABLE_RECORD",
             defaultValue = "false"
     )
@@ -211,7 +211,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "RETURN_RECORD_TO_POJO",
             defaultValue = "true"
     )
@@ -220,7 +220,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "MAP_JPA_ANNOTATIONS",
             defaultValue = "true"
     )
@@ -229,7 +229,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "MAP_CONSTRUCTOR_PARAMETER_NAMES",
             defaultValue = "false"
     )
@@ -238,7 +238,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "QUERY_TIMEOUT",
             defaultValue = "0"
     )
@@ -247,7 +247,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "MAX_ROWS",
             defaultValue = "0"
     )
@@ -256,7 +256,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "FETCH_SIZE",
             defaultValue = "0"
     )
@@ -265,7 +265,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "DEBUG_INFO_ON_STACK_TRACE",
             defaultValue = "true"
     )
@@ -274,7 +274,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "IN_LIST_PADDING",
             defaultValue = "false"
     )
@@ -283,7 +283,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "IN_LIST_PAD_BASE",
             defaultValue = "2"
     )
@@ -292,7 +292,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "DELIMITER",
             defaultValue = ";"
     )
@@ -301,7 +301,7 @@ public class JooqSettings extends Settings {
     }
 
     @Override
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "EMULATE_ON_DUPLICATE_KEY_UPDATE_ON_PRIMARY_KEY_ONLY",
             defaultValue = "false"
     )
@@ -309,7 +309,7 @@ public class JooqSettings extends Settings {
         super.setEmulateOnDuplicateKeyUpdateOnPrimaryKeyOnly(value);
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "EXECUTE_UPDATE_WITHOUT_WHERE",
             defaultValue = "LOG_DEBUG"
     )
@@ -317,7 +317,7 @@ public class JooqSettings extends Settings {
         super.setExecuteUpdateWithoutWhere(ExecuteWithoutWhere.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "EXECUTE_DELETE_WITHOUT_WHERE",
             defaultValue = "LOG_DEBUG"
     )
@@ -325,7 +325,7 @@ public class JooqSettings extends Settings {
         super.setExecuteDeleteWithoutWhere(ExecuteWithoutWhere.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "PARSE_WITH_META_LOOKUPS",
             defaultValue = "IGNORE_ON_FAILURE"
     )
@@ -333,7 +333,7 @@ public class JooqSettings extends Settings {
         super.setParseWithMetaLookups(ParseWithMetaLookups.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "PARSE_UNSUPPORTED_SYNTAX",
             defaultValue = "IGNORE"
     )
@@ -341,7 +341,7 @@ public class JooqSettings extends Settings {
         super.setParseUnsupportedSyntax(ParseUnsupportedSyntax.fromValue(value));
     }
 
-    @EasyConfigProperty(
+    @ConfigProperty(
             value = "PARSE_UNKNOWN_FUNCTIONS",
             defaultValue = "FAIL"
     )

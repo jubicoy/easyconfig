@@ -5,8 +5,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import fi.jubic.easyconfig.ConfigMapper;
-import fi.jubic.easyconfig.MappingException;
-import fi.jubic.easyconfig.StaticEnvProvider;
+import fi.jubic.easyconfig.providers.StaticEnvProvider;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LoggerDefTest {
     @Test
-    void shouldProvideNonSystemEnvironmentVariablesToConfig() throws MappingException {
+    void shouldProvideNonSystemEnvironmentVariablesToConfig() {
         {
             new ConfigMapper(new StaticEnvProvider()).read(LogbackConfig.class);
 
@@ -38,7 +37,7 @@ class LoggerDefTest {
     }
 
     @Test
-    void shouldAddNewLoggerWithCustomAppender() throws MappingException {
+    void shouldAddNewLoggerWithCustomAppender() {
         new ConfigMapper(
                 new StaticEnvProvider()
                         .with("LOGBACK_LOGGER_0_NAME", "added")
@@ -62,7 +61,7 @@ class LoggerDefTest {
     }
 
     @Test
-    void shouldAllowChangingRootLogLevel() throws MappingException {
+    void shouldAllowChangingRootLogLevel() {
         {
             Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
             assertEquals(Level.WARN, logger.getLevel());
@@ -79,7 +78,7 @@ class LoggerDefTest {
     }
 
     @Test
-    void shouldAllowChangingNamedLoggerLogLevel() throws MappingException {
+    void shouldAllowChangingNamedLoggerLogLevel() {
         {
             Logger logger = (Logger) LoggerFactory.getLogger("logger-a");
             assertEquals(Level.WARN, logger.getLevel());

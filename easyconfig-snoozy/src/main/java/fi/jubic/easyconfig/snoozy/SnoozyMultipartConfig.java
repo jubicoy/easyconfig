@@ -1,9 +1,8 @@
 package fi.jubic.easyconfig.snoozy;
 
 import fi.jubic.easyconfig.ConfigMapper;
-import fi.jubic.easyconfig.MappingException;
-import fi.jubic.easyconfig.StaticEnvProvider;
-import fi.jubic.easyconfig.annotations.EasyConfigProperty;
+import fi.jubic.easyconfig.annotations.ConfigProperty;
+import fi.jubic.easyconfig.providers.StaticEnvProvider;
 import fi.jubic.snoozy.MultipartConfig;
 
 public class SnoozyMultipartConfig implements MultipartConfig {
@@ -16,37 +15,32 @@ public class SnoozyMultipartConfig implements MultipartConfig {
      * Initialize with defaults.
      */
     public SnoozyMultipartConfig() {
-        try {
-            SnoozyMultipartConfig defaults = new ConfigMapper(new StaticEnvProvider())
-                    .read(SnoozyMultipartConfig.class);
+        SnoozyMultipartConfig defaults = new ConfigMapper(new StaticEnvProvider())
+                .read(SnoozyMultipartConfig.class);
 
-            this.cacheLocation = defaults.cacheLocation;
-            this.maxFileSize = defaults.maxFileSize;
-            this.maxRequestSize = defaults.maxRequestSize;
-            this.sizeThreshold = defaults.sizeThreshold;
-        }
-        catch (MappingException exception) {
-            throw new RuntimeException(exception);
-        }
+        this.cacheLocation = defaults.cacheLocation;
+        this.maxFileSize = defaults.maxFileSize;
+        this.maxRequestSize = defaults.maxRequestSize;
+        this.sizeThreshold = defaults.sizeThreshold;
     }
 
     /**
      * Constructor used for injection.
      */
     public SnoozyMultipartConfig(
-            @EasyConfigProperty(
+            @ConfigProperty(
                     value = "CACHE_LOCATION",
                     defaultValue = ""
             ) String cacheLocation,
-            @EasyConfigProperty(
+            @ConfigProperty(
                     value = "MAX_FILE_SIZE",
                     defaultValue = "-1"
             ) long maxFileSize,
-            @EasyConfigProperty(
+            @ConfigProperty(
                     value = "MAX_REQUEST_SIZE",
                     defaultValue = "-1"
             ) long maxRequestSize,
-            @EasyConfigProperty(
+            @ConfigProperty(
                     value = "SIZE_THRESHOLD",
                     defaultValue = "-1"
             ) int sizeThreshold
