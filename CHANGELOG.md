@@ -15,6 +15,7 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 - Improved error reporting. The reporting is now clearly split into distinct initializer parsing and initialization phases to allow more fine grained-error reporting.
 - Throw `IllegalArgumentException`s instead of dedicated `MappingException`s.
 - Split the core JDBC configuration into a separate module.
+- Renamed `LogbackConfig` to `LogbackConfiguration` to keep the naming scheme consistent.
 
 ### Deprecated
 - `MappingException` is not thrown by any method anymore.

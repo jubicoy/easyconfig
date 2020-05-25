@@ -20,7 +20,7 @@ class LoggerDefTest {
     @Test
     void shouldProvideNonSystemEnvironmentVariablesToConfig() {
         {
-            new ConfigMapper(new StaticEnvProvider()).read(LogbackConfig.class);
+            new ConfigMapper(new StaticEnvProvider()).read(LogbackConfiguration.class);
 
             Logger logger = (Logger) LoggerFactory.getLogger("logger-b");
             assertEquals(logger.getLevel(), Level.INFO);
@@ -29,7 +29,7 @@ class LoggerDefTest {
         {
             new ConfigMapper(
                     new StaticEnvProvider().with("EXTERNAL_LEVEL", "DEBUG")
-            ).read(LogbackConfig.class);
+            ).read(LogbackConfiguration.class);
 
             Logger logger = (Logger) LoggerFactory.getLogger("logger-b");
             assertEquals(logger.getLevel(), Level.DEBUG);
@@ -43,7 +43,7 @@ class LoggerDefTest {
                         .with("LOGBACK_LOGGER_0_NAME", "added")
                         .with("LOGBACK_LOGGER_0_LEVEL", "DEBUG")
                         .with("LOGBACK_LOGGER_0_APPENDER_REFS", "STDOUT;custom")
-        ).read(LogbackConfig.class);
+        ).read(LogbackConfiguration.class);
 
         Logger logger = (Logger) LoggerFactory.getLogger("added");
         assertEquals(Level.DEBUG, logger.getLevel());
@@ -69,7 +69,7 @@ class LoggerDefTest {
 
         new ConfigMapper(
                 new StaticEnvProvider().with("LOGBACK_ROOT_LEVEL", "DEBUG")
-        ).read(LogbackConfig.class);
+        ).read(LogbackConfiguration.class);
 
         {
             Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
@@ -88,7 +88,7 @@ class LoggerDefTest {
                 new StaticEnvProvider()
                         .with("LOGBACK_LOGGER_0_NAME", "logger-a")
                         .with("LOGBACK_LOGGER_0_LEVEL", "INFO")
-        ).read(LogbackConfig.class);
+        ).read(LogbackConfiguration.class);
 
         {
             Logger logger = (Logger) LoggerFactory.getLogger("logger-a");

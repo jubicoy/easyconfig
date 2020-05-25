@@ -22,8 +22,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class LogbackConfig {
-    public LogbackConfig(
+public class LogbackConfiguration {
+    public LogbackConfiguration(
             @EnvProviderProperty EnvProvider envProvider,
             @ConfigProperty(
                     value = "LOGBACK_ROOT_"

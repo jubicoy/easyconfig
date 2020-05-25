@@ -11,7 +11,7 @@ Extend `logback.xml` dynamically using environment variables.
 
 ## Usage
 
-Initializing an instance of `LogbackConfig` will configure the global `LoggerContext` to include configuration provided through the environment.
+Initializing an instance of `LogbackConfiguration` will configure the global `LoggerContext` to include configuration provided through the environment.
 
 A basic `logback.xml` is required as a base configuration. The following configuration defines a `console` appender attached to the root logger, `named-logger` and a `custom` appender attached to `dummy` logger. Logback discards all appenders that are not attached to loggers. 
 
@@ -45,17 +45,17 @@ A basic `logback.xml` is required as a base configuration. The following configu
 </configuration>
 ```
 
-Once the config is in place, `LogbackConfig` needs to be initialized using `ConfigMapper`.
+Once the config is in place, `LogbackConfiguration` needs to be initialized using `ConfigMapper`.
 
 ```java
-new ConfigMapper().read(LogbackConfig.class);
+new ConfigMapper().read(LogbackConfiguration.class);
 ```
 
-It is also possible to nest the `LogbackConfig` into the application's main configuration.
+It is also possible to nest the `LogbackConfiguration` into the application's main configuration.
 
 ```java
 public MainConfiguration(
-        @ConfigProperty LogbackConfig logbackConfig
+        @ConfigProperty LogbackConfiguration logbackConfig
 ) {
     [...]
 }
