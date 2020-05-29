@@ -16,7 +16,7 @@
         <repository>
             <id>bintray-jubicoy-maven</id>
             <name>jubicoy-maven</name>
-            <url>https://api.bintray.com/maven/jubicoy/maven/easyconfig-jooq/;publish=1</url>
+            <url>https://api.bintray.com/maven/jubicoy/maven/easyconfig-jdbc/;publish=1</url>
         </repository>
     </distributionManagement>
 
