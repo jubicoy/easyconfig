@@ -6,6 +6,10 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.7.1] - 2020-05-29
+
+Redeploy with correct artifacts.
+
 ## [0.7.0] - 2020-05-25
 ### Added
 - Annotation-based `ConfigExtension` concept.
