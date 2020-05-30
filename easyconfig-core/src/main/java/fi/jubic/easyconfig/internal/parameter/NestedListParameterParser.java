@@ -7,6 +7,7 @@ import fi.jubic.easyconfig.internal.initializers.Initializer;
 import fi.jubic.easyconfig.internal.initializers.InitializerParser;
 import fi.jubic.easyconfig.internal.initializers.RootInitializerParser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,8 +36,9 @@ public class NestedListParameterParser implements ParameterParser {
             return Optional.empty();
         }
 
+        List<Result<?>> earlyErrorResults = new ArrayList<>();
         if (!propertyDef.getVariableName().contains("{}")) {
-            return Optional.of(
+            earlyErrorResults.add(
                     Result.message(
                             currentContext.format("Missing index placeholder \"{}\"")
                     )
@@ -44,10 +46,24 @@ public class NestedListParameterParser implements ParameterParser {
         }
 
         if (propertyDef.isNullable()) {
-            return Optional.of(
+            earlyErrorResults.add(
                     Result.message(
                             currentContext.format("nullable is not allowed for a nested list")
                     )
+            );
+        }
+
+        if (propertyDef.isNoPrefix()) {
+            earlyErrorResults.add(
+                    Result.message(
+                            currentContext.format("noPrefix is not allowed for a nested list")
+                    )
+            );
+        }
+
+        if (!earlyErrorResults.isEmpty()) {
+            return Optional.of(
+                    Result.unwrapMessages(earlyErrorResults)
             );
         }
 

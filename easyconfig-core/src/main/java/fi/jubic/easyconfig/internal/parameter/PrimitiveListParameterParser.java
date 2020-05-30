@@ -92,11 +92,12 @@ public class PrimitiveListParameterParser implements ParameterParser {
                         propertyDef.getVariableName(),
                         propertyDef.getPropertyClass(),
                         propertyDef.isNullable(),
+                        propertyDef.isNoPrefix(),
                         (prefix, str) -> parse(
                                 new MappingContext(
                                         String.format(
                                                 "\"%s%s\" [List<%s>]",
-                                                prefix,
+                                                propertyDef.isNoPrefix() ? "" : prefix,
                                                 propertyDef.getVariableName(),
                                                 propertyDef.getTypeArguments()
                                                         .get(0)

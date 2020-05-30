@@ -26,6 +26,7 @@ public class ConfigPropertyDef {
     private final String defaultValue;
     private final String listDelimiter;
     private final boolean nullable;
+    private final boolean noPrefix;
 
     private final Class<?> propertyClass;
     private final List<Class<?>> typeArguments;
@@ -41,6 +42,7 @@ public class ConfigPropertyDef {
         this.defaultValue = parseDefaultValue(property.defaultValue());
         this.listDelimiter = property.listDelimiter();
         this.nullable = false;
+        this.noPrefix = false;
 
         this.propertyClass = propertyClass;
         this.typeArguments = typeArguments;
@@ -57,6 +59,7 @@ public class ConfigPropertyDef {
         this.defaultValue = property.defaultValue();
         this.listDelimiter = property.listDelimiter();
         this.nullable = property.nullable();
+        this.noPrefix = property.noPrefix();
 
         this.propertyClass = propertyClass;
         this.typeArguments = typeArguments;
@@ -72,6 +75,7 @@ public class ConfigPropertyDef {
         this.defaultValue = null;
         this.listDelimiter = null;
         this.nullable = false;
+        this.noPrefix = false;
 
         this.propertyClass = propertyClass;
         this.typeArguments = typeArguments;
@@ -92,6 +96,7 @@ public class ConfigPropertyDef {
         this.defaultValue = null;
         this.listDelimiter = null;
         this.nullable = false;
+        this.noPrefix = false;
 
         this.propertyClass = propertyClass;
         this.typeArguments = Collections.emptyList();
@@ -173,6 +178,10 @@ public class ConfigPropertyDef {
 
     public boolean isNullable() {
         return nullable;
+    }
+
+    public boolean isNoPrefix() {
+        return noPrefix;
     }
 
     public Class<?> getPropertyClass() {

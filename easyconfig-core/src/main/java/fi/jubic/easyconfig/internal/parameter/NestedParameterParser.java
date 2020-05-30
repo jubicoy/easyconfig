@@ -7,6 +7,8 @@ import fi.jubic.easyconfig.internal.initializers.Initializer;
 import fi.jubic.easyconfig.internal.initializers.InitializerParser;
 import fi.jubic.easyconfig.internal.initializers.RootInitializerParser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class NestedParameterParser implements ParameterParser {
@@ -25,8 +27,9 @@ public class NestedParameterParser implements ParameterParser {
                 )
         );
 
+        List<Result<?>> earlyErrorResults = new ArrayList<>();
         if (propertyDef.getDefaultValue().isPresent()) {
-            return Optional.of(
+            earlyErrorResults.add(
                     Result.message(
                             currentContext.format(
                                     "defaultValue is not allowed for a nested config object"
@@ -36,12 +39,28 @@ public class NestedParameterParser implements ParameterParser {
         }
 
         if (propertyDef.isNullable()) {
-            return Optional.of(
+            earlyErrorResults.add(
                     Result.message(
                             currentContext.format(
                                     "nullable is not allowed for a nested config object"
                             )
                     )
+            );
+        }
+
+        if (propertyDef.isNoPrefix()) {
+            earlyErrorResults.add(
+                    Result.message(
+                            currentContext.format(
+                                    "noPrefix is not allowed for a nested config object"
+                            )
+                    )
+            );
+        }
+
+        if (!earlyErrorResults.isEmpty()) {
+            return Optional.of(
+                    Result.unwrapMessages(earlyErrorResults)
             );
         }
 
