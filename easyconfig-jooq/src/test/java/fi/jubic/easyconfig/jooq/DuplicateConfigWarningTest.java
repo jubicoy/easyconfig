@@ -51,15 +51,15 @@ class DuplicateConfigWarningTest {
         );
     }
 
-    private static EnvProvider envProvider1 = new StaticEnvProvider()
-            .with("JOOQ_URL", "jdbc:h2:/tmp/dup-test-1")
+    private static final EnvProvider envProvider1 = new StaticEnvProvider()
+            .with("JOOQ_URL", "jdbc:h2:./target/tmp/dup-test-1")
             .with("JOOQ_USER", "SA")
             .with("JOOQ_PASSWORD", "")
             .with("JOOQ_DIALECT", "H2");
 
     // Slightly different url
-    private EnvProvider envProvider2 = new StaticEnvProvider()
-            .with("JOOQ_URL", "jdbc:h2:/tmp/dup-test-2")
+    private final EnvProvider envProvider2 = new StaticEnvProvider()
+            .with("JOOQ_URL", "jdbc:h2:./target/tmp/dup-test-2")
             .with("JOOQ_USER", "SA")
             .with("JOOQ_PASSWORD", "")
             .with("JOOQ_DIALECT", "H2");
