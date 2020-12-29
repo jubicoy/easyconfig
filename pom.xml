@@ -111,6 +111,7 @@
                 <configuration>
                     <failBuildOnCVSS>1</failBuildOnCVSS>
                     <cveValidForHours>168</cveValidForHours>
+                    <suppressionFile>suppressions.xml</suppressionFile>
                 </configuration>
             </plugin>
             <plugin>
