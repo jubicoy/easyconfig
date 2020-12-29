@@ -7,6 +7,10 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 ## [Unreleased]
 ### Added
 - `noPrefix` parameter to `ConfigProperty` for reading properties from root namespace.
+- Snoozy Swagger configuration support.
+
+### Changed
+- Update snoozy to 0.7.0.
 
 ## [0.7.1] - 2020-05-29
 
