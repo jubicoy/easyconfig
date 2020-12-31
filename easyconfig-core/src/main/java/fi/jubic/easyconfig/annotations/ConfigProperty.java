@@ -64,6 +64,18 @@ public @interface ConfigProperty {
     boolean nullable() default false;
 
     /**
+     * Properties can be read from the global, non-prefixed namespace by setting this property to
+     * {@code true}.
+     *
+     * <p>
+     *     This property can be applied only to primitive and primitive list properties.
+     * </p>
+     *
+     * @return {@code true} if this property should be read without the parent prefix.
+     */
+    boolean noPrefix() default false;
+
+    /**
      * Delimiter used for primitive lists.
      */
     String listDelimiter() default ";";

@@ -71,12 +71,13 @@ public abstract class PrimitiveParameterParser<T> implements ParameterParser {
                         propertyDef.getVariableName(),
                         propertyDef.getPropertyClass(),
                         propertyDef.isNullable(),
+                        propertyDef.isNoPrefix(),
                         (prefix, str) -> parse(str)
                                 .map(Result::of)
                                 .orElseGet(() -> Result.message(
                                         String.format(
                                                 "\"%s%s\" [%s]: Could not parse \"%s\"",
-                                                prefix,
+                                                propertyDef.isNoPrefix() ? "" : prefix,
                                                 propertyDef.getVariableName(),
                                                 propertyDef.getPropertyClass().getSimpleName(),
                                                 str

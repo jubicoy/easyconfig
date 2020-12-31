@@ -16,6 +16,7 @@ public class MappableParameter<T> implements Mappable<T> {
     private final String variableName;
     private final Class<?> parameterClass;
     private final boolean nullable;
+    private final boolean noPrefix;
     private final BiFunction<String, String, Result<T>> parser;
     @Nullable
     private final T defaultValue;
@@ -24,6 +25,7 @@ public class MappableParameter<T> implements Mappable<T> {
             String variableName,
             Class<?> parameterClass,
             boolean nullable,
+            boolean noPrefix,
             BiFunction<String, String, Result<T>> parser,
             @Nullable T defaultValue
     ) {
@@ -33,13 +35,17 @@ public class MappableParameter<T> implements Mappable<T> {
         this.variableName = variableName;
         this.parameterClass = parameterClass;
         this.nullable = nullable;
+        this.noPrefix = noPrefix;
         this.parser = parser;
         this.defaultValue = defaultValue;
     }
 
     @Override
     public Result<T> initialize(String prefix, EnvProvider envProvider) {
-        return envProvider.getVariable(prefix + variableName)
+        String effectiveVariableName = noPrefix
+                ? variableName
+                : prefix + variableName;
+        return envProvider.getVariable(effectiveVariableName)
                 .map(strVal -> parser.apply(prefix, strVal))
                 .orElseGet(() -> {
                     if (nullable) {
@@ -49,9 +55,8 @@ public class MappableParameter<T> implements Mappable<T> {
                             .map(Result::of)
                             .orElseGet(() -> Result.message(
                                     String.format(
-                                            "Missing variable \"%s%s\" [%s]",
-                                            prefix,
-                                            variableName,
+                                            "Missing variable \"%s\" [%s]",
+                                            effectiveVariableName,
                                             parameterClass.getSimpleName()
                                     )
                             ));
