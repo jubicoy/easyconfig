@@ -20,6 +20,10 @@
         </repository>
     </distributionManagement>
 
+    <properties>
+        <jooq.version>3.14.4</jooq.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -28,7 +32,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>3.11.11</version>
+            <version>${jooq.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -79,7 +83,7 @@
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
-                <version>3.11.11</version>
+                <version>${jooq.version}</version>
                 <configuration>
                     <jdbc>
                         <driver>org.h2.Driver</driver>
@@ -106,7 +110,7 @@
                     <dependency>
                         <groupId>com.h2database</groupId>
                         <artifactId>h2</artifactId>
-                        <version>1.4.199</version>
+                        <version>1.4.200</version>
                     </dependency>
                 </dependencies>
             </plugin>

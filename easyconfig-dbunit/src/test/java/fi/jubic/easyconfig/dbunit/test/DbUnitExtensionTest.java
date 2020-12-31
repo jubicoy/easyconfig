@@ -23,14 +23,26 @@ public class DbUnitExtensionTest {
     @BeforeEach
     void setup() throws SQLException {
         connection = DriverManager.getConnection(
-                "jdbc:h2:file:./target/liquibase/liquibase-test-db",
+                "jdbc:h2:file:./target/dbunit/dbunit-test-db",
                 "SA",
                 ""
         );
 
         try {
             connection.createStatement()
+                    .execute("ALTER TABLE message DROP CONSTRAINT fk_message_user_id");
+        }
+        catch (SQLException ignore) {
+            // Ignored
+        }
+        try {
+            connection.createStatement()
                     .execute("DROP TABLE user");
+        }
+        catch (SQLException ignore) {
+            // Ignored
+        }
+        try {
             connection.createStatement()
                     .execute("DROP TABLE message");
         }
@@ -42,19 +54,20 @@ public class DbUnitExtensionTest {
                 .execute("CREATE TABLE user (id IDENTITY PRIMARY KEY, name VARCHAR(255))");
         connection.createStatement()
                 .execute(
-                        "CREATE TABLE message"
-                                + "(id IDENTITY PRIMARY KEY, user_id BIGINT, text VARCHAR(255))"
-                );
-        connection.createStatement()
-                .execute("ALTER TABLE message "
-                        + "ADD FOREIGN KEY (user_id) REFERENCES user(id)"
+                        "CREATE TABLE message("
+                                + "id IDENTITY PRIMARY KEY, "
+                                + "user_id BIGINT, "
+                                + "text VARCHAR(255), "
+                                + "CONSTRAINT fk_message_user_id FOREIGN KEY (user_id) "
+                                + "REFERENCES user(id)"
+                                + ")"
                 );
     }
 
     @Test
     void shouldSkipPopulationByDefault() throws SQLException {
         EnvProvider envProvider = new StaticEnvProvider()
-                .with("URL", "jdbc:h2:file:./target/liquibase/liquibase-test-db")
+                .with("URL", "jdbc:h2:file:./target/dbunit/dbunit-test-db")
                 .with("USER", "SA")
                 .with("PASSWORD", "");
 
@@ -74,7 +87,7 @@ public class DbUnitExtensionTest {
     @Test
     void shouldPopulateDbWhenRunIsTrue() throws SQLException {
         EnvProvider envProvider = new StaticEnvProvider()
-                .with("URL", "jdbc:h2:file:./target/liquibase/liquibase-test-db")
+                .with("URL", "jdbc:h2:file:./target/dbunit/dbunit-test-db")
                 .with("USER", "SA")
                 .with("PASSWORD", "")
                 .with("DBUNIT_RUN", "true");

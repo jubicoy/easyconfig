@@ -84,7 +84,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.12.2</version>
+                <version>4.1.4</version>
                 <executions>
                     <execution>
                         <id>check</id>
@@ -99,7 +99,7 @@
                         <plugin>
                             <groupId>com.h3xstream.findsecbugs</groupId>
                             <artifactId>findsecbugs-plugin</artifactId>
-                            <version>1.10.1</version>
+                            <version>1.11.0</version>
                         </plugin>
                     </plugins>
                 </configuration>
@@ -107,16 +107,17 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>5.2.4</version>
+                <version>6.0.3</version>
                 <configuration>
                     <failBuildOnCVSS>1</failBuildOnCVSS>
                     <cveValidForHours>168</cveValidForHours>
+                    <suppressionFile>suppressions.xml</suppressionFile>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <encoding>UTF-8</encoding>
@@ -142,12 +143,12 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.29</version>
+                        <version>8.33</version>
                     </dependency>
                     <dependency>
                         <groupId>fi.jubic</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>0.3.0</version>
+                        <version>0.4.0</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -178,7 +179,7 @@
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>annotations</artifactId>
-                <version>3.0.1u2</version>
+                <version>3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>javax.annotation</groupId>
@@ -188,19 +189,19 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>5.5.2</version>
+                <version>5.7.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.5.2</version>
+                <version>5.7.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
-                <version>1.4.199</version>
+                <version>1.4.200</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

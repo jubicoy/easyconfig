@@ -1,9 +1,8 @@
-package fi.jubic.easyconfig.jooq;
+package fi.jubic.easyconfig.jdbc;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import fi.jubic.easyconfig.ConfigMapper;
-import fi.jubic.easyconfig.jdbc.PooledJdbcConfiguration;
 import fi.jubic.easyconfig.providers.EnvProvider;
 import fi.jubic.easyconfig.providers.StaticEnvProvider;
 import org.junit.jupiter.api.Test;
@@ -15,10 +14,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DuplicateConfigWarningTest {
+public class DuplicateConfigWarningTest {
     @Test
     void warnAboutDuplicateConfigs() {
-        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory
                 .getLogger(PooledJdbcConfiguration.class);
 
         TestAppender appender = new TestAppender();
@@ -29,9 +28,9 @@ class DuplicateConfigWarningTest {
         TestAppender.events.clear();
 
         new ConfigMapper(envProvider1)
-                .read(JooqConfiguration.class);
+                .read(PooledJdbcConfiguration.class);
         new ConfigMapper(envProvider2)
-                .read(JooqConfiguration.class);
+                .read(PooledJdbcConfiguration.class);
 
         assertEquals(
                 0,
@@ -39,7 +38,7 @@ class DuplicateConfigWarningTest {
         );
 
         new ConfigMapper(envProvider1)
-                .read(JooqConfiguration.class);
+                .read(PooledJdbcConfiguration.class);
 
         assertEquals(
                 1,
@@ -52,17 +51,17 @@ class DuplicateConfigWarningTest {
     }
 
     private static final EnvProvider envProvider1 = new StaticEnvProvider()
-            .with("JOOQ_URL", "jdbc:h2:./target/tmp/dup-test-1")
-            .with("JOOQ_USER", "SA")
-            .with("JOOQ_PASSWORD", "")
-            .with("JOOQ_DIALECT", "H2");
+            .with("URL", "jdbc:h2:./target/tmp/dup-test-1")
+            .with("USER", "SA")
+            .with("PASSWORD", "")
+            .with("DIALECT", "H2");
 
     // Slightly different url
     private final EnvProvider envProvider2 = new StaticEnvProvider()
-            .with("JOOQ_URL", "jdbc:h2:./target/tmp/dup-test-2")
-            .with("JOOQ_USER", "SA")
-            .with("JOOQ_PASSWORD", "")
-            .with("JOOQ_DIALECT", "H2");
+            .with("URL", "jdbc:h2:./target/tmp/dup-test-2")
+            .with("USER", "SA")
+            .with("PASSWORD", "")
+            .with("DIALECT", "H2");
 
     static class TestAppender extends AppenderBase<ILoggingEvent> {
         static List<ILoggingEvent> events = new ArrayList<>();

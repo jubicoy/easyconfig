@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.5</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -54,7 +54,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.199</version>
             <scope>test</scope>
         </dependency>
         <dependency>

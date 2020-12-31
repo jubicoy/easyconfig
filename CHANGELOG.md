@@ -10,7 +10,12 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 - Snoozy Swagger configuration support.
 
 ### Changed
-- Update snoozy to 0.7.0.
+- Update JOOQ to 3.14.4.
+
+### Security
+- Update dependencies.
+- Update snoozy to 0.7.1.
+- Use DBUnit `2.7.1-SNAPSHOT` to avoid pre-4.1.0 Apache POI.
 
 ## [0.7.1] - 2020-05-29
 
