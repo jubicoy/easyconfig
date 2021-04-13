@@ -12,14 +12,6 @@
         <version>0.7.1</version>
     </parent>
 
-    <distributionManagement>
-        <repository>
-            <id>bintray-jubicoy-maven</id>
-            <name>jubicoy-maven</name>
-            <url>https://api.bintray.com/maven/jubicoy/maven/easyconfig-snoozy/;publish=1</url>
-        </repository>
-    </distributionManagement>
-
     <dependencies>
         <dependency>
             <groupId>fi.jubic</groupId>
