@@ -6,6 +6,10 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.8.1] - 2021-08-09
+### Changed
+- Update DbUnit to 2.7.2
+
 ## [0.8.0] - 2021-04-13
 ### Added
 - `noPrefix` parameter to `ConfigProperty` for reading properties from root namespace.
