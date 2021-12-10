@@ -49,7 +49,7 @@ public class Result<T> {
     }
 
     public List<Message> getMessages() {
-        return messages;
+        return Collections.unmodifiableList(messages);
     }
 
     public boolean hasMessages() {

@@ -1,6 +1,7 @@
 package fi.jubic.easyconfig.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fi.jubic.easyconfig.annotations.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * A pooled JDBC configuration.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP",
+        justification = "This is the intended behavior for now."
+)
 public class PooledJdbcConfiguration implements JdbcConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(PooledJdbcConfiguration.class);
     private static final Set<ConnectionFingerprint> globalConnections =

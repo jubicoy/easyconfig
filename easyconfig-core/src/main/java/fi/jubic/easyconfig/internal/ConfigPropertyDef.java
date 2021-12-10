@@ -45,7 +45,7 @@ public class ConfigPropertyDef {
         this.noPrefix = false;
 
         this.propertyClass = propertyClass;
-        this.typeArguments = typeArguments;
+        this.typeArguments = Collections.unmodifiableList(typeArguments);
         this.annotatedElement = annotatedElement;
     }
 
@@ -62,7 +62,7 @@ public class ConfigPropertyDef {
         this.noPrefix = property.noPrefix();
 
         this.propertyClass = propertyClass;
-        this.typeArguments = typeArguments;
+        this.typeArguments = Collections.unmodifiableList(typeArguments);
         this.annotatedElement = annotatedElement;
     }
 
@@ -78,7 +78,7 @@ public class ConfigPropertyDef {
         this.noPrefix = false;
 
         this.propertyClass = propertyClass;
-        this.typeArguments = typeArguments;
+        this.typeArguments = Collections.unmodifiableList(typeArguments);
         this.annotatedElement = annotatedElement;
     }
 
@@ -189,7 +189,7 @@ public class ConfigPropertyDef {
     }
 
     public List<Class<?>> getTypeArguments() {
-        return typeArguments;
+        return Collections.unmodifiableList(typeArguments);
     }
 
     public Optional<AnnotatedElement> getAnnotatedElement() {

@@ -69,6 +69,7 @@ public interface JdbcConfiguration extends SqlDatabaseConfig {
      * Return the {@code DataSource} managed by this configuration.
      * @return a managed data source
      */
+    @Deprecated
     DataSource getDataSource();
 
     /**

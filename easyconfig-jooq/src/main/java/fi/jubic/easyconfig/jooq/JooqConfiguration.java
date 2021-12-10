@@ -1,5 +1,6 @@
 package fi.jubic.easyconfig.jooq;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fi.jubic.easyconfig.annotations.ConfigProperty;
 import fi.jubic.easyconfig.jdbc.AbstractJdbcConfiguration;
 import fi.jubic.easyconfig.jdbc.PooledJdbcConfiguration;
@@ -12,6 +13,10 @@ import org.jooq.impl.DefaultConfiguration;
  * JOOQ {@link Configuration} initializer class implemented on top of a
  * {@link PooledJdbcConfiguration}.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP",
+        justification = "This is the intended behavior for now."
+)
 public class JooqConfiguration extends AbstractJdbcConfiguration {
     private final Configuration configuration;
 

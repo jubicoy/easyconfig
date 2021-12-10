@@ -3,6 +3,7 @@ package fi.jubic.easyconfig.logback;
 import ch.qos.logback.classic.Level;
 import fi.jubic.easyconfig.annotations.ConfigProperty;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class LoggerDefinition {
                 .orElse(null);
 
         this.additive = additive;
-        this.appenderRefs = appenderRefs;
+        this.appenderRefs = Collections.unmodifiableList(appenderRefs);
     }
 
     public Optional<Level> getLevel() {
@@ -54,6 +55,6 @@ public class LoggerDefinition {
     }
 
     public List<String> getAppenderRefs() {
-        return appenderRefs;
+        return Collections.unmodifiableList(appenderRefs);
     }
 }
