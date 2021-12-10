@@ -6,6 +6,10 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.8.3] - 2021-12-10
+### Added
+- liquibase-slf4j for slf4j based logging from liquibase.
+
 ## [0.8.2] - 2021-12-10
 ### Added
 - Full Java 17 support.
