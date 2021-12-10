@@ -6,6 +6,10 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.8.2] - 2021-12-10
+### Added
+- Full Java 17 support.
+
 ## [0.8.1] - 2021-08-09
 ### Changed
 - Update DbUnit to 2.7.2
