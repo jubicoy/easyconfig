@@ -1,0 +1,6 @@
+<configuration>
+    <appender name="test-appender" class="fi.jubic.easyconfig.jdbc.TestAppender"/>
+    <root level="WARN">
+        <appender-ref ref="test-appender" />
+    </root>
+</configuration>
