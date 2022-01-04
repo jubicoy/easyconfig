@@ -9,7 +9,7 @@
     <parent>
         <groupId>fi.jubic</groupId>
         <artifactId>easyparent</artifactId>
-        <version>0.1.1</version>
+        <version>0.1.3</version>
     </parent>
 
     <name>easyconfig-parent</name>
@@ -57,12 +57,12 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.2.7</version>
+                <version>1.2.10</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.2.7</version>
+                <version>1.2.10</version>
             </dependency>
             <dependency>
                 <groupId>com.h2database</groupId>
