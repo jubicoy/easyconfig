@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres poorly to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Security
+- Update parent to 0.1.5.
+- Update liquibase-core to 4.8.0.
+- Update snoozy to 0.9.0.
 
 ## [0.9.0] - 2022-01-05
 ### Removed
