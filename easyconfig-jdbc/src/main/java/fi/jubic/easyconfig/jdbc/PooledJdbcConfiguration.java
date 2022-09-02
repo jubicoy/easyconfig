@@ -36,7 +36,11 @@ public class PooledJdbcConfiguration implements JdbcConfiguration {
             @ConfigProperty("USER") String user,
             @ConfigProperty("PASSWORD") String password,
             @ConfigProperty(value = "DRIVER_CLASS_NAME", defaultValue = "") String driverClassName,
-            @ConfigProperty(value = "POOL_SIZE", defaultValue = "-1") int poolSize
+            @ConfigProperty(value = "POOL_SIZE", defaultValue = "-1") int poolSize,
+            @ConfigProperty(
+                    value = "CONNECTION_TIMEOUT_MS",
+                    defaultValue = "0"
+            ) int connectionTimeout
     ) {
         ConnectionFingerprint fingerprint = new ConnectionFingerprint(
                 url,
@@ -65,14 +69,17 @@ public class PooledJdbcConfiguration implements JdbcConfiguration {
         if (poolSize > 0) {
             this.dataSource.setMaximumPoolSize(poolSize);
         }
+
+        if (connectionTimeout > 0) {
+            this.dataSource.setConnectionTimeout(connectionTimeout);
+        }
     }
 
     @Override
     public <T> T withConnection(ConnectionFunction<T> connectionFunction) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        T result = connectionFunction.apply(connection);
-        connection.close();
-        return result;
+        try (Connection connection = dataSource.getConnection()) {
+            return connectionFunction.apply(connection);
+        }
     }
 
     @Override
