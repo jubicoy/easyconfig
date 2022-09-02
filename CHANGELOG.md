@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres poorly to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Configuration parameters to control connection allocation in PooledJdbcConfiguration.
+
+### Fixed
+- PooledJdbcConfiguration connection leak if an exception is thrown when applying connectionFunction.
 
 ## [0.9.1] - 2022-06-20
 ### Security
