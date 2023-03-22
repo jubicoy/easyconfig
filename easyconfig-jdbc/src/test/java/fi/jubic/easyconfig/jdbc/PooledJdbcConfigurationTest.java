@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class PooledJdbcConfigurationTest {
 
     private static final EnvProvider envProvider1 = new StaticEnvProvider()
-            .with("URL", "jdbc:h2:./target/tmp/dup-test-1")
+            .with("URL", "jdbc:h2:./target/tmp/pooled-test-1")
             .with("USER", "SA")
             .with("PASSWORD", "")
             .with("DIALECT", "H2")
@@ -19,8 +19,6 @@ public class PooledJdbcConfigurationTest {
 
     @Test
     void failedQueriesDoNotDrainConnectionPool() throws SQLException {
-        TestAppender.events.clear();
-
         PooledJdbcConfiguration configuration = new ConfigMapper(envProvider1)
                 .read(PooledJdbcConfiguration.class);
 

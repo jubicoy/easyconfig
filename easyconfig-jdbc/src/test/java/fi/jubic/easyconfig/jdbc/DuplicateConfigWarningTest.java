@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DuplicateConfigWarningTest {
     @Test
     void warnAboutDuplicateConfigs() {
-        TestAppender.events.clear();
+        TestAppender.clear();
 
         new ConfigMapper(envProvider1)
                 .read(PooledJdbcConfiguration.class);
