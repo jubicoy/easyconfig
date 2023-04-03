@@ -27,12 +27,12 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.21.1</version>
+            <version>4.25.0</version>
         </dependency>
         <dependency>
             <groupId>com.mattbertolini</groupId>
             <artifactId>liquibase-slf4j</artifactId>
-            <version>4.0.0</version>
+            <version>5.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
