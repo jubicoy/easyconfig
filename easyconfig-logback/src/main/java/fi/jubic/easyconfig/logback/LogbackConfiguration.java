@@ -2,17 +2,14 @@ package fi.jubic.easyconfig.logback;
 
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.util.ContextInitializer;
+import ch.qos.logback.classic.util.DefaultJoranConfigurator;
 import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.joran.spi.JoranException;
 import fi.jubic.easyconfig.annotations.ConfigProperty;
 import fi.jubic.easyconfig.annotations.EnvProviderProperty;
 import fi.jubic.easyconfig.providers.EnvProvider;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,10 +30,7 @@ public class LogbackConfiguration {
                     defaultValue = ""
             ) List<NamedLoggerDefinition> loggers
     ) {
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-
-        ContextInitializer ci = new ContextInitializer(loggerContext);
-        URL url = ci.findURLOfDefaultConfigurationFile(true);
+        var loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
         loggerContext.reset();
 
@@ -45,21 +39,14 @@ public class LogbackConfiguration {
 
         loggerContext.putProperty("DEPLOYMENT_ENVIRONMENT", "development");
 
-        JoranConfigurator configurator = new JoranConfigurator();
+        var configurator = new DefaultJoranConfigurator();
         configurator.setContext(loggerContext);
+        configurator.configure(loggerContext);
 
-        try {
-            configurator.doConfigure(url);
-        }
-        catch (JoranException e) {
-            throw new IllegalStateException(e);
-        }
-
-        Map<String, Appender<ILoggingEvent>> appenderMap = getAppenderMap(loggerContext);
+        var appenderMap = getAppenderMap(loggerContext);
 
         if (root != null) {
-            Logger rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
-            rootLogger.iteratorForAppenders();
+            var rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
             setupLogger(rootLogger, root, appenderMap);
         }
 
