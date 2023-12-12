@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class LoggerDefinition {
+public final class LoggerDefinition {
     private final Level level;
     private final Boolean additive;
     private final List<String> appenderRefs;
@@ -27,7 +27,7 @@ public class LoggerDefinition {
             ) List<String> appenderRefs
     ) {
         this.level = Optional.ofNullable(levelStr)
-                .filter(level -> level.length() > 0)
+                .filter(level -> !level.isEmpty())
                 .map(level -> {
                     Level parsedLevel = Level.valueOf(level);
                     if (!level.equals(parsedLevel.toString())) {

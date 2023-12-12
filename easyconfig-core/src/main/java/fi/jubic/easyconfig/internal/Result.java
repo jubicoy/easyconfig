@@ -13,7 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Result<T> {
+public final class Result<T> {
     private final T value;
     private final List<Message> messages;
 

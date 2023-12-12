@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
  *
  * @param <T> the type of the parameter
  */
-public class MappableParameter<T> implements Mappable<T> {
+public final class MappableParameter<T> implements Mappable<T> {
     private final String variableName;
     private final Class<?> parameterClass;
     private final boolean nullable;
