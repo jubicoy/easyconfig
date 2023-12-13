@@ -5,8 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres poorly to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.0] - 2023-12-13
 ### Added
 - Java 21 tests.
+
+## Changed
+- Bump fi.jubic:snoozy-core from 0.9.0 to 0.10.0.
+- Bump fi.jubic:easyparent to 0.1.11.
+- Bump org.slf4j:slf4j-api tp 2.0.9.
+- Bump org.codehaus.janino:janino from 3.1.6 to 3.1.11.
+- Bump ch.qos.logback:logback-core from 1.2.10 to 1.4.14.
+- Bump liquibase-slf4j 5.0.0 and liquibase-core to 4.25.0.
+- Bump io.github.cdimascio:dotenv-java from 2.2.3 to 3.0.0.
+- Bump com.zaxxer:HikariCP from 3.4.5 to 5.1.0.
+- Bump freemarker from 2.3.31 to 2.3.32.
+
 
 ## [0.9.2] - 2022-09-02
 ### Added
