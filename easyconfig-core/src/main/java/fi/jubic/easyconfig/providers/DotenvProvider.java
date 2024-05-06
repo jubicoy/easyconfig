@@ -1,5 +1,6 @@
 package fi.jubic.easyconfig.providers;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvEntry;
 
@@ -8,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
 public class DotenvProvider extends EnvProvider {
     private final Dotenv dotenv;
 
