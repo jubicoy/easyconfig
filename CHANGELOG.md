@@ -6,6 +6,15 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.10.1] - 2024-05-07
+### Changed
+- Bump fi.jubic:easyparent from 0.1.11 to 0.1.12.
+- Bump fi.jubic:snoozy-core from 0.10.0 to 0.10.1.
+- Bump logback.version from 1.4.14 to 1.5.6.
+- Bump org.slf4j:slf4j-api from 2.0.9 to 2.0.13.
+- Bump org.liquibase:liquibase-core from 4.25.0 to 4.27.0.
+- Bump org.codehaus.janino:janino from 3.1.11 to 3.1.12.
+
 ## [0.10.0] - 2023-12-13
 ### Added
 - Java 21 tests.
