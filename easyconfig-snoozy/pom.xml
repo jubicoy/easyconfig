@@ -22,7 +22,7 @@
         <dependency>
             <groupId>fi.jubic</groupId>
             <artifactId>snoozy-core</artifactId>
-            <version>0.10.0</version>
+            <version>0.10.1</version>
         </dependency>
     </dependencies>
 </project>
