@@ -6,6 +6,13 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.10.2] - 2024-08-31
+### Changed
+- Bump org.dbunit:dbunit from 2.7.3 to 2.8.0.
+- Bump org.freemarker:freemarker from 2.3.32 to 2.3.33.
+- Bump org.liquibase:liquibase-core from 4.27.0 to 4.29.1.
+- Bump io.github.cdimascio:dotenv-java from 3.0.0 to 3.0.1.
+
 ## [0.10.1] - 2024-05-07
 ### Changed
 - Bump fi.jubic:easyparent from 0.1.11 to 0.1.12.
