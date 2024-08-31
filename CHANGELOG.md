@@ -6,6 +6,13 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.10.3] - 2024-08-31
+### Changed
+- Bump fi.jubic:easyparent from 0.1.12 to 0.1.13.
+- Bump fi.jubic:snoozy-core from 0.10.1 to 0.10.2.
+- Bump org.slf4j:slf4j-api from 2.0.13 to 2.0.16.
+- Bump logback.version from 1.5.6 to 1.5.7.
+
 ## [0.10.2] - 2024-08-31
 ### Changed
 - Bump org.dbunit:dbunit from 2.7.3 to 2.8.0.
