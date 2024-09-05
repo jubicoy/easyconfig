@@ -6,6 +6,12 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.10.4] - 2024-09-05
+### Changed
+- Bump fi.jubic:easyparent from 0.1.13 to 0.1.14.
+- Bump org.liquibase:liquibase-core from 4.29.1 to 4.29.2.
+- Bump io.github.cdimascio:dotenv-java from 3.0.1 to 3.0.2.
+
 ## [0.10.3] - 2024-08-31
 ### Changed
 - Bump fi.jubic:easyparent from 0.1.12 to 0.1.13.
