@@ -6,6 +6,14 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.10.5] - 2024-10-09
+### Changed
+- Bump logback.version from 1.5.7 to 1.5.8.
+- Bump fi.jubic:snoozy-core from 0.10.2 to 0.10.4.
+- Bump com.zaxxer:HikariCP from 5.1.0 to 6.0.0.
+- Bump logback.version from 1.5.8 to 1.5.9.
+- Bump fi.jubic:easyparent from 0.1.14 to 0.1.15.
+
 ## [0.10.4] - 2024-09-05
 ### Changed
 - Bump fi.jubic:easyparent from 0.1.13 to 0.1.14.
