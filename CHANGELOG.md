@@ -6,6 +6,15 @@ and this project adheres poorly to [Semantic Versioning](https://semver.org/spec
 
 ## [Unreleased]
 
+## [0.10.6] - 2024-12-16
+### Changed
+- Bump logback.version from 1.5.9 to 1.5.12.
+- Bump org.liquibase:liquibase-core from 4.29.2 to 4.30.0.
+- Bump com.zaxxer:HikariCP from 6.0.0 to 6.2.1.
+- Bump io.github.cdimascio:dotenv-java from 3.0.2 to 3.1.0.
+- Bump fi.jubic:easyparent from 0.1.15 to 0.1.16.
+- Bump fi.jubic:snoozy-core from 0.10.4 to 0.10.5.
+
 ## [0.10.5] - 2024-10-09
 ### Changed
 - Bump logback.version from 1.5.7 to 1.5.8.
