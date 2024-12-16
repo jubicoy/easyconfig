@@ -7,10 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * <p>
- *     Generic interface for a configuration that provides possibly releasable instances of
- *     {@link java.sql.Connection}.
- * </p>
+ * Generic interface for a configuration that provides possibly releasable instances of
+ * {@link java.sql.Connection}.
  *
  * <p>
  *     This interface facilitates utility services that require access to the database without the
